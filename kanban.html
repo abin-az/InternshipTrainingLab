@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT Internship Training Program — Kanban Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════════
+   CSS CUSTOM PROPERTIES
+   ═══════════════════════════════════════════════════════════ */
+:root {
+  --sprint-0: #22c55e; --sprint-1: #4f7cff; --sprint-2: #8b5cf6;
+  --sprint-3: #f97316; --sprint-4: #ef4444; --sprint-5: #eab308;
+  --sprint-6: #a855f7; --sprint-7: #06b6d4; --sprint-8: #10b981;
+
+  --col-backlog: #4f7cff; --col-active: #8b5cf6;
+  --col-docs: #f97316;   --col-complete: #22c55e;
+
+  --bg-primary: #0d0f18; --bg-secondary: #141625;
+  --bg-card: rgba(20, 22, 40, 0.65); --bg-glass: rgba(255,255,255,0.04);
+  --bg-glass-hover: rgba(255,255,255,0.08);
+  --border-glass: rgba(255,255,255,0.08);
+  --border-glass-hover: rgba(255,255,255,0.15);
+  --text-primary: #e8eaf0; --text-secondary: #8b8fa3;
+  --text-dim: #555972;
+  --shadow-card: 0 4px 24px rgba(0,0,0,0.35), 0 1px 4px rgba(0,0,0,0.2);
+  --shadow-card-hover: 0 8px 40px rgba(0,0,0,0.5), 0 2px 8px rgba(0,0,0,0.3);
+  --radius: 14px; --radius-sm: 10px; --radius-xs: 6px;
+  --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --mono: 'JetBrains Mono', 'Consolas', monospace;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESET & BASE
+   ═══════════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 15px; scroll-behavior: smooth; }
+body {
+  font-family: var(--font); background: var(--bg-primary);
+  color: var(--text-primary); min-height: 100vh;
+  overflow-x: auto; -webkit-font-smoothing: antialiased;
+  background-image:
+    radial-gradient(ellipse 800px 600px at 20% 10%, rgba(79,124,255,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 600px 500px at 80% 80%, rgba(139,92,246,0.05) 0%, transparent 70%);
+}
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 8px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.18); }
+
+/* ═══════════════════════════════════════════════════════════
+   HEADER
+   ═══════════════════════════════════════════════════════════ */
+.header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(13,15,24,0.82); backdrop-filter: blur(24px) saturate(1.6);
+  -webkit-backdrop-filter: blur(24px) saturate(1.6);
+  border-bottom: 1px solid var(--border-glass);
+  padding: 16px 32px;
+}
+.header-inner {
+  max-width: 1800px; margin: 0 auto;
+  display: flex; align-items: center; gap: 24px; flex-wrap: wrap;
+}
+.header-brand {
+  display: flex; align-items: center; gap: 14px; flex-shrink: 0;
+}
+.header-logo {
+  width: 40px; height: 40px; border-radius: 12px;
+  background: linear-gradient(135deg, var(--col-backlog), var(--col-active));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; font-weight: 800; color: #fff;
+  box-shadow: 0 2px 12px rgba(79,124,255,0.3);
+}
+.header-title {
+  font-size: 1.2rem; font-weight: 700;
+  background: linear-gradient(135deg, #e8eaf0 30%, #8b8fa3);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.header-subtitle {
+  font-size: 0.7rem; color: var(--text-dim);
+  font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase;
+  margin-top: 2px;
+}
+
+/* Overall Progress */
+.overall-progress-wrap {
+  flex: 1; min-width: 250px; max-width: 500px;
+}
+.overall-progress-label {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 0.72rem; font-weight: 600; color: var(--text-secondary);
+  margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px;
+}
+.overall-progress-label span:last-child {
+  font-family: var(--mono); color: var(--text-primary); font-size: 0.8rem;
+}
+.overall-progress-bar {
+  height: 8px; background: rgba(255,255,255,0.06);
+  border-radius: 99px; overflow: hidden; position: relative;
+}
+.overall-progress-fill {
+  height: 100%; border-radius: 99px;
+  background: linear-gradient(90deg, var(--col-backlog), var(--col-active), var(--col-complete));
+  background-size: 200% 100%;
+  transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative;
+}
+.overall-progress-fill::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%);
+  animation: shimmer 2.5s infinite;
+}
+@keyframes shimmer { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
+
+/* Header actions */
+.header-actions { display: flex; gap: 10px; margin-left: auto; }
+.btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 8px 18px; border-radius: var(--radius-sm);
+  font-family: var(--font); font-size: 0.78rem; font-weight: 600;
+  border: 1px solid var(--border-glass); cursor: pointer;
+  transition: var(--transition); text-transform: uppercase; letter-spacing: 0.5px;
+}
+.btn-ghost {
+  background: var(--bg-glass); color: var(--text-secondary);
+}
+.btn-ghost:hover {
+  background: var(--bg-glass-hover); color: var(--text-primary);
+  border-color: var(--border-glass-hover);
+}
+.btn-danger {
+  background: rgba(239,68,68,0.1); color: #ef4444;
+  border-color: rgba(239,68,68,0.2);
+}
+.btn-danger:hover {
+  background: rgba(239,68,68,0.2); border-color: rgba(239,68,68,0.35);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   STATS BAR
+   ═══════════════════════════════════════════════════════════ */
+.stats-bar {
+  max-width: 1800px; margin: 0 auto;
+  display: flex; gap: 12px; padding: 20px 32px 0; flex-wrap: wrap;
+}
+.stat-chip {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 16px; border-radius: var(--radius-sm);
+  background: var(--bg-glass); border: 1px solid var(--border-glass);
+  font-size: 0.75rem; font-weight: 600; color: var(--text-secondary);
+  backdrop-filter: blur(12px); transition: var(--transition);
+}
+.stat-chip:hover { background: var(--bg-glass-hover); }
+.stat-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+}
+.stat-value { color: var(--text-primary); font-family: var(--mono); }
+
+/* ═══════════════════════════════════════════════════════════
+   BOARD LAYOUT
+   ═══════════════════════════════════════════════════════════ */
+.board {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(300px, 1fr));
+  gap: 20px; padding: 20px 32px 40px;
+  max-width: 1800px; margin: 0 auto;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   COLUMNS
+   ═══════════════════════════════════════════════════════════ */
+.column {
+  background: rgba(20,22,37,0.45);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius); min-height: 400px;
+  display: flex; flex-direction: column; transition: var(--transition);
+}
+.column.drag-over {
+  border-color: rgba(255,255,255,0.2);
+  background: rgba(30,33,55,0.6);
+  box-shadow: inset 0 0 40px rgba(255,255,255,0.02);
+}
+.column-header {
+  padding: 18px 20px 14px; display: flex; align-items: center; gap: 12px;
+  border-bottom: 1px solid var(--border-glass);
+  position: relative; overflow: hidden;
+}
+.column-header::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  border-radius: 0 0 4px 4px;
+}
+.column[data-col="backlog"] .column-header::before { background: linear-gradient(90deg, var(--col-backlog), transparent); }
+.column[data-col="active"] .column-header::before  { background: linear-gradient(90deg, var(--col-active), transparent); }
+.column[data-col="docs"] .column-header::before    { background: linear-gradient(90deg, var(--col-docs), transparent); }
+.column[data-col="complete"] .column-header::before { background: linear-gradient(90deg, var(--col-complete), transparent); }
+
+.column-icon {
+  width: 32px; height: 32px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px;
+}
+.column[data-col="backlog"] .column-icon  { background: rgba(79,124,255,0.12); }
+.column[data-col="active"] .column-icon   { background: rgba(139,92,246,0.12); }
+.column[data-col="docs"] .column-icon     { background: rgba(249,115,22,0.12); }
+.column[data-col="complete"] .column-icon { background: rgba(34,197,94,0.12); }
+
+.column-title {
+  font-size: 0.82rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1.2px;
+}
+.column[data-col="backlog"] .column-title  { color: var(--col-backlog); }
+.column[data-col="active"] .column-title   { color: var(--col-active); }
+.column[data-col="docs"] .column-title     { color: var(--col-docs); }
+.column[data-col="complete"] .column-title { color: var(--col-complete); }
+
+.column-count {
+  margin-left: auto; padding: 2px 10px; border-radius: 99px;
+  font-size: 0.7rem; font-weight: 700; font-family: var(--mono);
+}
+.column[data-col="backlog"] .column-count  { background: rgba(79,124,255,0.12); color: var(--col-backlog); }
+.column[data-col="active"] .column-count   { background: rgba(139,92,246,0.12); color: var(--col-active); }
+.column[data-col="docs"] .column-count     { background: rgba(249,115,22,0.12); color: var(--col-docs); }
+.column[data-col="complete"] .column-count { background: rgba(34,197,94,0.12); color: var(--col-complete); }
+
+.column-body {
+  flex: 1; padding: 14px; display: flex; flex-direction: column; gap: 12px;
+  overflow-y: auto; max-height: calc(100vh - 280px);
+}
+.column-empty {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  color: var(--text-dim); font-size: 0.78rem; font-weight: 500;
+  border: 2px dashed rgba(255,255,255,0.05); border-radius: var(--radius-sm);
+  margin: 4px; min-height: 80px; text-align: center; padding: 20px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CARDS
+   ═══════════════════════════════════════════════════════════ */
+.card {
+  background: var(--bg-card);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-sm); padding: 16px;
+  cursor: grab; transition: var(--transition);
+  position: relative; overflow: hidden;
+  animation: cardIn 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(12px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.card:hover {
+  border-color: var(--border-glass-hover);
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-2px);
+}
+.card::before {
+  content: ''; position: absolute; top: 0; left: 0; width: 3px;
+  height: 100%; border-radius: 3px 0 0 3px;
+}
+.card.dragging {
+  opacity: 0.4; transform: rotate(2deg) scale(0.97);
+  box-shadow: none;
+}
+
+/* Card color accents via inline style --card-color */
+.card { --cc: var(--card-color, var(--col-backlog)); }
+.card::before { background: var(--cc); }
+
+.card-header {
+  display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px;
+}
+.card-sprint-badge {
+  padding: 3px 10px; border-radius: 99px;
+  font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.8px; white-space: nowrap; flex-shrink: 0;
+  background: color-mix(in srgb, var(--cc) 15%, transparent);
+  color: var(--cc); border: 1px solid color-mix(in srgb, var(--cc) 25%, transparent);
+}
+.card-title {
+  font-size: 0.88rem; font-weight: 650; color: var(--text-primary);
+  line-height: 1.35; flex: 1;
+}
+.card-desc {
+  font-size: 0.74rem; color: var(--text-secondary); line-height: 1.55;
+  margin-bottom: 10px; display: -webkit-box; -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical; overflow: hidden;
+}
+.card-tags {
+  display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px;
+}
+.card-tag {
+  padding: 2px 8px; border-radius: 4px; font-size: 0.62rem; font-weight: 600;
+  background: rgba(255,255,255,0.04); color: var(--text-dim);
+  border: 1px solid rgba(255,255,255,0.04); letter-spacing: 0.3px;
+}
+.card-progress { margin-bottom: 8px; }
+.card-progress-info {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 5px;
+}
+.card-progress-text {
+  font-size: 0.68rem; font-weight: 600; color: var(--text-dim);
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.card-progress-pct {
+  font-size: 0.72rem; font-weight: 700; font-family: var(--mono);
+  color: var(--cc);
+}
+.card-progress-bar {
+  height: 4px; background: rgba(255,255,255,0.06);
+  border-radius: 99px; overflow: hidden;
+}
+.card-progress-fill {
+  height: 100%; border-radius: 99px; background: var(--cc);
+  transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.card-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.04);
+}
+.card-est {
+  font-size: 0.66rem; font-weight: 500; color: var(--text-dim);
+  display: flex; align-items: center; gap: 4px;
+}
+.card-open-btn {
+  padding: 4px 12px; border-radius: 6px; border: 1px solid var(--border-glass);
+  background: var(--bg-glass); color: var(--text-secondary);
+  font-family: var(--font); font-size: 0.68rem; font-weight: 600;
+  cursor: pointer; transition: var(--transition);
+}
+.card-open-btn:hover {
+  background: color-mix(in srgb, var(--cc) 15%, transparent);
+  color: var(--cc); border-color: color-mix(in srgb, var(--cc) 30%, transparent);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MODAL
+   ═══════════════════════════════════════════════════════════ */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(0,0,0,0.65); backdrop-filter: blur(8px);
+  display: none; align-items: center; justify-content: center;
+  padding: 24px; animation: fadeIn 0.2s ease;
+}
+.modal-overlay.active { display: flex; }
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+.modal {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-glass-hover);
+  border-radius: 18px; width: 100%; max-width: 680px;
+  max-height: 85vh; display: flex; flex-direction: column;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05);
+  animation: modalIn 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  overflow: hidden;
+}
+@keyframes modalIn {
+  from { opacity:0; transform:translateY(20px) scale(0.96); }
+  to   { opacity:1; transform:translateY(0) scale(1); }
+}
+.modal-top {
+  padding: 24px 28px 0; position: relative;
+}
+.modal-top-accent {
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+}
+.modal-sprint-badge {
+  display: inline-block; padding: 4px 14px; border-radius: 99px;
+  font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1px; margin-bottom: 10px;
+}
+.modal-title {
+  font-size: 1.3rem; font-weight: 800; margin-bottom: 6px;
+  color: var(--text-primary);
+}
+.modal-desc {
+  font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6;
+  margin-bottom: 16px;
+}
+.modal-progress-wrap { margin-bottom: 16px; }
+.modal-progress-info {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 6px;
+}
+.modal-progress-text {
+  font-size: 0.72rem; font-weight: 600; color: var(--text-secondary);
+  text-transform: uppercase; letter-spacing: 0.8px;
+}
+.modal-progress-pct {
+  font-size: 0.85rem; font-weight: 700; font-family: var(--mono);
+}
+.modal-progress-bar {
+  height: 6px; background: rgba(255,255,255,0.06);
+  border-radius: 99px; overflow: hidden;
+}
+.modal-progress-fill {
+  height: 100%; border-radius: 99px;
+  transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Modal tabs */
+.modal-tabs {
+  display: flex; border-bottom: 1px solid var(--border-glass);
+  padding: 0 28px; gap: 0;
+}
+.modal-tab {
+  padding: 12px 20px; font-size: 0.78rem; font-weight: 600;
+  color: var(--text-dim); cursor: pointer; border: none; background: none;
+  font-family: var(--font); position: relative; transition: var(--transition);
+  text-transform: uppercase; letter-spacing: 0.8px;
+}
+.modal-tab:hover { color: var(--text-secondary); }
+.modal-tab.active { color: var(--text-primary); }
+.modal-tab.active::after {
+  content: ''; position: absolute; bottom: -1px; left: 20px; right: 20px;
+  height: 2px; border-radius: 99px;
+}
+
+.modal-body {
+  flex: 1; overflow-y: auto; padding: 20px 28px 28px;
+}
+.modal-panel { display: none; }
+.modal-panel.active { display: block; }
+
+/* Checklist */
+.checklist-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 10px 12px; border-radius: var(--radius-xs);
+  transition: var(--transition); cursor: pointer;
+  border: 1px solid transparent;
+}
+.checklist-item:hover {
+  background: var(--bg-glass); border-color: var(--border-glass);
+}
+.checklist-cb-wrap {
+  position: relative; width: 20px; height: 20px; flex-shrink: 0; margin-top: 1px;
+}
+.checklist-cb {
+  position: absolute; opacity: 0; width: 100%; height: 100%;
+  cursor: pointer; z-index: 2;
+}
+.checklist-cb-visual {
+  width: 20px; height: 20px; border-radius: 5px;
+  border: 2px solid rgba(255,255,255,0.15);
+  display: flex; align-items: center; justify-content: center;
+  transition: var(--transition); font-size: 11px; color: transparent;
+}
+.checklist-cb:checked + .checklist-cb-visual {
+  border-color: var(--cc); background: color-mix(in srgb, var(--cc) 20%, transparent);
+  color: var(--cc);
+}
+.checklist-label {
+  font-size: 0.82rem; color: var(--text-primary); line-height: 1.5;
+  transition: var(--transition); flex: 1;
+}
+.checklist-item.done .checklist-label {
+  color: var(--text-dim); text-decoration: line-through;
+}
+
+/* Guide tab */
+.guide-content {
+  font-family: var(--mono); font-size: 0.78rem;
+  color: var(--text-secondary); line-height: 1.8;
+  white-space: pre-wrap; background: rgba(0,0,0,0.25);
+  border: 1px solid var(--border-glass); border-radius: var(--radius-sm);
+  padding: 20px; max-height: 55vh; overflow-y: auto;
+}
+
+/* Modal close */
+.modal-close {
+  position: absolute; top: 16px; right: 16px;
+  width: 32px; height: 32px; border-radius: 8px;
+  border: 1px solid var(--border-glass); background: var(--bg-glass);
+  color: var(--text-dim); cursor: pointer; font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+  transition: var(--transition); font-family: var(--font);
+}
+.modal-close:hover {
+  background: rgba(239,68,68,0.15); color: #ef4444;
+  border-color: rgba(239,68,68,0.3);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ACTIVITY LOG PANEL
+   ═══════════════════════════════════════════════════════════ */
+.activity-toggle {
+  position: fixed; bottom: 24px; right: 24px; z-index: 200;
+  width: 48px; height: 48px; border-radius: 14px;
+  background: linear-gradient(135deg, var(--col-backlog), var(--col-active));
+  border: none; color: #fff; font-size: 18px; cursor: pointer;
+  box-shadow: 0 4px 20px rgba(79,124,255,0.35);
+  display: flex; align-items: center; justify-content: center;
+  transition: var(--transition);
+}
+.activity-toggle:hover { transform: scale(1.08); }
+.activity-badge {
+  position: absolute; top: -4px; right: -4px;
+  min-width: 18px; height: 18px; border-radius: 99px;
+  background: #ef4444; font-size: 0.6rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0 4px; border: 2px solid var(--bg-primary);
+}
+.activity-panel {
+  position: fixed; bottom: 84px; right: 24px; z-index: 200;
+  width: 380px; max-height: 460px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-glass-hover);
+  border-radius: var(--radius); overflow: hidden;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.45);
+  display: none; flex-direction: column;
+  animation: slideUp 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.activity-panel.active { display: flex; }
+@keyframes slideUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+.activity-panel-header {
+  padding: 16px 20px; border-bottom: 1px solid var(--border-glass);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.activity-panel-title {
+  font-size: 0.82rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1px; color: var(--text-primary);
+}
+.activity-clear-btn {
+  padding: 4px 12px; border-radius: 6px; border: 1px solid var(--border-glass);
+  background: var(--bg-glass); color: var(--text-dim);
+  font-family: var(--font); font-size: 0.66rem; font-weight: 600;
+  cursor: pointer; transition: var(--transition);
+}
+.activity-clear-btn:hover { background: var(--bg-glass-hover); color: var(--text-secondary); }
+.activity-list {
+  flex: 1; overflow-y: auto; padding: 12px 16px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.activity-item {
+  padding: 10px 12px; border-radius: var(--radius-xs);
+  background: var(--bg-glass); border: 1px solid var(--border-glass);
+  font-size: 0.74rem; color: var(--text-secondary); line-height: 1.5;
+}
+.activity-item-time {
+  font-size: 0.64rem; color: var(--text-dim); font-family: var(--mono);
+  margin-top: 4px;
+}
+.activity-empty {
+  text-align: center; color: var(--text-dim); font-size: 0.78rem;
+  padding: 40px 20px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVENESS
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 1200px) {
+  .board { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 700px) {
+  .board { grid-template-columns: 1fr; padding: 12px 16px; }
+  .header { padding: 12px 16px; }
+  .stats-bar { padding: 12px 16px 0; }
+  .modal { max-width: 100%; border-radius: 14px; }
+  .activity-panel { width: calc(100vw - 32px); right: 16px; bottom: 76px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── HEADER ─── -->
+<header class="header">
+  <div class="header-inner">
+    <div class="header-brand">
+      <div class="header-logo">K</div>
+      <div>
+        <div class="header-title">IT Internship Training Program</div>
+        <div class="header-subtitle">Kanban Sprint Dashboard</div>
+      </div>
+    </div>
+    <div class="overall-progress-wrap">
+      <div class="overall-progress-label">
+        <span>Overall Progress</span>
+        <span id="overallPct">0%</span>
+      </div>
+      <div class="overall-progress-bar">
+        <div class="overall-progress-fill" id="overallFill" style="width:0%"></div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-ghost" onclick="exportState()" title="Export State">⬇ Export</button>
+      <button class="btn btn-danger" onclick="resetState()" title="Reset to Defaults">↺ Reset</button>
+    </div>
+  </div>
+</header>
+
+<!-- ─── STATS BAR ─── -->
+<div class="stats-bar" id="statsBar"></div>
+
+<!-- ─── BOARD ─── -->
+<div class="board" id="board">
+  <div class="column" data-col="backlog">
+    <div class="column-header">
+      <div class="column-icon">📋</div>
+      <span class="column-title">Backlog</span>
+      <span class="column-count" id="count-backlog">0</span>
+    </div>
+    <div class="column-body" id="col-backlog"></div>
+  </div>
+  <div class="column" data-col="active">
+    <div class="column-header">
+      <div class="column-icon">⚡</div>
+      <span class="column-title">Active Sprint</span>
+      <span class="column-count" id="count-active">0</span>
+    </div>
+    <div class="column-body" id="col-active"></div>
+  </div>
+  <div class="column" data-col="docs">
+    <div class="column-header">
+      <div class="column-icon">📝</div>
+      <span class="column-title">Documentation</span>
+      <span class="column-count" id="count-docs">0</span>
+    </div>
+    <div class="column-body" id="col-docs"></div>
+  </div>
+  <div class="column" data-col="complete">
+    <div class="column-header">
+      <div class="column-icon">✅</div>
+      <span class="column-title">Complete</span>
+      <span class="column-count" id="count-complete">0</span>
+    </div>
+    <div class="column-body" id="col-complete"></div>
+  </div>
+</div>
+
+<!-- ─── MODAL ─── -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modal">
+    <div class="modal-top" id="modalTop">
+      <div class="modal-top-accent" id="modalAccent"></div>
+      <button class="modal-close" id="modalClose" title="Close">✕</button>
+      <div class="modal-sprint-badge" id="modalBadge"></div>
+      <div class="modal-title" id="modalTitle"></div>
+      <div class="modal-desc" id="modalDesc"></div>
+      <div class="modal-progress-wrap">
+        <div class="modal-progress-info">
+          <span class="modal-progress-text" id="modalProgressText">0 / 0 tasks</span>
+          <span class="modal-progress-pct" id="modalProgressPct">0%</span>
+        </div>
+        <div class="modal-progress-bar">
+          <div class="modal-progress-fill" id="modalProgressFill" style="width:0%"></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-tabs" id="modalTabs">
+      <button class="modal-tab active" data-tab="checklist">Master Checklist</button>
+      <button class="modal-tab" data-tab="guide">Guide / Sub-data</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-panel active" id="panelChecklist"></div>
+      <div class="modal-panel" id="panelGuide"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── ACTIVITY LOG ─── -->
+<button class="activity-toggle" id="activityToggle" title="Activity Log">
+  📜
+  <span class="activity-badge" id="activityBadge" style="display:none">0</span>
+</button>
+<div class="activity-panel" id="activityPanel">
+  <div class="activity-panel-header">
+    <span class="activity-panel-title">Activity Log</span>
+    <button class="activity-clear-btn" onclick="clearActivityLog()">Clear All</button>
+  </div>
+  <div class="activity-list" id="activityList">
+    <div class="activity-empty">No activity yet.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     JAVASCRIPT
+     ═══════════════════════════════════════════════════════════ -->
+<script>
+/* ── DEFAULT SPRINT DATA ── */
+const DEFAULT_SPRINTS = [
+  {
+    id:"s0", sprint:"Prerequisites", title:"ISO Downloads & Prep", column:"complete",
+    color:"var(--sprint-0)",
+    desc:"Download all required ISOs and prepare storage directories.",
+    tags:["ISOs","Storage","Downloads"], est:"1-2 hrs",
+    tasks:[
+      {text:"Download Win Server 2022 ISO", done:true},
+      {text:"Download Ubuntu 22.04 ISO", done:true},
+      {text:"Download pfSense CE ISO", done:true},
+      {text:"Download Win10/11 ISO", done:true},
+      {text:"Download VirtualBox installer", done:true},
+      {text:"Verify D: drive space (240+ GB)", done:true},
+      {text:"Create D:\\LabVMs folder", done:true},
+      {text:"Create D:\\LabISOs folder", done:true}
+    ],
+    guide:`Prerequisites — ISO Downloads & Prep
+══════════════════════════════════════
+Purpose: Gather all installation media before building the lab.
+
+Required ISOs:
+  • Windows Server 2022 Evaluation (from Microsoft Eval Center)
+  • Ubuntu 22.04 LTS Server (from ubuntu.com)
+  • pfSense CE (from pfsense.org/download)
+  • Windows 10/11 Evaluation (from Microsoft Eval Center)
+  • VirtualBox installer (from virtualbox.org)
+
+Storage Requirements:
+  • Minimum 240 GB free on D: drive
+  • D:\\LabVMs  — all VM disk images
+  • D:\\LabISOs — all ISO files
+
+Verification:
+  ✓ Confirm each ISO file integrity (SHA-256)
+  ✓ Ensure VirtualBox installer matches OS architecture
+  ✓ Confirm D: drive has adequate free space`
+  },
+  {
+    id:"s1", sprint:"Sprint 1", title:"Foundation — VirtualBox, pfSense & AD DS", column:"backlog",
+    color:"var(--sprint-1)",
+    desc:"Install VirtualBox, configure pfSense firewall, deploy Windows Server 2022 with AD DS.",
+    tags:["VirtualBox","pfSense","WinServer","AD DS","DNS","DHCP"], est:"4-5 hrs",
+    tasks:[
+      {text:"Install VirtualBox 7.x", done:false},
+      {text:"Set default VM folder to D:\\LabVMs", done:false},
+      {text:"Install VBox Extension Pack", done:false},
+      {text:"Create pfSense VM (512MB RAM 8GB disk 2 NICs)", done:false},
+      {text:"Install pfSense OS", done:false},
+      {text:"Configure pfSense WAN (NAT adapter)", done:false},
+      {text:"Configure pfSense LAN (10.10.10.1/24)", done:false},
+      {text:"Test pfSense internet connectivity", done:false},
+      {text:"Create Windows Server VM (3GB RAM 40GB disk)", done:false},
+      {text:"Install Windows Server 2022", done:false},
+      {text:"Set static IP 10.10.10.10", done:false},
+      {text:"Install AD DS role", done:false},
+      {text:"Promote to Domain Controller (apex.local)", done:false},
+      {text:"Configure DNS forward lookup zone", done:false},
+      {text:"Configure DHCP scope (10.10.10.100-200)", done:false},
+      {text:"Test DNS resolution from server", done:false},
+      {text:"Document: VirtualBox setup guide", done:false},
+      {text:"Document: pfSense install + config", done:false},
+      {text:"Document: Windows Server + AD DS guide", done:false},
+      {text:"Screenshots captured for all steps", done:false}
+    ],
+    guide:`Sprint 1 — Foundation Build
+══════════════════════════════════════
+Objective: Build the core infrastructure layer.
+
+Phase 1: Hypervisor Setup
+  → Install VirtualBox 7.x on the host machine
+  → Set default machine folder to D:\\LabVMs
+  → Install the Extension Pack for USB 3.0 / RDP support
+
+Phase 2: pfSense Firewall
+  → Create VM: 512 MB RAM, 8 GB disk, 2 NICs
+  → NIC 1 (WAN): NAT adapter for internet
+  → NIC 2 (LAN): Internal Network "LabNet"
+  → LAN IP: 10.10.10.1/24
+  → Verify internet access from pfSense WebGUI
+
+Phase 3: Windows Server 2022
+  → Create VM: 3 GB RAM, 40 GB disk, Internal Network
+  → Static IP: 10.10.10.10, Gateway: 10.10.10.1
+  → DNS: 127.0.0.1 (self, after AD DS)
+  → Install AD DS role → Promote → Domain: apex.local
+  → Configure DNS forward lookup zone
+  → Configure DHCP: scope 10.10.10.100 - 200
+
+Documentation: 3 guides + screenshots for every step.`
+  },
+  {
+    id:"s2", sprint:"Sprint 2", title:"Linux Services — Apache, GLPI & BookStack", column:"backlog",
+    color:"var(--sprint-2)",
+    desc:"Deploy Ubuntu Server with Apache, MariaDB, GLPI ticketing, and BookStack knowledge base.",
+    tags:["Ubuntu","Apache","MariaDB","GLPI","BookStack"], est:"3-4 hrs",
+    tasks:[
+      {text:"Create Ubuntu Server VM (2GB RAM 30GB disk)", done:false},
+      {text:"Install Ubuntu 22.04 LTS", done:false},
+      {text:"Set static IP 10.10.10.20", done:false},
+      {text:"Set DNS to 10.10.10.10", done:false},
+      {text:"Install Apache2 + PHP", done:false},
+      {text:"Install MariaDB", done:false},
+      {text:"Create GLPI database + user", done:false},
+      {text:"Install GLPI", done:false},
+      {text:"Verify GLPI at http://10.10.10.20/glpi", done:false},
+      {text:"Create BookStack database + user", done:false},
+      {text:"Install BookStack", done:false},
+      {text:"Verify BookStack at http://10.10.10.20/bookstack", done:false},
+      {text:"Document: Ubuntu install guide", done:false},
+      {text:"Document: MariaDB setup guide", done:false},
+      {text:"Document: GLPI install + config guide", done:false},
+      {text:"Document: BookStack install + config guide", done:false}
+    ],
+    guide:`Sprint 2 — Linux Services
+══════════════════════════════════════
+Objective: Deploy web-based IT service tools on Ubuntu.
+
+Phase 1: Ubuntu Server
+  → 2 GB RAM, 30 GB disk, Internal Network
+  → Static IP: 10.10.10.20
+  → DNS: 10.10.10.10 (AD DNS)
+
+Phase 2: LAMP Stack
+  → sudo apt install apache2 php php-mysql mariadb-server
+  → Secure MariaDB: mysql_secure_installation
+
+Phase 3: GLPI Ticketing System
+  → Create DB: glpi_db, User: glpi_user
+  → Download & install GLPI under /var/www/html/glpi
+  → Access: http://10.10.10.20/glpi
+
+Phase 4: BookStack Knowledge Base
+  → Create DB: bookstack_db, User: bookstack_user
+  → Clone & install BookStack under /var/www/html/bookstack
+  → Access: http://10.10.10.20/bookstack
+
+Documentation: 4 guides covering each component.`
+  },
+  {
+    id:"s3", sprint:"Sprint 3", title:"Monitoring — Zabbix & Grafana", column:"backlog",
+    color:"var(--sprint-3)",
+    desc:"Deploy Zabbix monitoring server, Grafana dashboards, and agents across all VMs.",
+    tags:["Zabbix","Grafana","SNMP","Monitoring"], est:"3-4 hrs",
+    tasks:[
+      {text:"Install Zabbix Server on Ubuntu", done:false},
+      {text:"Create Zabbix database", done:false},
+      {text:"Configure Zabbix web frontend", done:false},
+      {text:"Install Zabbix Agent on Ubuntu (local)", done:false},
+      {text:"Install Zabbix Agent on Windows Server", done:false},
+      {text:"Install Zabbix Agent on Win10 Client", done:false},
+      {text:"Add all hosts in Zabbix", done:false},
+      {text:"Configure pfSense SNMP", done:false},
+      {text:"Add pfSense as SNMP host in Zabbix", done:false},
+      {text:"Install Grafana on Ubuntu", done:false},
+      {text:"Add Zabbix as Grafana data source", done:false},
+      {text:"Create infrastructure dashboard in Grafana", done:false},
+      {text:"Configure Zabbix alert actions", done:false},
+      {text:"Test alerts (stop a service)", done:false},
+      {text:"Document: Zabbix setup guide", done:false},
+      {text:"Document: Grafana dashboard guide", done:false}
+    ],
+    guide:`Sprint 3 — Monitoring Stack
+══════════════════════════════════════
+Objective: Full-stack infrastructure monitoring.
+
+Phase 1: Zabbix Server
+  → Install on Ubuntu (apt or repo packages)
+  → Create zabbix DB in MariaDB
+  → Configure PHP frontend at /zabbix
+
+Phase 2: Zabbix Agents
+  → Ubuntu (local agent)
+  → Windows Server (MSI installer)
+  → Windows 10 Client (MSI installer)
+  → pfSense (SNMP service, not agent)
+
+Phase 3: Grafana
+  → Install Grafana OSS on Ubuntu
+  → Add Zabbix plugin as data source
+  → Build infrastructure overview dashboard
+
+Phase 4: Alerting
+  → Configure alert actions in Zabbix
+  → Test by stopping a monitored service
+
+Documentation: 2 guides covering Zabbix + Grafana.`
+  },
+  {
+    id:"s4", sprint:"Sprint 4", title:"Security & SIEM — Wazuh, OpenVAS & DVWA", column:"backlog",
+    color:"var(--sprint-4)",
+    desc:"Deploy Wazuh SIEM, OpenVAS vulnerability scanner, and DVWA as a test target.",
+    tags:["Wazuh","OpenVAS","DVWA","SIEM","Security"], est:"4-5 hrs",
+    tasks:[
+      {text:"Install Wazuh Manager on Ubuntu", done:false},
+      {text:"Install Wazuh Agent on Windows Server", done:false},
+      {text:"Install Wazuh Agent on Ubuntu (local)", done:false},
+      {text:"Install Wazuh Agent on Win10 Client", done:false},
+      {text:"Configure pfSense syslog to Wazuh", done:false},
+      {text:"Verify Wazuh Dashboard receiving logs", done:false},
+      {text:"Install OpenVAS/Greenbone on Ubuntu", done:false},
+      {text:"Update OpenVAS NVT feeds", done:false},
+      {text:"Install DVWA on Ubuntu", done:false},
+      {text:"Run OpenVAS scan against DVWA", done:false},
+      {text:"Run OpenVAS scan against Win Server", done:false},
+      {text:"Review vulnerability reports", done:false},
+      {text:"Document: Wazuh SIEM setup guide", done:false},
+      {text:"Document: OpenVAS setup guide", done:false},
+      {text:"Document: DVWA deployment guide", done:false}
+    ],
+    guide:`Sprint 4 — Security & SIEM
+══════════════════════════════════════
+Objective: Security monitoring, vulnerability assessment.
+
+Phase 1: Wazuh SIEM
+  → Install Wazuh Manager (all-in-one) on Ubuntu
+  → Deploy agents: Windows Server, Ubuntu, Win10
+  → Forward pfSense syslogs to Wazuh
+  → Verify log ingestion on Wazuh Dashboard
+
+Phase 2: OpenVAS / Greenbone
+  → Install OpenVAS Community Edition
+  → Update NVT (Network Vulnerability Test) feeds
+  → This takes time — be patient!
+
+Phase 3: DVWA (Damn Vulnerable Web App)
+  → Deploy DVWA as a scan target
+  → Run OpenVAS scans against DVWA and Win Server
+  → Review and analyze vulnerability reports
+
+Documentation: 3 guides for Wazuh, OpenVAS, DVWA.`
+  },
+  {
+    id:"s5", sprint:"Sprint 5", title:"Network & Scanning — Nmap, Wireshark & Packet Tracer", column:"backlog",
+    color:"var(--sprint-5)",
+    desc:"Advanced networking labs with Nmap, Wireshark, pfSense rules, and Cisco Packet Tracer.",
+    tags:["Nmap","Wireshark","pfSense Rules","Packet Tracer"], est:"2-3 hrs",
+    tasks:[
+      {text:"Create Windows 10 Client VM (2GB RAM 30GB disk)", done:false},
+      {text:"Install Windows 10", done:false},
+      {text:"Join to apex.local domain", done:false},
+      {text:"Verify GPO application", done:false},
+      {text:"Install Nmap on Win10", done:false},
+      {text:"Run Nmap scan of 10.10.10.0/24", done:false},
+      {text:"Install Wireshark on Win10", done:false},
+      {text:"Capture and analyze traffic", done:false},
+      {text:"Create pfSense firewall rules lab", done:false},
+      {text:"Test firewall rule blocking", done:false},
+      {text:"Open Cisco Packet Tracer", done:false},
+      {text:"Build sample network topology", done:false},
+      {text:"Document: Network scanning guide", done:false},
+      {text:"Document: Wireshark analysis guide", done:false},
+      {text:"Document: pfSense firewall rules guide", done:false}
+    ],
+    guide:`Sprint 5 — Network & Scanning
+══════════════════════════════════════
+Objective: Hands-on networking and security scanning.
+
+Phase 1: Windows 10 Client
+  → 2 GB RAM, 30 GB disk, Internal Network
+  → Join to apex.local domain
+  → Verify Group Policy application (gpresult /r)
+
+Phase 2: Network Scanning
+  → Install Nmap: nmap -sV 10.10.10.0/24
+  → Install Wireshark: capture LAN traffic
+  → Analyze protocols, identify hosts
+
+Phase 3: Firewall Labs
+  → Create pfSense rules to block specific traffic
+  → Test and verify rule enforcement
+  → Document rule logic
+
+Phase 4: Cisco Packet Tracer
+  → Build a sample enterprise topology
+  → Practice VLAN, routing, switch configs
+
+Documentation: 3 guides.`
+  },
+  {
+    id:"s6", sprint:"Sprint 6", title:"Remote Management & Backup", column:"backlog",
+    color:"var(--sprint-6)",
+    desc:"Deploy MeshCentral, OCS Inventory, and Veeam CE for remote management and backup.",
+    tags:["MeshCentral","OCS Inventory","Veeam","Backup"], est:"3-4 hrs",
+    tasks:[
+      {text:"Install MeshCentral on Ubuntu", done:false},
+      {text:"Install MeshCentral Agent on Win10", done:false},
+      {text:"Test remote desktop via MeshCentral", done:false},
+      {text:"Install OCS Inventory Server on Ubuntu", done:false},
+      {text:"Install OCS Agent on Windows Server", done:false},
+      {text:"Install OCS Agent on Win10", done:false},
+      {text:"Verify asset inventory in OCS", done:false},
+      {text:"Install Veeam CE on Windows Server", done:false},
+      {text:"Configure Veeam backup job", done:false},
+      {text:"Run test backup", done:false},
+      {text:"Test backup restore", done:false},
+      {text:"Document: MeshCentral setup guide", done:false},
+      {text:"Document: OCS Inventory guide", done:false},
+      {text:"Document: Veeam backup guide", done:false}
+    ],
+    guide:`Sprint 6 — Remote Management & Backup
+══════════════════════════════════════
+Objective: Centralized management and disaster recovery.
+
+Phase 1: MeshCentral
+  → Install on Ubuntu (Node.js based)
+  → Deploy agent on Win10 client
+  → Test remote desktop, terminal, file transfer
+
+Phase 2: OCS Inventory
+  → Install OCS server on Ubuntu (Apache + Perl)
+  → Deploy agents on Windows Server & Win10
+  → Review auto-discovered asset inventory
+
+Phase 3: Veeam Community Edition
+  → Install on Windows Server
+  → Create backup job for a test VM
+  → Execute backup, then test a restore
+
+Documentation: 3 guides.`
+  },
+  {
+    id:"s7", sprint:"Sprint 7", title:"Cloud & Developer Tools — M365, Azure, Okta, Cloudflare", column:"backlog",
+    color:"var(--sprint-7)",
+    desc:"Set up M365, Azure, ServiceNow. Configure Okta IAM & SSO. Publish via Cloudflare Tunnels & Custom Domain.",
+    tags:["M365","Azure","ServiceNow","Okta","SSO","Cloudflare","DNS","Web Hosting"], est:"5-6 hrs",
+    tasks:[
+      {text:"Sign up M365 Developer Tenant", done:false},
+      {text:"Configure Entra ID basics", done:false},
+      {text:"Sign up Azure Free Account", done:false},
+      {text:"Sign up ServiceNow Developer Instance", done:false},
+      {text:"Register free/cheap Custom Domain", done:false},
+      {text:"Sign up for Cloudflare (Free Tier)", done:false},
+      {text:"Update domain nameservers to Cloudflare", done:false},
+      {text:"Install Cloudflared on Ubuntu VM", done:false},
+      {text:"Expose local Apache via Cloudflare Tunnel", done:false},
+      {text:"Sign up for Okta Developer Account", done:false},
+      {text:"Create Okta OIDC App Integration", done:false},
+      {text:"Configure BookStack to use Okta SSO", done:false},
+      {text:"Test Okta SSO login to BookStack", done:false},
+      {text:"Install VS Code & Git for Windows", done:false},
+      {text:"Install Python 3 & PuTTY & WinSCP", done:false},
+      {text:"Install Cisco Packet Tracer & Draw.io", done:false},
+      {text:"Document: Custom Domain & Cloudflare Tunnel guide", done:false},
+      {text:"Document: Okta SSO integration guide", done:false},
+      {text:"Document: M365 & ServiceNow setup guide", done:false}
+    ],
+    guide:`Sprint 7 — Cloud & Developer Tools
+══════════════════════════════════════
+Objective: Integrate cloud services and developer tooling.
+
+Phase 1: Cloud Accounts
+  → M365 Developer Tenant (free 90-day)
+  → Azure Free Account ($200 credit)
+  → ServiceNow Developer Instance (free)
+
+Phase 2: Custom Domain & Cloudflare
+  → Register a domain (Namecheap/Porkbun)
+  → Point nameservers to Cloudflare (free tier)
+  → Install cloudflared on Ubuntu
+  → Create tunnel to expose Apache services
+
+Phase 3: Okta SSO
+  → Create Okta Developer account
+  → Create OIDC App Integration
+  → Integrate with BookStack for SSO login
+  → Test end-to-end authentication flow
+
+Phase 4: Developer Tools
+  → VS Code + Git, Python 3, PuTTY, WinSCP
+  → Cisco Packet Tracer, Draw.io
+
+Documentation: 3 guides.`
+  },
+  {
+    id:"s8", sprint:"Sprint 8", title:"Architecture & Final Documentation", column:"backlog",
+    color:"var(--sprint-8)",
+    desc:"Create architecture diagrams, ecosystem maps, troubleshooting runbooks, and full production deployment spec.",
+    tags:["Architecture","Diagrams","Runbooks","Final Review"], est:"3-4 hrs",
+    tasks:[
+      {text:"Create full network architecture diagram (Draw.io)", done:false},
+      {text:"Create tool ecosystem dependency map", done:false},
+      {text:"Create data flow diagram (auth/logs/metrics/tickets)", done:false},
+      {text:"Write troubleshooting runbook: pfSense", done:false},
+      {text:"Write troubleshooting runbook: Active Directory", done:false},
+      {text:"Write troubleshooting runbook: GLPI", done:false},
+      {text:"Write troubleshooting runbook: Zabbix/Grafana", done:false},
+      {text:"Write troubleshooting runbook: Network connectivity", done:false},
+      {text:"Create full deployment spec (Proxmox production)", done:false},
+      {text:"Final review of all documentation", done:false},
+      {text:"Final git commit — project complete", done:false}
+    ],
+    guide:`Sprint 8 — Architecture & Final Documentation
+══════════════════════════════════════
+Objective: Capstone — diagrams, runbooks, production spec.
+
+Phase 1: Architecture Diagrams (Draw.io)
+  → Full network topology diagram
+  → Tool ecosystem dependency map
+  → Data flow: authentication, logs, metrics, tickets
+
+Phase 2: Troubleshooting Runbooks
+  → pfSense: connectivity, rules, NAT issues
+  → Active Directory: replication, DNS, GPO
+  → GLPI: DB connectivity, ticket routing
+  → Zabbix/Grafana: agent comms, data sources
+  → General network: ping, traceroute, DNS resolution
+
+Phase 3: Production Specification
+  → Full deployment spec for Proxmox / bare-metal
+  → Resource sizing, network design, HA considerations
+
+Phase 4: Final Review
+  → Review all documentation for completeness
+  → Final git commit — project complete! 🎉`
+  }
+];
+
+const STORAGE_KEY = "mvl-kanban-state";
+const COLUMN_NAMES = {backlog:"Backlog", active:"Active Sprint", docs:"Documentation", complete:"Complete"};
+const COLUMN_IDS = ["backlog","active","docs","complete"];
+
+/* ── STATE ── */
+let sprints = [];
+let activityLog = [];
+let currentModalId = null;
+let unreadActivity = 0;
+
+/* ── INIT ── */
+function init() {
+  loadState();
+  renderBoard();
+  updateOverallProgress();
+  renderStats();
+  renderActivityLog();
+  setupDragDrop();
+  setupModal();
+  setupActivityPanel();
+}
+
+/* ── PERSISTENCE ── */
+function loadState() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      sprints = parsed.sprints || deepClone(DEFAULT_SPRINTS);
+      activityLog = parsed.activityLog || [];
+      // Merge guide text from defaults (not stored)
+      sprints.forEach(s => {
+        const def = DEFAULT_SPRINTS.find(d => d.id === s.id);
+        if (def) s.guide = def.guide;
+      });
+    } else {
+      sprints = deepClone(DEFAULT_SPRINTS);
+      activityLog = [{text:"Dashboard initialized with default sprint data.", time: new Date().toISOString()}];
+    }
+  } catch(e) {
+    sprints = deepClone(DEFAULT_SPRINTS);
+    activityLog = [];
+  }
+}
+
+function saveState() {
+  const toSave = { sprints: sprints.map(s => {
+    const {guide, ...rest} = s; return rest;
+  }), activityLog };
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(toSave));
+}
+
+function deepClone(obj) { return JSON.parse(JSON.stringify(obj)); }
+
+function resetState() {
+  if(!confirm("Reset all progress to defaults? This cannot be undone.")) return;
+  localStorage.removeItem(STORAGE_KEY);
+  sprints = deepClone(DEFAULT_SPRINTS);
+  activityLog = [{text:"Dashboard reset to defaults.", time: new Date().toISOString()}];
+  saveState();
+  renderBoard();
+  updateOverallProgress();
+  renderStats();
+  renderActivityLog();
+  if(currentModalId) openModal(currentModalId);
+}
+
+function exportState() {
+  const blob = new Blob([JSON.stringify({sprints, activityLog}, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `kanban-state-${new Date().toISOString().slice(0,10)}.json`;
+  a.click(); URL.revokeObjectURL(a.href);
+  addActivity("State exported as JSON.");
+}
+
+/* ── RENDER ── */
+function renderBoard() {
+  COLUMN_IDS.forEach(col => {
+    const body = document.getElementById(`col-${col}`);
+    body.innerHTML = '';
+    const cards = sprints.filter(s => s.column === col);
+    document.getElementById(`count-${col}`).textContent = cards.length;
+    if (cards.length === 0) {
+      body.innerHTML = `<div class="column-empty">Drop sprints here</div>`;
+      return;
+    }
+    cards.forEach((s, idx) => {
+      body.appendChild(createCardEl(s, idx));
+    });
+  });
+}
+
+function createCardEl(s, idx) {
+  const done = s.tasks.filter(t => t.done).length;
+  const total = s.tasks.length;
+  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+  const resolvedColor = resolveColor(s.color);
+
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.draggable = true;
+  card.dataset.id = s.id;
+  card.style.setProperty('--card-color', s.color);
+  card.style.animationDelay = `${idx * 0.05}s`;
+
+  card.innerHTML = `
+    <div class="card-header">
+      <span class="card-sprint-badge">${s.sprint}</span>
+      <span class="card-title">${s.title}</span>
+    </div>
+    <div class="card-desc">${s.desc}</div>
+    <div class="card-tags">${s.tags.map(t => `<span class="card-tag">${t}</span>`).join('')}</div>
+    <div class="card-progress">
+      <div class="card-progress-info">
+        <span class="card-progress-text">${done}/${total} tasks</span>
+        <span class="card-progress-pct">${pct}%</span>
+      </div>
+      <div class="card-progress-bar">
+        <div class="card-progress-fill" style="width:${pct}%"></div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <span class="card-est">⏱ ${s.est}</span>
+      <button class="card-open-btn" data-id="${s.id}">Open ▸</button>
+    </div>
+  `;
+
+  // Drag events
+  card.addEventListener('dragstart', e => {
+    card.classList.add('dragging');
+    e.dataTransfer.setData('text/plain', s.id);
+    e.dataTransfer.effectAllowed = 'move';
+  });
+  card.addEventListener('dragend', () => card.classList.remove('dragging'));
+
+  // Open modal on card click (but not on button)
+  card.addEventListener('click', e => {
+    if (e.target.closest('.card-open-btn')) { openModal(s.id); return; }
+    // also open on general card click
+    openModal(s.id);
+  });
+
+  return card;
+}
+
+function resolveColor(cssVar) {
+  const map = {
+    'var(--sprint-0)':'#22c55e','var(--sprint-1)':'#4f7cff','var(--sprint-2)':'#8b5cf6',
+    'var(--sprint-3)':'#f97316','var(--sprint-4)':'#ef4444','var(--sprint-5)':'#eab308',
+    'var(--sprint-6)':'#a855f7','var(--sprint-7)':'#06b6d4','var(--sprint-8)':'#10b981'
+  };
+  return map[cssVar] || '#4f7cff';
+}
+
+/* ── STATS ── */
+function renderStats() {
+  const bar = document.getElementById('statsBar');
+  const counts = {};
+  COLUMN_IDS.forEach(c => counts[c] = 0);
+  sprints.forEach(s => counts[s.column]++);
+  const totalTasks = sprints.reduce((a,s) => a + s.tasks.length, 0);
+  const doneTasks = sprints.reduce((a,s) => a + s.tasks.filter(t=>t.done).length, 0);
+  const colColors = {backlog:'var(--col-backlog)', active:'var(--col-active)', docs:'var(--col-docs)', complete:'var(--col-complete)'};
+
+  let html = '';
+  COLUMN_IDS.forEach(c => {
+    html += `<div class="stat-chip">
+      <span class="stat-dot" style="background:${colColors[c]}"></span>
+      ${COLUMN_NAMES[c]}: <span class="stat-value">${counts[c]}</span>
+    </div>`;
+  });
+  html += `<div class="stat-chip">🔧 Tasks: <span class="stat-value">${doneTasks}/${totalTasks}</span></div>`;
+  html += `<div class="stat-chip">📊 Sprints: <span class="stat-value">${sprints.length}</span></div>`;
+  bar.innerHTML = html;
+}
+
+/* ── PROGRESS ── */
+function updateOverallProgress() {
+  const totalTasks = sprints.reduce((a,s) => a + s.tasks.length, 0);
+  const doneTasks = sprints.reduce((a,s) => a + s.tasks.filter(t=>t.done).length, 0);
+  const pct = totalTasks > 0 ? Math.round((doneTasks / totalTasks) * 100) : 0;
+  document.getElementById('overallPct').textContent = pct + '%';
+  document.getElementById('overallFill').style.width = pct + '%';
+}
+
+/* ── DRAG & DROP ── */
+function setupDragDrop() {
+  const cols = document.querySelectorAll('.column-body');
+  cols.forEach(col => {
+    col.addEventListener('dragover', e => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      col.closest('.column').classList.add('drag-over');
+
+      // Insert position indicator
+      const afterEl = getDragAfterElement(col, e.clientY);
+      const dragging = document.querySelector('.card.dragging');
+      if (!dragging) return;
+      if (afterEl == null) {
+        col.appendChild(dragging);
+      } else {
+        col.insertBefore(dragging, afterEl);
+      }
+    });
+    col.addEventListener('dragleave', e => {
+      if (!col.contains(e.relatedTarget)) {
+        col.closest('.column').classList.remove('drag-over');
+      }
+    });
+    col.addEventListener('drop', e => {
+      e.preventDefault();
+      col.closest('.column').classList.remove('drag-over');
+      const id = e.dataTransfer.getData('text/plain');
+      const colId = col.id.replace('col-','');
+      const sprint = sprints.find(s => s.id === id);
+      if (sprint && sprint.column !== colId) {
+        const oldCol = COLUMN_NAMES[sprint.column];
+        sprint.column = colId;
+        addActivity(`Moved "${sprint.sprint}: ${sprint.title}" from ${oldCol} → ${COLUMN_NAMES[colId]}`);
+        saveState();
+      }
+      renderBoard();
+      updateOverallProgress();
+      renderStats();
+    });
+  });
+}
+
+function getDragAfterElement(container, y) {
+  const els = [...container.querySelectorAll('.card:not(.dragging)')];
+  return els.reduce((closest, child) => {
+    const box = child.getBoundingClientRect();
+    const offset = y - box.top - box.height / 2;
+    if (offset < 0 && offset > closest.offset) {
+      return { offset, element: child };
+    }
+    return closest;
+  }, { offset: Number.NEGATIVE_INFINITY }).element;
+}
+
+/* ── MODAL ── */
+function setupModal() {
+  const overlay = document.getElementById('modalOverlay');
+  const closeBtn = document.getElementById('modalClose');
+  closeBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  // Tab switching
+  document.querySelectorAll('.modal-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.modal-panel').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById(tab.dataset.tab === 'checklist' ? 'panelChecklist' : 'panelGuide').classList.add('active');
+    });
+  });
+}
+
+function openModal(id) {
+  const s = sprints.find(x => x.id === id);
+  if (!s) return;
+  currentModalId = id;
+  const overlay = document.getElementById('modalOverlay');
+  const resolvedColor = resolveColor(s.color);
+
+  document.getElementById('modalAccent').style.background = `linear-gradient(90deg, ${s.color}, transparent)`;
+  document.getElementById('modalBadge').textContent = s.sprint;
+  document.getElementById('modalBadge').style.cssText = `
+    background: color-mix(in srgb, ${s.color} 15%, transparent);
+    color: ${s.color};
+    border: 1px solid color-mix(in srgb, ${s.color} 25%, transparent);
+  `;
+  document.getElementById('modalTitle').textContent = s.title;
+  document.getElementById('modalDesc').textContent = s.desc;
+
+  // Set tab accent color
+  document.querySelectorAll('.modal-tab').forEach(t => {
+    t.style.setProperty('--cc', s.color);
+  });
+  document.querySelectorAll('.modal-tab.active::after, .modal-tab').forEach(t => {});
+  const style = document.querySelector('#modalDynStyle') || document.createElement('style');
+  style.id = 'modalDynStyle';
+  style.textContent = `.modal-tab.active::after { background: ${s.color}; }`;
+  if (!style.parentNode) document.head.appendChild(style);
+
+  updateModalProgress(s);
+  renderChecklist(s);
+  renderGuide(s);
+
+  // Reset to checklist tab
+  document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.modal-panel').forEach(p => p.classList.remove('active'));
+  document.querySelector('.modal-tab[data-tab="checklist"]').classList.add('active');
+  document.getElementById('panelChecklist').classList.add('active');
+
+  overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+  currentModalId = null;
+}
+
+function updateModalProgress(s) {
+  const done = s.tasks.filter(t => t.done).length;
+  const total = s.tasks.length;
+  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+  document.getElementById('modalProgressText').textContent = `${done} / ${total} tasks`;
+  document.getElementById('modalProgressPct').textContent = pct + '%';
+  document.getElementById('modalProgressPct').style.color = s.color;
+  document.getElementById('modalProgressFill').style.width = pct + '%';
+  document.getElementById('modalProgressFill').style.background = s.color;
+}
+
+function renderChecklist(s) {
+  const panel = document.getElementById('panelChecklist');
+  panel.innerHTML = '';
+  s.tasks.forEach((task, i) => {
+    const item = document.createElement('div');
+    item.className = `checklist-item${task.done ? ' done' : ''}`;
+    item.style.setProperty('--cc', s.color);
+    item.innerHTML = `
+      <div class="checklist-cb-wrap">
+        <input type="checkbox" class="checklist-cb" ${task.done ? 'checked' : ''} data-idx="${i}">
+        <div class="checklist-cb-visual">✓</div>
+      </div>
+      <span class="checklist-label">${task.text}</span>
+    `;
+    const cb = item.querySelector('.checklist-cb');
+    cb.addEventListener('change', () => {
+      task.done = cb.checked;
+      item.classList.toggle('done', cb.checked);
+      const action = cb.checked ? 'Completed' : 'Unchecked';
+      addActivity(`${action}: "${task.text}" in ${s.sprint}`);
+      saveState();
+      updateModalProgress(s);
+      updateOverallProgress();
+      renderStats();
+      renderBoard();
+    });
+    // click on row toggles
+    item.addEventListener('click', e => {
+      if (e.target === cb) return;
+      cb.checked = !cb.checked;
+      cb.dispatchEvent(new Event('change'));
+    });
+    panel.appendChild(item);
+  });
+}
+
+function renderGuide(s) {
+  const panel = document.getElementById('panelGuide');
+  panel.innerHTML = `<div class="guide-content">${escapeHtml(s.guide || 'No guide data available for this sprint.')}</div>`;
+}
+
+function escapeHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+/* ── ACTIVITY LOG ── */
+function setupActivityPanel() {
+  const toggle = document.getElementById('activityToggle');
+  const panel = document.getElementById('activityPanel');
+  toggle.addEventListener('click', () => {
+    panel.classList.toggle('active');
+    if (panel.classList.contains('active')) {
+      unreadActivity = 0;
+      updateActivityBadge();
+    }
+  });
+  // Close panel on outside click
+  document.addEventListener('click', e => {
+    if (!panel.contains(e.target) && !toggle.contains(e.target)) {
+      panel.classList.remove('active');
+    }
+  });
+}
+
+function addActivity(text) {
+  const entry = { text, time: new Date().toISOString() };
+  activityLog.unshift(entry);
+  if (activityLog.length > 100) activityLog.pop();
+  unreadActivity++;
+  updateActivityBadge();
+  saveState();
+  renderActivityLog();
+}
+
+function renderActivityLog() {
+  const list = document.getElementById('activityList');
+  if (activityLog.length === 0) {
+    list.innerHTML = `<div class="activity-empty">No activity yet.</div>`;
+    return;
+  }
+  list.innerHTML = activityLog.map(entry => {
+    const d = new Date(entry.time);
+    const timeStr = d.toLocaleString('en-US', {month:'short', day:'numeric', hour:'2-digit', minute:'2-digit', second:'2-digit'});
+    return `<div class="activity-item">
+      <div>${entry.text}</div>
+      <div class="activity-item-time">${timeStr}</div>
+    </div>`;
+  }).join('');
+}
+
+function updateActivityBadge() {
+  const badge = document.getElementById('activityBadge');
+  if (unreadActivity > 0) {
+    badge.style.display = 'flex';
+    badge.textContent = unreadActivity > 99 ? '99+' : unreadActivity;
+  } else {
+    badge.style.display = 'none';
+  }
+}
+
+function clearActivityLog() {
+  activityLog = [];
+  unreadActivity = 0;
+  updateActivityBadge();
+  saveState();
+  renderActivityLog();
+}
+
+/* ── BOOT ── */
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

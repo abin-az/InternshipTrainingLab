@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Internship Training Program - Architecture Pitch</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: false, theme: 'dark' });
+        
+        async function render() {
+            const markdown = document.getElementById('markdown-content').textContent;
+            const renderer = new marked.Renderer();
+            renderer.code = function({text, lang}) {
+                if (lang === 'mermaid') {
+                    return `<div class="mermaid">${text}</div>`;
+                }
+                return `<pre><code>${text}</code></pre>`;
+            };
+            marked.setOptions({ renderer });
+            document.getElementById('content').innerHTML = marked.parse(markdown);
+            await mermaid.run();
+        }
+        window.onload = render;
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d0f18;
+            color: #f3f4f6;
+            line-height: 1.7;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        h1, h2, h3 { color: #8b5cf6; }
+        h1 { border-bottom: 2px solid #2d3748; padding-bottom: 10px; font-size: 2em; }
+        h2 { margin-top: 40px; border-bottom: 1px solid #2d3748; padding-bottom: 8px; }
+        a { color: #4f7cff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        pre { background: #1a202c; padding: 15px; border-radius: 8px; overflow-x: auto; }
+        code { font-family: monospace; background: #1a202c; padding: 2px 6px; border-radius: 4px; }
+        .mermaid { background: #1a202c; padding: 20px; border-radius: 8px; margin: 20px 0; display: flex; justify-content: center; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #2d3748; padding: 10px; text-align: left; }
+        th { background: #2d3748; }
+        blockquote { border-left: 4px solid #4f7cff; margin: 0; padding-left: 15px; color: #a0aec0; }
+        hr { border: none; border-top: 1px solid #2d3748; margin: 30px 0; }
+        li { margin-bottom: 6px; }
+    </style>
+</head>
+<body>
+    <div id="content">Loading architecture pitch...</div>
+    <script type="text/markdown" id="markdown-content">
+# 🏗️ IT Internship Training Program — Executive Pitch
+
+> **Objective**: To build a zero-cost, enterprise-grade Minimum Viable Lab (MVL) that trains interns on highly relevant corporate IT skills including Identity Management (Active Directory/Okta), Zero Trust Networking (Cloudflare), and Infrastructure Monitoring.
+
+---
+
+## 1. Core Technologies
+
+| Category | Tools |
+|---|---|
+| Virtualization | VirtualBox |
+| Networking | pfSense Firewall (Routing, NAT, DHCP) |
+| Identity & Access | Windows Server 2022 (AD DS) + Okta SSO |
+| Linux Services | Ubuntu 22.04 (Apache, MariaDB) |
+| ITSM & Knowledge Base | GLPI + BookStack |
+| Monitoring | Zabbix & Grafana |
+| Security & Logging | Wazuh SIEM, OpenVAS |
+| Cloud/External | Cloudflare Tunnels, Azure, M365, ServiceNow |
+
+---
+
+## 2. Architecture Ecosystem Map
+
+```mermaid
+graph TB
+    subgraph HOST["🖥️ Host Hardware"]
+        VB["VirtualBox 7.x"]
+    end
+
+    subgraph CLOUD["☁️ Cloud Layer"]
+        OKTA["Okta (SSO/IAM)"]
+        CF["Cloudflare Tunnels"]
+        M365["M365 Dev Tenant"]
+        AZURE["Azure Free"]
+    end
+
+    subgraph VMS["🖧 Isolated Lab Network (10.10.10.0/24)"]
+        subgraph PFSENSE["🔥 pfSense Gateway (10.10.10.1)"]
+            FW["Firewall / NAT"]
+        end
+
+        subgraph WINSVR["🪟 Windows Server 2022 (10.10.10.10)"]
+            AD["Active Directory (apex.local)"]
+            DNS["DNS Server"]
+            DHCP["DHCP Server"]
+        end
+
+        subgraph UBUNTU["🐧 Ubuntu Server 22.04 (10.10.10.20)"]
+            GLPI["GLPI (ITSM)"]
+            BOOKSTACK["BookStack (KB)"]
+            ZABBIX["Zabbix Server"]
+            GRAFANA["Grafana"]
+            WAZUH["Wazuh SIEM"]
+            OPENVAS["OpenVAS Scanner"]
+        end
+
+        subgraph WIN10["💻 Win 10 Client (10.10.10.100)"]
+            DOMAIN_JOIN["Domain-Joined Client"]
+        end
+    end
+
+    VB --> PFSENSE
+    VB --> WINSVR
+    VB --> UBUNTU
+    VB --> WIN10
+
+    PFSENSE -->|"gateway"| WINSVR
+    PFSENSE -->|"gateway"| UBUNTU
+    PFSENSE -->|"gateway"| WIN10
+    
+    CF -->|"Secure Tunnel"| UBUNTU
+
+    AD -->|"LDAP auth"| GLPI
+    AD -->|"domain login"| WIN10
+    
+    OKTA -->|"SAML/OIDC"| BOOKSTACK
+    
+    ZABBIX -->|"data source"| GRAFANA
+```
+
+---
+
+## 3. Data & Log Flow
+
+```mermaid
+flowchart LR
+    subgraph Sources["📋 Log Sources"]
+        WS_EVT["Windows Server\nEvent Logs"]
+        UB_SYS["Ubuntu\nSyslog"]
+        PF_SYS["pfSense\nFirewall Logs"]
+        W10_EVT["Windows 10\nEvent Logs"]
+    end
+
+    subgraph SIEM["🛡️ Wazuh Manager (10.10.10.20)"]
+        WZ_MGR["Wazuh Manager"]
+        WZ_DASH["Wazuh Dashboard"]
+    end
+
+    WS_EVT -->|"Wazuh Agent"| WZ_MGR
+    UB_SYS -->|"Wazuh Agent"| WZ_MGR
+    PF_SYS -->|"Syslog UDP"| WZ_MGR
+    W10_EVT -->|"Wazuh Agent"| WZ_MGR
+
+    WZ_MGR --> WZ_DASH
+```
+
+---
+
+## 4. Sprint Roadmap (8 Sprints, ~30 hrs total)
+
+| Sprint | Focus | Duration | Key Deliverables |
+|---|---|---|---|
+| 1 | Foundation | 4-5 hrs | VirtualBox, pfSense, Windows Server + AD DS |
+| 2 | Linux Services | 3-4 hrs | Ubuntu, GLPI (ticketing), BookStack (wiki) |
+| 3 | Monitoring | 3-4 hrs | Zabbix, Grafana dashboards |
+| 4 | Security & SIEM | 4-5 hrs | Wazuh, OpenVAS, DVWA |
+| 5 | Networking | 2-3 hrs | Nmap, Wireshark, pfSense rules |
+| 6 | Remote Mgmt | 3-4 hrs | MeshCentral, OCS Inventory, Veeam backup |
+| 7 | Cloud & SSO | 5-6 hrs | M365, Okta SSO, Cloudflare Tunnels |
+| 8 | Final Docs | 3-4 hrs | Architecture diagrams, runbooks |
+
+---
+
+## 5. Why This Approach?
+
+1. **Zero Hardware Cost**: Everything runs locally on existing hardware using free/open-source tools.
+2. **Real-World Skills**: Interns learn how 33+ enterprise tools interconnect via LDAP, Syslog, SNMP, SAML, and OIDC.
+3. **Modern Identity**: Okta SSO integration teaches cloud-native identity management.
+4. **Zero Trust Networking**: Cloudflare Tunnels expose internal services securely without port forwarding.
+5. **Fully Documented**: Sprint-based workflow with reactive Kanban tracking and automated checklists.
+6. **Scalable**: The PoC can be migrated to Proxmox bare-metal for production-grade multi-user training.
+
+---
+
+*Prepared by the IT Infrastructure Training Team*
+    </script>
+</body>
+</html>
