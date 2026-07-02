@@ -1,16 +1,16 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IT Internship Training Program — Kanban Dashboard</title>
+<title>IT Internship Training Program â€” Kanban Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-/* ═══════════════════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    CSS CUSTOM PROPERTIES
-   ═══════════════════════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 :root {
   --sprint-0: #22c55e; --sprint-1: #4f7cff; --sprint-2: #8b5cf6;
   --sprint-3: #f97316; --sprint-4: #ef4444; --sprint-5: #eab308;
@@ -34,9 +34,9 @@
   --mono: 'JetBrains Mono', 'Consolas', monospace;
 }
 
-/* ═══════════════════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    RESET & BASE
-   ═══════════════════════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { font-size: 15px; scroll-behavior: smooth; }
 body {
@@ -52,9 +52,9 @@ body {
 ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 8px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.18); }
 
-/* ═══════════════════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    HEADER
-   ═══════════════════════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 .header {
   position: sticky; top: 0; z-index: 100;
   background: rgba(13,15,24,0.82); backdrop-filter: blur(24px) saturate(1.6);
@@ -142,9 +142,9 @@ body {
   background: rgba(239,68,68,0.2); border-color: rgba(239,68,68,0.35);
 }
 
-/* ═══════════════════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    STATS BAR
-   ═══════════════════════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 .stats-bar {
   max-width: 1800px; margin: 0 auto;
   display: flex; gap: 12px; padding: 20px 32px 0; flex-wrap: wrap;
@@ -162,9 +162,9 @@ body {
 }
 .stat-value { color: var(--text-primary); font-family: var(--mono); }
 
-/* ═══════════════════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    BOARD LAYOUT
-   ═══════════════════════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 .board {
   display: grid;
   grid-template-columns: repeat(4, minmax(300px, 1fr));
@@ -172,9 +172,9 @@ body {
   max-width: 1800px; margin: 0 auto;
 }
 
-/* ═══════════════════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    COLUMNS
-   ═══════════════════════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 .column {
   background: rgba(20,22,37,0.45);
   backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
@@ -240,9 +240,9 @@ body {
   margin: 4px; min-height: 80px; text-align: center; padding: 20px;
 }
 
-/* ═══════════════════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    CARDS
-   ═══════════════════════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 .card {
   background: var(--bg-card);
   backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
@@ -341,9 +341,9 @@ body {
   color: var(--cc); border-color: color-mix(in srgb, var(--cc) 30%, transparent);
 }
 
-/* ═══════════════════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    MODAL
-   ═══════════════════════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 .modal-overlay {
   position: fixed; inset: 0; z-index: 1000;
   background: rgba(0,0,0,0.65); backdrop-filter: blur(8px);
@@ -487,9 +487,9 @@ body {
   border-color: rgba(239,68,68,0.3);
 }
 
-/* ═══════════════════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    ACTIVITY LOG PANEL
-   ═══════════════════════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 .activity-toggle {
   position: fixed; bottom: 24px; right: 24px; z-index: 200;
   width: 48px; height: 48px; border-radius: 14px;
@@ -552,9 +552,9 @@ body {
   padding: 40px 20px;
 }
 
-/* ═══════════════════════════════════════════════════════════
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    RESPONSIVENESS
-   ═══════════════════════════════════════════════════════════ */
+   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 @media (max-width: 1200px) {
   .board { grid-template-columns: repeat(2, 1fr); }
 }
@@ -569,7 +569,7 @@ body {
 </head>
 <body>
 
-<!-- ─── HEADER ─── -->
+<!-- â”€â”€â”€ HEADER â”€â”€â”€ -->
 <header class="header">
   <div class="header-inner">
     <div class="header-brand">
@@ -589,20 +589,20 @@ body {
       </div>
     </div>
     <div class="header-actions">
-      <button class="btn btn-ghost" onclick="exportState()" title="Export State">⬇ Export</button>
-      <button class="btn btn-danger" onclick="resetState()" title="Reset to Defaults">↺ Reset</button>
+      <button class="btn btn-ghost" onclick="exportState()" title="Export State">â¬‡ Export</button>
+      <button class="btn btn-danger" onclick="resetState()" title="Reset to Defaults">â†º Reset</button>
     </div>
   </div>
 </header>
 
-<!-- ─── STATS BAR ─── -->
+<!-- â”€â”€â”€ STATS BAR â”€â”€â”€ -->
 <div class="stats-bar" id="statsBar"></div>
 
-<!-- ─── BOARD ─── -->
+<!-- â”€â”€â”€ BOARD â”€â”€â”€ -->
 <div class="board" id="board">
   <div class="column" data-col="backlog">
     <div class="column-header">
-      <div class="column-icon">📋</div>
+      <div class="column-icon">ðŸ“‹</div>
       <span class="column-title">Backlog</span>
       <span class="column-count" id="count-backlog">0</span>
     </div>
@@ -610,7 +610,7 @@ body {
   </div>
   <div class="column" data-col="active">
     <div class="column-header">
-      <div class="column-icon">⚡</div>
+      <div class="column-icon">âš¡</div>
       <span class="column-title">Active Sprint</span>
       <span class="column-count" id="count-active">0</span>
     </div>
@@ -618,7 +618,7 @@ body {
   </div>
   <div class="column" data-col="docs">
     <div class="column-header">
-      <div class="column-icon">📝</div>
+      <div class="column-icon">ðŸ“</div>
       <span class="column-title">Documentation</span>
       <span class="column-count" id="count-docs">0</span>
     </div>
@@ -626,7 +626,7 @@ body {
   </div>
   <div class="column" data-col="complete">
     <div class="column-header">
-      <div class="column-icon">✅</div>
+      <div class="column-icon">âœ…</div>
       <span class="column-title">Complete</span>
       <span class="column-count" id="count-complete">0</span>
     </div>
@@ -634,12 +634,12 @@ body {
   </div>
 </div>
 
-<!-- ─── MODAL ─── -->
+<!-- â”€â”€â”€ MODAL â”€â”€â”€ -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal" id="modal">
     <div class="modal-top" id="modalTop">
       <div class="modal-top-accent" id="modalAccent"></div>
-      <button class="modal-close" id="modalClose" title="Close">✕</button>
+      <button class="modal-close" id="modalClose" title="Close">âœ•</button>
       <div class="modal-sprint-badge" id="modalBadge"></div>
       <div class="modal-title" id="modalTitle"></div>
       <div class="modal-desc" id="modalDesc"></div>
@@ -664,9 +664,9 @@ body {
   </div>
 </div>
 
-<!-- ─── ACTIVITY LOG ─── -->
+<!-- â”€â”€â”€ ACTIVITY LOG â”€â”€â”€ -->
 <button class="activity-toggle" id="activityToggle" title="Activity Log">
-  📜
+  ðŸ“œ
   <span class="activity-badge" id="activityBadge" style="display:none">0</span>
 </button>
 <div class="activity-panel" id="activityPanel">
@@ -679,11 +679,11 @@ body {
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
      JAVASCRIPT
-     ═══════════════════════════════════════════════════════════ -->
+     â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
 <script>
-/* ── DEFAULT SPRINT DATA ── */
+/* â”€â”€ DEFAULT SPRINT DATA â”€â”€ */
 const DEFAULT_SPRINTS = [
   {
     id:"s0", sprint:"Prerequisites", title:"ISO Downloads & Prep", column:"complete",
@@ -700,29 +700,29 @@ const DEFAULT_SPRINTS = [
       {text:"Create D:\\LabVMs folder", done:true},
       {text:"Create D:\\LabISOs folder", done:true}
     ],
-    guide:`Prerequisites — ISO Downloads & Prep
-══════════════════════════════════════
+    guide:`Prerequisites â€” ISO Downloads & Prep
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 Purpose: Gather all installation media before building the lab.
 
 Required ISOs:
-  • Windows Server 2022 Evaluation (from Microsoft Eval Center)
-  • Ubuntu 22.04 LTS Server (from ubuntu.com)
-  • pfSense CE (from pfsense.org/download)
-  • Windows 10/11 Evaluation (from Microsoft Eval Center)
-  • VirtualBox installer (from virtualbox.org)
+  â€¢ Windows Server 2022 Evaluation (from Microsoft Eval Center)
+  â€¢ Ubuntu 22.04 LTS Server (from ubuntu.com)
+  â€¢ pfSense CE (from pfsense.org/download)
+  â€¢ Windows 10/11 Evaluation (from Microsoft Eval Center)
+  â€¢ VirtualBox installer (from virtualbox.org)
 
 Storage Requirements:
-  • Minimum 240 GB free on D: drive
-  • D:\\LabVMs  — all VM disk images
-  • D:\\LabISOs — all ISO files
+  â€¢ Minimum 240 GB free on D: drive
+  â€¢ D:\\LabVMs  â€” all VM disk images
+  â€¢ D:\\LabISOs â€” all ISO files
 
 Verification:
-  ✓ Confirm each ISO file integrity (SHA-256)
-  ✓ Ensure VirtualBox installer matches OS architecture
-  ✓ Confirm D: drive has adequate free space`
+  âœ“ Confirm each ISO file integrity (SHA-256)
+  âœ“ Ensure VirtualBox installer matches OS architecture
+  âœ“ Confirm D: drive has adequate free space`
   },
   {
-    id:"s1", sprint:"Sprint 1", title:"Foundation — VirtualBox, pfSense & AD DS", column:"backlog",
+    id:"s1", sprint:"Sprint 1", title:"Foundation â€” VirtualBox, pfSense & AD DS", column:"backlog",
     color:"var(--sprint-1)",
     desc:"Install VirtualBox, configure pfSense firewall, deploy Windows Server 2022 with AD DS.",
     tags:["VirtualBox","pfSense","WinServer","AD DS","DNS","DHCP"], est:"4-5 hrs",
@@ -748,34 +748,34 @@ Verification:
       {text:"Document: Windows Server + AD DS guide", done:false},
       {text:"Screenshots captured for all steps", done:false}
     ],
-    guide:`Sprint 1 — Foundation Build
-══════════════════════════════════════
+    guide:`Sprint 1 â€” Foundation Build
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 Objective: Build the core infrastructure layer.
 
 Phase 1: Hypervisor Setup
-  → Install VirtualBox 7.x on the host machine
-  → Set default machine folder to D:\\LabVMs
-  → Install the Extension Pack for USB 3.0 / RDP support
+  â†’ Install VirtualBox 7.x on the host machine
+  â†’ Set default machine folder to D:\\LabVMs
+  â†’ Install the Extension Pack for USB 3.0 / RDP support
 
 Phase 2: pfSense Firewall
-  → Create VM: 512 MB RAM, 8 GB disk, 2 NICs
-  → NIC 1 (WAN): NAT adapter for internet
-  → NIC 2 (LAN): Internal Network "LabNet"
-  → LAN IP: 10.10.10.1/24
-  → Verify internet access from pfSense WebGUI
+  â†’ Create VM: 512 MB RAM, 8 GB disk, 2 NICs
+  â†’ NIC 1 (WAN): NAT adapter for internet
+  â†’ NIC 2 (LAN): Internal Network "LabNet"
+  â†’ LAN IP: 10.10.10.1/24
+  â†’ Verify internet access from pfSense WebGUI
 
 Phase 3: Windows Server 2022
-  → Create VM: 3 GB RAM, 40 GB disk, Internal Network
-  → Static IP: 10.10.10.10, Gateway: 10.10.10.1
-  → DNS: 127.0.0.1 (self, after AD DS)
-  → Install AD DS role → Promote → Domain: apex.local
-  → Configure DNS forward lookup zone
-  → Configure DHCP: scope 10.10.10.100 - 200
+  â†’ Create VM: 3 GB RAM, 40 GB disk, Internal Network
+  â†’ Static IP: 10.10.10.10, Gateway: 10.10.10.1
+  â†’ DNS: 127.0.0.1 (self, after AD DS)
+  â†’ Install AD DS role â†’ Promote â†’ Domain: apex.local
+  â†’ Configure DNS forward lookup zone
+  â†’ Configure DHCP: scope 10.10.10.100 - 200
 
 Documentation: 3 guides + screenshots for every step.`
   },
   {
-    id:"s2", sprint:"Sprint 2", title:"Linux Services — Apache, GLPI & BookStack", column:"backlog",
+    id:"s2", sprint:"Sprint 2", title:"Linux Services â€” Apache, GLPI & BookStack", column:"backlog",
     color:"var(--sprint-2)",
     desc:"Deploy Ubuntu Server with Apache, MariaDB, GLPI ticketing, and BookStack knowledge base.",
     tags:["Ubuntu","Apache","MariaDB","GLPI","BookStack"], est:"3-4 hrs",
@@ -797,33 +797,33 @@ Documentation: 3 guides + screenshots for every step.`
       {text:"Document: GLPI install + config guide", done:false},
       {text:"Document: BookStack install + config guide", done:false}
     ],
-    guide:`Sprint 2 — Linux Services
-══════════════════════════════════════
+    guide:`Sprint 2 â€” Linux Services
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 Objective: Deploy web-based IT service tools on Ubuntu.
 
 Phase 1: Ubuntu Server
-  → 2 GB RAM, 30 GB disk, Internal Network
-  → Static IP: 10.10.10.20
-  → DNS: 10.10.10.10 (AD DNS)
+  â†’ 2 GB RAM, 30 GB disk, Internal Network
+  â†’ Static IP: 10.10.10.20
+  â†’ DNS: 10.10.10.10 (AD DNS)
 
 Phase 2: LAMP Stack
-  → sudo apt install apache2 php php-mysql mariadb-server
-  → Secure MariaDB: mysql_secure_installation
+  â†’ sudo apt install apache2 php php-mysql mariadb-server
+  â†’ Secure MariaDB: mysql_secure_installation
 
 Phase 3: GLPI Ticketing System
-  → Create DB: glpi_db, User: glpi_user
-  → Download & install GLPI under /var/www/html/glpi
-  → Access: http://10.10.10.20/glpi
+  â†’ Create DB: glpi_db, User: glpi_user
+  â†’ Download & install GLPI under /var/www/html/glpi
+  â†’ Access: http://10.10.10.20/glpi
 
 Phase 4: BookStack Knowledge Base
-  → Create DB: bookstack_db, User: bookstack_user
-  → Clone & install BookStack under /var/www/html/bookstack
-  → Access: http://10.10.10.20/bookstack
+  â†’ Create DB: bookstack_db, User: bookstack_user
+  â†’ Clone & install BookStack under /var/www/html/bookstack
+  â†’ Access: http://10.10.10.20/bookstack
 
 Documentation: 4 guides covering each component.`
   },
   {
-    id:"s3", sprint:"Sprint 3", title:"Monitoring — Zabbix & Grafana", column:"backlog",
+    id:"s3", sprint:"Sprint 3", title:"Monitoring â€” Zabbix & Grafana", column:"backlog",
     color:"var(--sprint-3)",
     desc:"Deploy Zabbix monitoring server, Grafana dashboards, and agents across all VMs.",
     tags:["Zabbix","Grafana","SNMP","Monitoring"], est:"3-4 hrs",
@@ -845,34 +845,34 @@ Documentation: 4 guides covering each component.`
       {text:"Document: Zabbix setup guide", done:false},
       {text:"Document: Grafana dashboard guide", done:false}
     ],
-    guide:`Sprint 3 — Monitoring Stack
-══════════════════════════════════════
+    guide:`Sprint 3 â€” Monitoring Stack
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 Objective: Full-stack infrastructure monitoring.
 
 Phase 1: Zabbix Server
-  → Install on Ubuntu (apt or repo packages)
-  → Create zabbix DB in MariaDB
-  → Configure PHP frontend at /zabbix
+  â†’ Install on Ubuntu (apt or repo packages)
+  â†’ Create zabbix DB in MariaDB
+  â†’ Configure PHP frontend at /zabbix
 
 Phase 2: Zabbix Agents
-  → Ubuntu (local agent)
-  → Windows Server (MSI installer)
-  → Windows 10 Client (MSI installer)
-  → pfSense (SNMP service, not agent)
+  â†’ Ubuntu (local agent)
+  â†’ Windows Server (MSI installer)
+  â†’ Windows 10 Client (MSI installer)
+  â†’ pfSense (SNMP service, not agent)
 
 Phase 3: Grafana
-  → Install Grafana OSS on Ubuntu
-  → Add Zabbix plugin as data source
-  → Build infrastructure overview dashboard
+  â†’ Install Grafana OSS on Ubuntu
+  â†’ Add Zabbix plugin as data source
+  â†’ Build infrastructure overview dashboard
 
 Phase 4: Alerting
-  → Configure alert actions in Zabbix
-  → Test by stopping a monitored service
+  â†’ Configure alert actions in Zabbix
+  â†’ Test by stopping a monitored service
 
 Documentation: 2 guides covering Zabbix + Grafana.`
   },
   {
-    id:"s4", sprint:"Sprint 4", title:"Security & SIEM — Wazuh, OpenVAS & DVWA", column:"backlog",
+    id:"s4", sprint:"Sprint 4", title:"Security & SIEM â€” Wazuh, OpenVAS & DVWA", column:"backlog",
     color:"var(--sprint-4)",
     desc:"Deploy Wazuh SIEM, OpenVAS vulnerability scanner, and DVWA as a test target.",
     tags:["Wazuh","OpenVAS","DVWA","SIEM","Security"], est:"4-5 hrs",
@@ -893,30 +893,30 @@ Documentation: 2 guides covering Zabbix + Grafana.`
       {text:"Document: OpenVAS setup guide", done:false},
       {text:"Document: DVWA deployment guide", done:false}
     ],
-    guide:`Sprint 4 — Security & SIEM
-══════════════════════════════════════
+    guide:`Sprint 4 â€” Security & SIEM
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 Objective: Security monitoring, vulnerability assessment.
 
 Phase 1: Wazuh SIEM
-  → Install Wazuh Manager (all-in-one) on Ubuntu
-  → Deploy agents: Windows Server, Ubuntu, Win10
-  → Forward pfSense syslogs to Wazuh
-  → Verify log ingestion on Wazuh Dashboard
+  â†’ Install Wazuh Manager (all-in-one) on Ubuntu
+  â†’ Deploy agents: Windows Server, Ubuntu, Win10
+  â†’ Forward pfSense syslogs to Wazuh
+  â†’ Verify log ingestion on Wazuh Dashboard
 
 Phase 2: OpenVAS / Greenbone
-  → Install OpenVAS Community Edition
-  → Update NVT (Network Vulnerability Test) feeds
-  → This takes time — be patient!
+  â†’ Install OpenVAS Community Edition
+  â†’ Update NVT (Network Vulnerability Test) feeds
+  â†’ This takes time â€” be patient!
 
 Phase 3: DVWA (Damn Vulnerable Web App)
-  → Deploy DVWA as a scan target
-  → Run OpenVAS scans against DVWA and Win Server
-  → Review and analyze vulnerability reports
+  â†’ Deploy DVWA as a scan target
+  â†’ Run OpenVAS scans against DVWA and Win Server
+  â†’ Review and analyze vulnerability reports
 
 Documentation: 3 guides for Wazuh, OpenVAS, DVWA.`
   },
   {
-    id:"s5", sprint:"Sprint 5", title:"Network & Scanning — Nmap, Wireshark & Packet Tracer", column:"backlog",
+    id:"s5", sprint:"Sprint 5", title:"Network & Scanning â€” Nmap, Wireshark & Packet Tracer", column:"backlog",
     color:"var(--sprint-5)",
     desc:"Advanced networking labs with Nmap, Wireshark, pfSense rules, and Cisco Packet Tracer.",
     tags:["Nmap","Wireshark","pfSense Rules","Packet Tracer"], est:"2-3 hrs",
@@ -937,28 +937,28 @@ Documentation: 3 guides for Wazuh, OpenVAS, DVWA.`
       {text:"Document: Wireshark analysis guide", done:false},
       {text:"Document: pfSense firewall rules guide", done:false}
     ],
-    guide:`Sprint 5 — Network & Scanning
-══════════════════════════════════════
+    guide:`Sprint 5 â€” Network & Scanning
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 Objective: Hands-on networking and security scanning.
 
 Phase 1: Windows 10 Client
-  → 2 GB RAM, 30 GB disk, Internal Network
-  → Join to apex.local domain
-  → Verify Group Policy application (gpresult /r)
+  â†’ 2 GB RAM, 30 GB disk, Internal Network
+  â†’ Join to apex.local domain
+  â†’ Verify Group Policy application (gpresult /r)
 
 Phase 2: Network Scanning
-  → Install Nmap: nmap -sV 10.10.10.0/24
-  → Install Wireshark: capture LAN traffic
-  → Analyze protocols, identify hosts
+  â†’ Install Nmap: nmap -sV 10.10.10.0/24
+  â†’ Install Wireshark: capture LAN traffic
+  â†’ Analyze protocols, identify hosts
 
 Phase 3: Firewall Labs
-  → Create pfSense rules to block specific traffic
-  → Test and verify rule enforcement
-  → Document rule logic
+  â†’ Create pfSense rules to block specific traffic
+  â†’ Test and verify rule enforcement
+  â†’ Document rule logic
 
 Phase 4: Cisco Packet Tracer
-  → Build a sample enterprise topology
-  → Practice VLAN, routing, switch configs
+  â†’ Build a sample enterprise topology
+  â†’ Practice VLAN, routing, switch configs
 
 Documentation: 3 guides.`
   },
@@ -983,29 +983,29 @@ Documentation: 3 guides.`
       {text:"Document: OCS Inventory guide", done:false},
       {text:"Document: Veeam backup guide", done:false}
     ],
-    guide:`Sprint 6 — Remote Management & Backup
-══════════════════════════════════════
+    guide:`Sprint 6 â€” Remote Management & Backup
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 Objective: Centralized management and disaster recovery.
 
 Phase 1: MeshCentral
-  → Install on Ubuntu (Node.js based)
-  → Deploy agent on Win10 client
-  → Test remote desktop, terminal, file transfer
+  â†’ Install on Ubuntu (Node.js based)
+  â†’ Deploy agent on Win10 client
+  â†’ Test remote desktop, terminal, file transfer
 
 Phase 2: OCS Inventory
-  → Install OCS server on Ubuntu (Apache + Perl)
-  → Deploy agents on Windows Server & Win10
-  → Review auto-discovered asset inventory
+  â†’ Install OCS server on Ubuntu (Apache + Perl)
+  â†’ Deploy agents on Windows Server & Win10
+  â†’ Review auto-discovered asset inventory
 
 Phase 3: Veeam Community Edition
-  → Install on Windows Server
-  → Create backup job for a test VM
-  → Execute backup, then test a restore
+  â†’ Install on Windows Server
+  â†’ Create backup job for a test VM
+  â†’ Execute backup, then test a restore
 
 Documentation: 3 guides.`
   },
   {
-    id:"s7", sprint:"Sprint 7", title:"Cloud & Developer Tools — M365, Azure, Okta, Cloudflare", column:"backlog",
+    id:"s7", sprint:"Sprint 7", title:"Cloud & Developer Tools â€” M365, Azure, Okta, Cloudflare", column:"backlog",
     color:"var(--sprint-7)",
     desc:"Set up M365, Azure, ServiceNow. Configure Okta IAM & SSO. Publish via Cloudflare Tunnels & Custom Domain.",
     tags:["M365","Azure","ServiceNow","Okta","SSO","Cloudflare","DNS","Web Hosting"], est:"5-6 hrs",
@@ -1030,30 +1030,30 @@ Documentation: 3 guides.`
       {text:"Document: Okta SSO integration guide", done:false},
       {text:"Document: M365 & ServiceNow setup guide", done:false}
     ],
-    guide:`Sprint 7 — Cloud & Developer Tools
-══════════════════════════════════════
+    guide:`Sprint 7 â€” Cloud & Developer Tools
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 Objective: Integrate cloud services and developer tooling.
 
 Phase 1: Cloud Accounts
-  → M365 Developer Tenant (free 90-day)
-  → Azure Free Account ($200 credit)
-  → ServiceNow Developer Instance (free)
+  â†’ M365 Developer Tenant (free 90-day)
+  â†’ Azure Free Account ($200 credit)
+  â†’ ServiceNow Developer Instance (free)
 
 Phase 2: Custom Domain & Cloudflare
-  → Register a domain (Namecheap/Porkbun)
-  → Point nameservers to Cloudflare (free tier)
-  → Install cloudflared on Ubuntu
-  → Create tunnel to expose Apache services
+  â†’ Register a domain (Namecheap/Porkbun)
+  â†’ Point nameservers to Cloudflare (free tier)
+  â†’ Install cloudflared on Ubuntu
+  â†’ Create tunnel to expose Apache services
 
 Phase 3: Okta SSO
-  → Create Okta Developer account
-  → Create OIDC App Integration
-  → Integrate with BookStack for SSO login
-  → Test end-to-end authentication flow
+  â†’ Create Okta Developer account
+  â†’ Create OIDC App Integration
+  â†’ Integrate with BookStack for SSO login
+  â†’ Test end-to-end authentication flow
 
 Phase 4: Developer Tools
-  → VS Code + Git, Python 3, PuTTY, WinSCP
-  → Cisco Packet Tracer, Draw.io
+  â†’ VS Code + Git, Python 3, PuTTY, WinSCP
+  â†’ Cisco Packet Tracer, Draw.io
 
 Documentation: 3 guides.`
   },
@@ -1073,31 +1073,31 @@ Documentation: 3 guides.`
       {text:"Write troubleshooting runbook: Network connectivity", done:false},
       {text:"Create full deployment spec (Proxmox production)", done:false},
       {text:"Final review of all documentation", done:false},
-      {text:"Final git commit — project complete", done:false}
+      {text:"Final git commit â€” project complete", done:false}
     ],
-    guide:`Sprint 8 — Architecture & Final Documentation
-══════════════════════════════════════
-Objective: Capstone — diagrams, runbooks, production spec.
+    guide:`Sprint 8 â€” Architecture & Final Documentation
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+Objective: Capstone â€” diagrams, runbooks, production spec.
 
 Phase 1: Architecture Diagrams (Draw.io)
-  → Full network topology diagram
-  → Tool ecosystem dependency map
-  → Data flow: authentication, logs, metrics, tickets
+  â†’ Full network topology diagram
+  â†’ Tool ecosystem dependency map
+  â†’ Data flow: authentication, logs, metrics, tickets
 
 Phase 2: Troubleshooting Runbooks
-  → pfSense: connectivity, rules, NAT issues
-  → Active Directory: replication, DNS, GPO
-  → GLPI: DB connectivity, ticket routing
-  → Zabbix/Grafana: agent comms, data sources
-  → General network: ping, traceroute, DNS resolution
+  â†’ pfSense: connectivity, rules, NAT issues
+  â†’ Active Directory: replication, DNS, GPO
+  â†’ GLPI: DB connectivity, ticket routing
+  â†’ Zabbix/Grafana: agent comms, data sources
+  â†’ General network: ping, traceroute, DNS resolution
 
 Phase 3: Production Specification
-  → Full deployment spec for Proxmox / bare-metal
-  → Resource sizing, network design, HA considerations
+  â†’ Full deployment spec for Proxmox / bare-metal
+  â†’ Resource sizing, network design, HA considerations
 
 Phase 4: Final Review
-  → Review all documentation for completeness
-  → Final git commit — project complete! 🎉`
+  â†’ Review all documentation for completeness
+  â†’ Final git commit â€” project complete! ðŸŽ‰`
   }
 ];
 
@@ -1105,13 +1105,13 @@ const STORAGE_KEY = "mvl-kanban-state";
 const COLUMN_NAMES = {backlog:"Backlog", active:"Active Sprint", docs:"Documentation", complete:"Complete"};
 const COLUMN_IDS = ["backlog","active","docs","complete"];
 
-/* ── STATE ── */
+/* â”€â”€ STATE â”€â”€ */
 let sprints = [];
 let activityLog = [];
 let currentModalId = null;
 let unreadActivity = 0;
 
-/* ── INIT ── */
+/* â”€â”€ INIT â”€â”€ */
 function init() {
   loadState();
   renderBoard();
@@ -1123,7 +1123,7 @@ function init() {
   setupActivityPanel();
 }
 
-/* ── PERSISTENCE ── */
+/* â”€â”€ PERSISTENCE â”€â”€ */
 function loadState() {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
@@ -1177,7 +1177,7 @@ function exportState() {
   addActivity("State exported as JSON.");
 }
 
-/* ── RENDER ── */
+/* â”€â”€ RENDER â”€â”€ */
 function renderBoard() {
   COLUMN_IDS.forEach(col => {
     const body = document.getElementById(`col-${col}`);
@@ -1224,8 +1224,8 @@ function createCardEl(s, idx) {
       </div>
     </div>
     <div class="card-footer">
-      <span class="card-est">⏱ ${s.est}</span>
-      <button class="card-open-btn" data-id="${s.id}">Open ▸</button>
+      <span class="card-est">â± ${s.est}</span>
+      <button class="card-open-btn" data-id="${s.id}">Open â–¸</button>
     </div>
   `;
 
@@ -1256,7 +1256,7 @@ function resolveColor(cssVar) {
   return map[cssVar] || '#4f7cff';
 }
 
-/* ── STATS ── */
+/* â”€â”€ STATS â”€â”€ */
 function renderStats() {
   const bar = document.getElementById('statsBar');
   const counts = {};
@@ -1273,12 +1273,12 @@ function renderStats() {
       ${COLUMN_NAMES[c]}: <span class="stat-value">${counts[c]}</span>
     </div>`;
   });
-  html += `<div class="stat-chip">🔧 Tasks: <span class="stat-value">${doneTasks}/${totalTasks}</span></div>`;
-  html += `<div class="stat-chip">📊 Sprints: <span class="stat-value">${sprints.length}</span></div>`;
+  html += `<div class="stat-chip">ðŸ”§ Tasks: <span class="stat-value">${doneTasks}/${totalTasks}</span></div>`;
+  html += `<div class="stat-chip">ðŸ“Š Sprints: <span class="stat-value">${sprints.length}</span></div>`;
   bar.innerHTML = html;
 }
 
-/* ── PROGRESS ── */
+/* â”€â”€ PROGRESS â”€â”€ */
 function updateOverallProgress() {
   const totalTasks = sprints.reduce((a,s) => a + s.tasks.length, 0);
   const doneTasks = sprints.reduce((a,s) => a + s.tasks.filter(t=>t.done).length, 0);
@@ -1287,7 +1287,7 @@ function updateOverallProgress() {
   document.getElementById('overallFill').style.width = pct + '%';
 }
 
-/* ── DRAG & DROP ── */
+/* â”€â”€ DRAG & DROP â”€â”€ */
 function setupDragDrop() {
   const cols = document.querySelectorAll('.column-body');
   cols.forEach(col => {
@@ -1320,7 +1320,7 @@ function setupDragDrop() {
       if (sprint && sprint.column !== colId) {
         const oldCol = COLUMN_NAMES[sprint.column];
         sprint.column = colId;
-        addActivity(`Moved "${sprint.sprint}: ${sprint.title}" from ${oldCol} → ${COLUMN_NAMES[colId]}`);
+        addActivity(`Moved "${sprint.sprint}: ${sprint.title}" from ${oldCol} â†’ ${COLUMN_NAMES[colId]}`);
         saveState();
       }
       renderBoard();
@@ -1342,7 +1342,7 @@ function getDragAfterElement(container, y) {
   }, { offset: Number.NEGATIVE_INFINITY }).element;
 }
 
-/* ── MODAL ── */
+/* â”€â”€ MODAL â”€â”€ */
 function setupModal() {
   const overlay = document.getElementById('modalOverlay');
   const closeBtn = document.getElementById('modalClose');
@@ -1429,7 +1429,7 @@ function renderChecklist(s) {
     item.innerHTML = `
       <div class="checklist-cb-wrap">
         <input type="checkbox" class="checklist-cb" ${task.done ? 'checked' : ''} data-idx="${i}">
-        <div class="checklist-cb-visual">✓</div>
+        <div class="checklist-cb-visual">âœ“</div>
       </div>
       <span class="checklist-label">${task.text}</span>
     `;
@@ -1464,7 +1464,7 @@ function escapeHtml(str) {
   return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
-/* ── ACTIVITY LOG ── */
+/* â”€â”€ ACTIVITY LOG â”€â”€ */
 function setupActivityPanel() {
   const toggle = document.getElementById('activityToggle');
   const panel = document.getElementById('activityPanel');
@@ -1527,8 +1527,9 @@ function clearActivityLog() {
   renderActivityLog();
 }
 
-/* ── BOOT ── */
+/* â”€â”€ BOOT â”€â”€ */
 document.addEventListener('DOMContentLoaded', init);
 </script>
 </body>
 </html>
+
