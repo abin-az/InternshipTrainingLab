@@ -1,110 +1,97 @@
-# IT Internship Training Program — Revised Phase Framework
+# IT Internship Training Program — Simulated Enterprise Framework
 
-> **Version**: 2.0 | **Updated**: 2026-06-28
-> **Goal**: Build a zero-cost, enterprise-grade Minimum Viable Lab (MVL) on a single laptop using VirtualBox.
+> **Version**: 3.0 | **Updated**: 2026-07-03
+> **Pedagogy**: Simulated Enterprise Operations (Role-Based L1-L3)
+> **Goal**: Students act as newly hired IT staff managing a pre-built, production-grade corporate network hosted on a central Proxmox server.
 
 ---
 
 ## Program Overview
 
-This framework trains IT interns on real-world enterprise infrastructure by building a fully integrated lab environment from scratch. The program is divided into 8 sprints, each building on the previous one.
+This framework fundamentally shifts the internship from a "build-from-scratch" lab to a **"manage and troubleshoot"** production environment. 
+
+The instructors (Admins) will pre-build the entire corporate infrastructure on a central physical server. The 10 interns will be issued standard physical laptops, connect to the corporate network, and immediately begin resolving IT tickets and managing infrastructure, progressing from L1 Helpdesk to L3 Security Operations.
 
 ### Architecture Summary
-- **Hypervisor**: VirtualBox 7.x (Host: Windows 11 laptop)
-- **Network**: 10.10.10.0/24 (Internal network behind pfSense gateway)
-- **Storage**: D:\LabVMs\ (VMs), D:\LabISOs\ (ISOs)
-- **Domain**: apex.local (Active Directory)
 
-### VM Allocation
+#### 1. Core Datacenter (Admin-Built)
+- **Hypervisor**: Proxmox VE (Physical 1U/2U Server, e.g., Dell R630, 64GB RAM, 1TB SSD)
+- **Network**: Managed Gigabit Switch (Server + 10 Student Laptops)
+- **Domain**: `apex.local` (Active Directory)
 
-| VM | IP Address | RAM | Disk | Role |
-|---|---|---|---|---|
-| pfSense | 10.10.10.1 | 512 MB | 8 GB | Firewall / NAT Gateway |
-| Windows Server 2022 | 10.10.10.10 | 3 GB | 40 GB | DC, DNS, DHCP, GPO, WSUS, Veeam |
-| Ubuntu Server 22.04 | 10.10.10.20 | 2 GB | 30 GB | GLPI, BookStack, Zabbix, Grafana, Wazuh, OpenVAS |
-| Windows 10 Client | 10.10.10.100 | 2 GB | 30 GB | Domain-joined workstation |
+#### 2. Core Virtual Machines (Hosted on Proxmox)
+| VM | IP Address | Role |
+|---|---|---|
+| **pfSense** | 10.10.10.1 | Edge Firewall, NAT, VLAN Routing |
+| **Windows Server 2022** | 10.10.10.10 | Domain Controller (DC01), DNS, DHCP, WSUS, File Server |
+| **Ubuntu Server (App)** | 10.10.10.20 | Apache, MariaDB, GLPI (Ticketing), BookStack (Wiki) |
+| **Ubuntu Server (NMS)** | 10.10.10.30 | Zabbix (Monitoring), Wazuh (SIEM), OpenVAS (Scanning) |
 
----
-
-## Sprint Breakdown
-
-### Sprint 1 — Foundation (4-5 hrs)
-**Goal**: Set up the hypervisor, network gateway, and core Windows infrastructure.
-- Install VirtualBox 7.x with Extension Pack
-- Deploy pfSense VM as NAT gateway (WAN: NAT, LAN: 10.10.10.1/24)
-- Deploy Windows Server 2022 VM
-- Install AD DS, promote to DC (apex.local)
-- Configure DNS (forward lookup zone) and DHCP (10.10.10.100-200)
-
-### Sprint 2 — Linux Services (3-4 hrs)
-**Goal**: Deploy the Linux service hub with ticketing and knowledge base.
-- Deploy Ubuntu Server 22.04 VM (10.10.10.20)
-- Install Apache2, PHP, MariaDB (shared backend)
-- Install GLPI (IT Service Management / Ticketing)
-- Install BookStack (Knowledge Base / Wiki)
-
-### Sprint 3 — Monitoring (3-4 hrs)
-**Goal**: Build the monitoring and observability stack.
-- Install Zabbix Server on Ubuntu + agents on all VMs
-- Configure pfSense SNMP for Zabbix polling
-- Install Grafana, connect to Zabbix as data source
-- Build infrastructure dashboards and alert rules
-
-### Sprint 4 — Security & SIEM (4-5 hrs)
-**Goal**: Deploy the security operations stack.
-- Install Wazuh Manager (SIEM) + agents on all VMs
-- Configure pfSense syslog forwarding to Wazuh
-- Install OpenVAS/Greenbone (vulnerability scanner)
-- Deploy DVWA as a scan target
-
-### Sprint 5 — Network & Scanning (2-3 hrs)
-**Goal**: Hands-on network analysis and security scanning labs.
-- Deploy Windows 10 Client VM, join to apex.local
-- Install Nmap and Wireshark on Win10
-- Advanced pfSense firewall rule labs
-- Cisco Packet Tracer network design exercises
-
-### Sprint 6 — Remote Management & Backup (3-4 hrs)
-**Goal**: Enterprise remote management and disaster recovery.
-- Install MeshCentral (remote desktop gateway)
-- Install OCS Inventory (asset management)
-- Install Veeam CE on Windows Server (backup & restore)
-
-### Sprint 7 — Cloud & Developer Tools (5-6 hrs)
-**Goal**: Cloud identity, SSO, zero-trust networking, and developer tools.
-- Sign up for M365 Dev Tenant, Azure Free, ServiceNow Dev
-- Register custom domain + Cloudflare (Free Tier)
-- Configure Cloudflare Tunnel to expose local Apache
-- Set up Okta Developer Account
-- Configure Okta SSO (OIDC) for BookStack
-- Install desktop tools (VS Code, Git, Python, PuTTY, WinSCP, etc.)
-
-### Sprint 8 — Architecture & Final Documentation (3-4 hrs)
-**Goal**: Finalize all documentation and create production migration spec.
-- Create network architecture diagrams (Draw.io)
-- Create tool ecosystem dependency map
-- Write troubleshooting runbooks for each component
-- Create Proxmox production deployment specification
-- Final review and git commit
+#### 3. Student Endpoints
+- **Hardware**: 10x Refurbished Physical Laptops (e.g., i5, 8GB RAM, 256GB SSD)
+- **OS**: Windows 10/11 Pro
+- **Access**: Joined to the `apex.local` domain or accessing via VPN/Local Network.
 
 ---
 
-## Tool Stack Summary (33 Tools)
+## The Curriculum: Role-Based Sprints
 
-| Category | Tools |
-|---|---|
-| Virtualization | VirtualBox |
-| Networking | pfSense |
-| Core Server (Windows) | AD DS, DNS, DHCP, GPO, WSUS |
-| Core Server (Linux) | Ubuntu Server 22.04, Apache, MariaDB |
-| Ticketing / ITSM | GLPI |
-| Knowledge Base | BookStack |
-| Monitoring | Zabbix, Grafana |
-| SIEM / Logging | Wazuh |
-| Vulnerability Scanning | OpenVAS/Greenbone |
-| Security Testing | DVWA, Nmap, Wireshark |
-| Remote Management | MeshCentral, RustDesk |
-| Asset Management | OCS Inventory |
-| Backup | Veeam CE |
-| Cloud / Identity | M365, Azure, ServiceNow, Okta, Cloudflare |
-| Desktop Tools | VS Code, Git, Python, PuTTY, WinSCP, Sysinternals, Cisco Packet Tracer, Draw.io |
+The training is divided into 5 sprints simulating career progression in an enterprise IT department.
+
+### Sprint 1: L1 Helpdesk & Access Management
+**Role**: Junior IT Support Specialist
+**Focus**: User management, access control, and ticketing.
+- **Tasks**:
+  - Log into the GLPI ticketing system to claim incoming L1 tickets.
+  - Connect to the Domain Controller via RSAT or RDP.
+  - Reset simulated user passwords in Active Directory.
+  - Unlock user accounts and force password changes on next login.
+  - Add users to specific Security Groups (e.g., `HR_Access`, `IT_Admins`).
+  - Use MeshCentral/RDP to remotely troubleshoot a simulated Windows 10 client issue.
+
+### Sprint 2: L2 System Administration (Windows)
+**Role**: Systems Administrator
+**Focus**: Core infrastructure services and Group Policy.
+- **Tasks**:
+  - Manage DHCP scopes (e.g., adding IP exclusions and MAC reservations for printers).
+  - Add and modify DNS A-records and CNAMEs for new internal services.
+  - Create and deploy Group Policy Objects (GPOs) to map network drives and enforce wallpaper policies across the domain.
+  - Provision a new network File Share and assign strict NTFS permissions based on AD Security Groups.
+  - Approve and push a simulated Windows Update via WSUS.
+
+### Sprint 3: L2 Network & Linux Administration
+**Role**: Infrastructure Operations Engineer
+**Focus**: Linux server management and proactive monitoring.
+- **Tasks**:
+  - Connect via SSH (PuTTY) to the Ubuntu App Server.
+  - Troubleshoot and restart a crashed Apache/PHP service (`systemctl restart apache2`).
+  - Review Zabbix monitoring dashboards.
+  - Respond to a simulated high CPU/Memory or low disk space alert.
+  - Read Linux system logs (`/var/log/syslog` or `journalctl`) to identify why a service failed.
+
+### Sprint 4: L3 Security & Firewall Management
+**Role**: Network Security Engineer
+**Focus**: Perimeter defense and traffic routing.
+- **Tasks**:
+  - Log into the pfSense WebGUI.
+  - Review firewall logs to identify blocked traffic from a simulated internal threat.
+  - Create a new NAT Port Forwarding rule to securely expose a specific internal service (e.g., a web server) to an external IP.
+  - Create strict egress firewall rules to block a specific subnet from accessing the internet.
+
+### Sprint 5: L3 Security Operations (SOC)
+**Role**: SOC Analyst
+**Focus**: Vulnerability management and threat hunting.
+- **Tasks**:
+  - Investigate a simulated brute-force SSH login attempt using the Wazuh SIEM dashboard.
+  - Run an OpenVAS vulnerability scan against the Windows Server DC.
+  - Export the vulnerability report and write a brief remediation plan.
+  - Implement the remediation (e.g., disabling a vulnerable protocol or applying a patch).
+
+---
+
+## Instructor Notes
+
+To make this curriculum work, instructors must proactively generate "noise" and "tickets" in the environment:
+1. Use PowerShell scripts to randomly lock AD accounts or create fake users to trigger Sprint 1.
+2. Use Linux `stress` tools to spike CPU usage and trigger Zabbix alerts for Sprint 3.
+3. Use Kali Linux (or similar) to run nmap scans/hydra brute-force attacks against the servers to trigger Wazuh alerts for Sprint 5.
