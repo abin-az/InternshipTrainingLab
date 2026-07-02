@@ -35,8 +35,15 @@
 3. Locate the failed login alert in Wazuh and identify your laptop's source IP.
 
 ## P12: Vulnerability Lab
-**Tools**: OpenVAS / Greenbone, DVWA
+**Tools**: OpenVAS / Greenbone, DVWA, Kali Linux (Instructor Demo)
 **Scenario Lab**:
 1. Access the Damn Vulnerable Web App (DVWA) running in the isolated subnet.
-2. Use OpenVAS to launch a vulnerability scan against the DVWA IP.
-3. Export the PDF report and identify one High-severity vulnerability.
+2. Use OpenVAS to launch a vulnerability scan against the DVWA IP. Export the PDF report.
+3. **Instructor Demo**: The instructor will perform a controlled demonstration using Kali Linux to scan the DVWA target, showing students how attackers map networks, for awareness purposes only.
+
+---
+
+## 🏆 Phase 2 Assessment Checkpoint
+Before progressing to Phase 3, students must pass this structured evaluation:
+1. **Live Demonstration**: The student must share their screen, successfully capture an ICMP packet in Wireshark, and identify the Source and Destination IP addresses.
+2. **Log Identification**: The student must navigate the Wazuh dashboard and locate a specific simulated security alert (e.g., failed login) assigned by the instructor.

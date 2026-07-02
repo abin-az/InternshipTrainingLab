@@ -2,13 +2,58 @@
 
 > **Note:** This is the complete offline manual, aligned with the Management Evaluation & Tooling PDFs.
 
+---
+
 ## 1. Project Framework
 
-*(See `Revised_Phase_Framework.md` for the complete architectural view and 3-Phase breakdown).*
+*(See `Revised_Phase_Framework.md` for the complete architectural overview and 3-Phase breakdown).*
 
 ---
 
-## 2. Admin Setup & Prerequisites
+## 2. Lab Architecture & Design (P0)
+
+> **Objective**: Document the initial design, IP allocation, and server roles before beginning the instructor build.
+
+### 2.1 Architecture Topology
+
+```mermaid
+graph TD
+    Internet((Internet)) -->|WAN| pfSense[pfSense Firewall\nvmbr0]
+    pfSense -->|LAN: 10.10.10.0/24| Switch[Internal Proxmox vSwitch\nvmbr1]
+    
+    subgraph Proxmox VE Host [Physical Server]
+        Switch --> DC01[DC-WIN-01\nWindows Server 2022\nActive Directory, DNS, DHCP, WSUS]
+        Switch --> APP01[APP-UBU-01\nUbuntu 22.04\nGLPI, BookStack, MariaDB]
+        Switch --> NMS01[NMS-UBU-01\nUbuntu 22.04\nZabbix, Prometheus, Grafana, Wazuh]
+        Switch --> SEC01[SEC-UBU-01\nUbuntu 22.04\nOpenVAS, DVWA - Isolated]
+        Switch --> VEEAM[BKP-WIN-01\nWindows Server 2022\nVeeam Backup Server]
+    end
+
+    subgraph Physical Access [Student Desktops]
+        Switch --> Student1[Student Laptop 1\nDHCP Client]
+        Switch --> Student2[Student Laptop 2\nDHCP Client]
+    end
+```
+
+### 2.2 IP Allocation Plan
+
+| Role / Hostname | IP Address | Subnet | Gateway | DNS |
+| :--- | :--- | :--- | :--- | :--- |
+| **pfSense LAN (GW)** | 10.10.10.1 | /24 | - | - |
+| **DC-WIN-01 (AD/DNS)**| 10.10.10.10 | /24 | 10.10.10.1 | 127.0.0.1 |
+| **APP-UBU-01** | 10.10.10.20 | /24 | 10.10.10.1 | 10.10.10.10 |
+| **NMS-UBU-01** | 10.10.10.30 | /24 | 10.10.10.1 | 10.10.10.10 |
+| **SEC-UBU-01** | 10.10.10.40 | /24 | 10.10.10.1 | 10.10.10.10 |
+| **BKP-WIN-01** | 10.10.10.50 | /24 | 10.10.10.1 | 10.10.10.10 |
+| **DHCP Scope** | 10.10.10.100 - .200| /24 | 10.10.10.1 | 10.10.10.10 |
+
+### 2.3 Server Roles & Dependencies
+*   **MariaDB Database**: Hosted on `APP-UBU-01`. Acts as the shared backend dependency for GLPI and BookStack.
+*   **DNS Resolution**: All VMs and student laptops must point to `10.10.10.10` (DC-WIN-01) for DNS resolution to resolve domains like `glpi.apex.local`.
+
+---
+
+## 3. Admin Setup & Prerequisites
 
 ### P0 - P3: Instructor Admin Setup
 
@@ -58,7 +103,7 @@
 
 ---
 
-## 3. Phase 1: Support Fundamentals
+## 4. Phase 1: Support Fundamentals
 
 > **Objective**: Learn the core components of user identity, ticketing, and documentation.
 
@@ -81,8 +126,9 @@
 **Tools**: GLPI, BookStack, MariaDB
 **Scenario Lab**:
 1. Access the GLPI web interface at `http://APP01/glpi`.
-2. A user submits a ticket: "I cannot access my email." Claim the ticket, add a troubleshooting comment, and resolve it based on ITIL principles.
-3. Access BookStack at `http://APP01/bookstack`. Write a Standard Operating Procedure (SOP) on how to reset an AD password.
+2. A user submits a ticket: "I cannot access my email." Claim the ticket.
+3. **Soft Skills Integration**: Draft a professional, polite, and grammatically correct update to the end-user explaining the issue and the resolution steps. Paste this into the ticket before resolving it.
+4. Access BookStack at `http://APP01/bookstack`. Write a Standard Operating Procedure (SOP) on how to reset an AD password.
 
 ## P7: Asset and Endpoint Inventory
 **Tools**: OCS Inventory (integrated with GLPI)
@@ -93,7 +139,14 @@
 
 ---
 
-## 4. Phase 2: Network Monitoring & Security
+## 🏆 Phase 1 Assessment Checkpoint
+Before progressing to Phase 2, students must pass this structured evaluation:
+1. **Live Demonstration**: The student must share their screen and successfully reset an Active Directory user password while an instructor observes.
+2. **Documentation Review**: The instructor reviews the student's BookStack SOP and a sample GLPI ticket response for technical accuracy and soft-skill professionalism.
+
+---
+
+## 5. Phase 2: Network Monitoring & Security
 
 > **Objective**: Move from support into proactive operational thinking, packet analysis, and security visibility.
 
@@ -130,15 +183,22 @@
 3. Locate the failed login alert in Wazuh and identify your laptop's source IP.
 
 ## P12: Vulnerability Lab
-**Tools**: OpenVAS / Greenbone, DVWA
+**Tools**: OpenVAS / Greenbone, DVWA, Kali Linux (Instructor Demo)
 **Scenario Lab**:
 1. Access the Damn Vulnerable Web App (DVWA) running in the isolated subnet.
-2. Use OpenVAS to launch a vulnerability scan against the DVWA IP.
-3. Export the PDF report and identify one High-severity vulnerability.
+2. Use OpenVAS to launch a vulnerability scan against the DVWA IP. Export the PDF report.
+3. **Instructor Demo**: The instructor will perform a controlled demonstration using Kali Linux to scan the DVWA target, showing students how attackers map networks, for awareness purposes only.
 
 ---
 
-## 5. Phase 3: Advanced Administration & Automation
+## 🏆 Phase 2 Assessment Checkpoint
+Before progressing to Phase 3, students must pass this structured evaluation:
+1. **Live Demonstration**: The student must share their screen, successfully capture an ICMP packet in Wireshark, and identify the Source and Destination IP addresses.
+2. **Log Identification**: The student must navigate the Wazuh dashboard and locate a specific simulated security alert (e.g., failed login) assigned by the instructor.
+
+---
+
+## 6. Phase 3: Advanced Administration & Automation
 
 > **Objective**: Manage enterprise-scale workloads, implement disaster recovery, explore cloud computing, and automate routine tasks.
 
@@ -182,3 +242,28 @@
 **Tools**: Oracle VirtualBox
 **Scenario Lab**:
 - If required for homework, install VirtualBox on your physical laptop and deploy a lightweight Ubuntu server to practice Linux commands locally without requiring VPN access to the main lab network.
+
+---
+
+## 🏆 Phase 3 Assessment Checkpoint
+Before proceeding to the final Capstone, students must pass this structured evaluation:
+1. **Live Demonstration**: The student must successfully restore a file from a Veeam backup.
+2. **Script Execution**: The student must demonstrate their PowerShell or Python script working successfully against the live AD environment or network.
+
+---
+
+## 7. Capstone Project & Final Review
+
+> **Objective**: Consolidate all knowledge from Phases 1-3 into a final, comprehensive presentation and architecture review.
+
+## 1. Architecture Mapping (Draw.io)
+Students must use Draw.io to map out the entire IT environment they have been supporting. 
+*   **Requirements**: The diagram must include the pfSense firewall, the Active Directory server (DC01), the Ubuntu web servers, the Zabbix monitoring server, and the Veeam backup repository. It must accurately display the `10.10.10.0/24` IP addresses.
+
+## 2. Troubleshooting Runbook Creation
+Students must write a comprehensive Troubleshooting Runbook (in Markdown or BookStack) for a simulated "L1 to L3" crisis scenario.
+*   **Scenario**: "A user cannot log in, the website is down, and we suspect a failed hard drive on the web server."
+*   **Requirement**: The runbook must detail how to check Active Directory for lockouts (Phase 1), how to check Zabbix for server downtime (Phase 2), and how to initiate a Veeam restore for the web server (Phase 3).
+
+## 3. Final Presentation
+Students must present their Architecture Diagram and their Troubleshooting Runbook to the instructors. This tests their technical understanding and their professional soft skills.

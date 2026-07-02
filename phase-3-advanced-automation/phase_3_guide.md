@@ -42,3 +42,10 @@
 **Tools**: Oracle VirtualBox
 **Scenario Lab**:
 - If required for homework, install VirtualBox on your physical laptop and deploy a lightweight Ubuntu server to practice Linux commands locally without requiring VPN access to the main lab network.
+
+---
+
+## 🏆 Phase 3 Assessment Checkpoint
+Before proceeding to the final Capstone, students must pass this structured evaluation:
+1. **Live Demonstration**: The student must successfully restore a file from a Veeam backup.
+2. **Script Execution**: The student must demonstrate their PowerShell or Python script working successfully against the live AD environment or network.
