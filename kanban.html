@@ -686,17 +686,41 @@ body {
 /* ── DEFAULT SPRINT DATA ── */
 const DEFAULT_SPRINTS = [
   {
+    id:"s0", sprint:"Phase 0", title:"Admin Infrastructure Build", column:"complete",
+    color:"var(--sprint-0)",
+    desc:"Instructor pre-build: Proxmox, pfSense, Windows Server, and Ubuntu VMs.",
+    tags:["Proxmox","pfSense","Windows Server","Ubuntu"], est:"1-2 Days",
+    tasks:[
+      {text:"P0: Planning & IP Design", done:true},
+      {text:"P1: Install Proxmox VE", done:true},
+      {text:"P2: Deploy pfSense & Network", done:true},
+      {text:"P3: Deploy Core Windows & Linux Servers", done:true}
+    ],
+    guide:`Please refer to the Admin Setup Guide in the Master Runbook.`
+  },
+  {
+    id:"s0b", sprint:"Day Zero", title:"Intern Orientation & Basics", column:"backlog",
+    color:"var(--sprint-6)",
+    desc:"Deliver orientation, networking basics, and ITIL fundamentals to students.",
+    tags:["Orientation","ITIL","Networking"], est:"Day 1",
+    tasks:[
+      {text:"Deliver IT Environment Orientation", done:false},
+      {text:"Teach Basic Networking Concepts (IP/DNS/DHCP)", done:false},
+      {text:"Teach Simple ITIL/ITSM Basics", done:false}
+    ],
+    guide:`Please refer to the Day Zero Orientation in the Master Runbook.`
+  },
+  {
     id:"p1", sprint:"Phase 1", title:"Support Fundamentals", column:"backlog",
     color:"var(--sprint-1)",
-    desc:"Day Zero orientation, Basic Networking, Active Directory, GLPI, and BookStack.",
-    tags:["AD DS","GLPI","BookStack","ITIL"], est:"Week 1-2",
+    desc:"Active Directory access control, GLPI ticketing, and BookStack documentation.",
+    tags:["AD DS","GLPI","BookStack"], est:"Week 1-2",
     tasks:[
-      {text:"Deliver Day Zero Orientation", done:false},
-      {text:"Create AD Users and reset passwords (P4)", done:false},
-      {text:"Connect via PuTTY and WinSCP (P5)", done:false},
-      {text:"Resolve a ticket in GLPI (P6)", done:false},
-      {text:"Write an SOP in BookStack (P6)", done:false},
-      {text:"Inventory endpoint via OCS (P7)", done:false}
+      {text:"P4: AD Users and password resets", done:false},
+      {text:"P5: Connect via PuTTY and WinSCP", done:false},
+      {text:"P6: Resolve a ticket in GLPI", done:false},
+      {text:"P6: Write an SOP in BookStack", done:false},
+      {text:"P7: Inventory endpoint via OCS", done:false}
     ],
     guide:`Please refer to Phase 1 in the Master Runbook for full guided scenarios.`
   },
@@ -706,11 +730,11 @@ const DEFAULT_SPRINTS = [
     desc:"Packet analysis, live monitoring, log analysis, and safe vulnerability scanning.",
     tags:["Zabbix","Wazuh","Wireshark","OpenVAS"], est:"Week 3-4",
     tasks:[
-      {text:"Acknowledge Zabbix Alerts (P8)", done:false},
-      {text:"View Grafana Metrics (P9)", done:false},
-      {text:"Capture packets in Wireshark (P10)", done:false},
-      {text:"Track failed logins in Wazuh (P11)", done:false},
-      {text:"Run OpenVAS against DVWA (P12)", done:false}
+      {text:"P8: Acknowledge Zabbix Alerts", done:false},
+      {text:"P9: View Grafana Metrics", done:false},
+      {text:"P10: Capture packets in Wireshark", done:false},
+      {text:"P11: Track failed logins in Wazuh", done:false},
+      {text:"P12: Run OpenVAS against DVWA", done:false}
     ],
     guide:`Please refer to Phase 2 in the Master Runbook for full guided scenarios.`
   },
@@ -720,17 +744,29 @@ const DEFAULT_SPRINTS = [
     desc:"Disaster recovery, patch management, cloud, and script automation.",
     tags:["Veeam","WSUS","Azure","PowerShell"], est:"Week 5-6",
     tasks:[
-      {text:"Run Veeam Backup & Restore (P13)", done:false},
-      {text:"Approve WSUS Patches via GPO (P14)", done:false},
-      {text:"Remote support via MeshCentral (P15)", done:false},
-      {text:"Explore Entra ID & ServiceNow (P16)", done:false},
-      {text:"Automate AD users with PowerShell (P17)", done:false}
+      {text:"P13: Run Veeam Backup & Restore", done:false},
+      {text:"P14: Approve WSUS Patches via GPO", done:false},
+      {text:"P15: Remote support via MeshCentral", done:false},
+      {text:"P16: Explore Entra ID & ServiceNow", done:false},
+      {text:"P17: Automate AD users with PowerShell", done:false}
     ],
     guide:`Please refer to Phase 3 in the Master Runbook for full guided scenarios.`
+  },
+  {
+    id:"p4", sprint:"Capstone", title:"Final Project & Review", column:"backlog",
+    color:"var(--sprint-8)",
+    desc:"Final capstone project, architecture documentation, and review.",
+    tags:["Capstone","Architecture","Review"], est:"Week 7",
+    tasks:[
+      {text:"Map final architecture in Draw.io", done:false},
+      {text:"Write troubleshooting runbooks", done:false},
+      {text:"Present capstone project", done:false}
+    ],
+    guide:`Deliver capstone project based on Phase 1-3 learnings.`
   }
 ];
 
-const STORAGE_KEY = "mvl-kanban-state-v2";
+const STORAGE_KEY = "mvl-kanban-state-v3";
 const COLUMN_NAMES = {backlog:"Backlog", active:"Active Sprint", docs:"Documentation", complete:"Complete"};
 const COLUMN_IDS = ["backlog","active","docs","complete"];
 
