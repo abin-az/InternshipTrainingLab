@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Internship - Architecture Diagram</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --glass-bg: rgba(30, 41, 59, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --accent: #38bdf8;
+            --accent-glow: rgba(56, 189, 248, 0.4);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            
+            --node-fw: #ef4444; /* pfSense */
+            --node-win: #3b82f6; /* Windows */
+            --node-ubu: #eab308; /* Ubuntu */
+            --node-sec: #10b981; /* Security */
+        }
+
+        body {
+            margin: 0;
+            padding: 2rem;
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.15) 0px, transparent 50%);
+            color: var(--text-main);
+            font-family: 'Outfit', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-weight: 800;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-align: center;
+            background: linear-gradient(to right, #38bdf8, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+
+        .diagram-container {
+            width: 100%;
+            max-width: 1200px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 3rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            position: relative;
+        }
+
+        .network-zone {
+            border: 2px dashed var(--glass-border);
+            border-radius: 16px;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .network-zone::before {
+            content: attr(data-zone);
+            position: absolute;
+            top: -12px;
+            left: 24px;
+            background: var(--bg-dark);
+            padding: 0 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--accent);
+            border-radius: 4px;
+            border: 1px solid var(--accent);
+        }
+
+        .nodes-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+        }
+
+        .node {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            width: 220px;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            cursor: default;
+        }
+
+        .node::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--node-color, var(--accent));
+        }
+
+        .node:hover {
+            transform: translateY(-5px);
+            border-color: var(--node-color, var(--accent));
+            box-shadow: 0 10px 30px -10px var(--node-color, var(--accent));
+        }
+
+        .node-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 8px var(--node-color, var(--accent-glow)));
+        }
+
+        .node-title {
+            font-weight: 800;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .node-ip {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent);
+            font-size: 0.9rem;
+            background: rgba(56, 189, 248, 0.1);
+            padding: 4px 8px;
+            border-radius: 6px;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .node-roles {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* Line Connectors (Visual Only) */
+        .connector {
+            width: 4px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--node-fw), var(--accent));
+            margin: 0 auto;
+            border-radius: 2px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.3; }
+            50% { opacity: 1; box-shadow: 0 0 10px var(--accent); }
+            100% { opacity: 0.3; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>Ecosystem Architecture</h1>
+    <p class="subtitle">Interactive topology of the Simulated Enterprise Environment</p>
+
+    <div class="diagram-container">
+        
+        <!-- Edge / WAN -->
+        <div class="nodes-grid">
+            <div class="node" style="--node-color: var(--text-muted)">
+                <div class="node-icon">🌍</div>
+                <div class="node-title">INTERNET</div>
+                <div class="node-ip">Public IP</div>
+                <div class="node-roles">External Web Access</div>
+            </div>
+        </div>
+
+        <div class="connector"></div>
+
+        <!-- Firewall -->
+        <div class="nodes-grid">
+            <div class="node" style="--node-color: var(--node-fw)">
+                <div class="node-icon">🛡️</div>
+                <div class="node-title">pfSense</div>
+                <div class="node-ip">10.10.10.1</div>
+                <div class="node-roles">Gateway, NAT, Routing, VLANs</div>
+            </div>
+        </div>
+
+        <div class="connector"></div>
+
+        <!-- Internal LAN (Proxmox Virtual Switch) -->
+        <div class="network-zone" data-zone="Proxmox Internal LAN (10.10.10.0/24)">
+            <div class="nodes-grid">
+                
+                <div class="node" style="--node-color: var(--node-win)">
+                    <div class="node-icon">🪟</div>
+                    <div class="node-title">DC-WIN-01</div>
+                    <div class="node-ip">10.10.10.10</div>
+                    <div class="node-roles">Windows Server 2022<br>Active Directory, DNS, DHCP, WSUS</div>
+                </div>
+
+                <div class="node" style="--node-color: var(--node-ubu)">
+                    <div class="node-icon">🐧</div>
+                    <div class="node-title">APP-UBU-01</div>
+                    <div class="node-ip">10.10.10.20</div>
+                    <div class="node-roles">Ubuntu Server 22.04<br>GLPI, BookStack, MariaDB</div>
+                </div>
+
+                <div class="node" style="--node-color: var(--node-ubu)">
+                    <div class="node-icon">📊</div>
+                    <div class="node-title">NMS-UBU-01</div>
+                    <div class="node-ip">10.10.10.30</div>
+                    <div class="node-roles">Ubuntu Server 22.04<br>Zabbix, Prometheus, Grafana, Wazuh</div>
+                </div>
+
+                <div class="node" style="--node-color: var(--node-sec)">
+                    <div class="node-icon">🎯</div>
+                    <div class="node-title">SEC-UBU-01</div>
+                    <div class="node-ip">10.10.10.40</div>
+                    <div class="node-roles">Ubuntu Server 22.04<br>OpenVAS, DVWA (Isolated Target)</div>
+                </div>
+
+                <div class="node" style="--node-color: var(--node-win)">
+                    <div class="node-icon">💾</div>
+                    <div class="node-title">BKP-WIN-01</div>
+                    <div class="node-ip">10.10.10.50</div>
+                    <div class="node-roles">Windows Server 2022<br>Veeam Backup & Replication</div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Student Access Zone -->
+        <div class="network-zone" style="margin-top: 1rem; border-color: var(--accent)" data-zone="Physical Student Access (DHCP)">
+            <div class="nodes-grid">
+                <div class="node" style="--node-color: var(--text-main); width: 400px;">
+                    <div class="node-icon">💻</div>
+                    <div class="node-title">10x Student Laptops</div>
+                    <div class="node-ip">10.10.10.100 - .200</div>
+                    <div class="node-roles">Physical laptops connecting via physical switch.<br>Tools: Wireshark, VS Code, PuTTY, Web Browser.</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
