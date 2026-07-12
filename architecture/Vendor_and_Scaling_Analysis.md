@@ -14,6 +14,8 @@ We evaluated three potential setups for hosting our Proxmox hypervisor. The crit
 - **Hetzner Bare-Metal (Recommended)**: €35 to €50 / month (**~₹3,200 to ₹4,500/mo**) using the Hetzner Server Auction. (Zero setup fee).
 - **OVH Bare-Metal**: ~₹5,500 / month (Eco Rise series).
 - **Azure Cloud VM**: ~$560 / month (~₹46,000/mo) for a D16s_v5 instance.
+- **AWS Cloud EC2**: ~$367 / month (~₹30,000/mo) for an r5.2xlarge instance.
+- **Google Cloud (GCP)**: ~$380 / month (~₹31,000/mo) for an n2d-standard-16.
 
 ### Stage 2: First Cohort (10 Students)
 *The lab is fully operational with 10 students logging in concurrently to their own client machines alongside the core infrastructure (AD, GLPI, Zabbix).*
@@ -21,6 +23,8 @@ We evaluated three potential setups for hosting our Proxmox hypervisor. The crit
 - **Hetzner Bare-Metal (Recommended)**: €257.30 / month (**~₹23,000 / month**) for an AX102-1.
 - **OVH Bare-Metal**: ~$107 to $150 / month (~₹8,900 to ₹12,500/mo) on the Advance series.
 - **Azure Cloud VM**: ~$735 / month (~₹61,000/mo) for an E16s_v5 instance.
+- **AWS Cloud EC2**: ~$735 / month (~₹61,000/mo) for an r5.4xlarge instance.
+- **Google Cloud (GCP)**: ~$750 / month (~₹62,000/mo) for an n2d-standard-32.
 
 ### Stage 3: Scaling Up (30 Students)
 *Heavy parallel access. We need enough compute power so students do not experience lag while running Wazuh SIEM queries or Windows Updates.*
@@ -28,6 +32,8 @@ We evaluated three potential setups for hosting our Proxmox hypervisor. The crit
 - **Hetzner Bare-Metal (Recommended)**: €547.30 / month (**~₹49,000 / month**) for an AX102-2 or dual 128GB nodes.
 - **OVH Bare-Metal**: ~₹30,000 to ₹40,000/mo (High-Grade or Scale series).
 - **Azure Cloud VM**: ~$1,500+ / month (~₹1,25,000/mo).
+- **AWS Cloud EC2**: ~$1,471 / month (~₹1,22,000/mo) for an r5.8xlarge instance.
+- **Google Cloud (GCP)**: ~$1,500+ / month (~₹1,25,000/mo).
 
 ### Stage 4: Full Swing (50 Students)
 *Massive deployment. The environment runs 50+ Windows/Ubuntu clients simultaneously. Since Proxmox supports clustering, we simply rent additional bare-metal nodes and cluster them together seamlessly.*
@@ -35,6 +41,8 @@ We evaluated three potential setups for hosting our Proxmox hypervisor. The crit
 - **Hetzner Bare-Metal (Recommended)**: ~€800 to €1,000 / month (**~₹75,000 to ₹90,000/mo**) for a multi-node Proxmox cluster.
 - **OVH Bare-Metal**: ~₹1,20,000+ / month.
 - **Azure Cloud VM**: ~$3,000+ / month (~₹2,50,000+/mo).
+- **AWS Cloud EC2**: ~$2,200+ / month (~₹1,83,000+/mo).
+- **Google Cloud (GCP)**: ~$2,500+ / month (~₹2,07,000+/mo).
 
 **Decision Summary:** **Hetzner Bare-Metal** provides the most reliable performance specifically tuned for heavy nested virtualization at scale. Azure/AWS costs make a persistent 24/7 lab financially unsustainable. OVH is competitive at the low end but scales poorly compared to Hetzner's multi-node cluster pricing for 50 students.
 
