@@ -42,8 +42,9 @@ To provide a fully immersive, zero-local-install, simulated enterprise environme
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Cloud Bare-Metal over Local Server | Eliminates local UPS/AC costs, failover risks, and provides easy scaling. | — Pending |
+| Cloud Bare-Metal over Local Server | Eliminates local UPS/AC costs, failover risks, and provides easy scaling from ₹3.5K to ₹16K/month. | — Pending |
 | Virtualized pfSense | Saves ₹30,000+ on hardware firewall appliances while providing enterprise realism. | — Pending |
+| Shared Responsibility Security | Hetzner manages physical security; the Instructor MUST lock down pfSense to secure the raw public IP. | — Pending |
 
 ---
 *Last updated: 2026-07-12 after initialization*
