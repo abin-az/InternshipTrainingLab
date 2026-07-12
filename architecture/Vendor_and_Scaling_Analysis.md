@@ -66,4 +66,25 @@ When we rent a Bare-Metal server, we are renting raw physical hardware.
 - **VM Patching**: All internal servers (Active Directory, GLPI, Wazuh) are our responsibility to patch and monitor.
 - **Student Access**: Managing VPN or Guacamole access for students to securely reach the lab.
 
-**Conclusion:** The environment is entirely secure *if* we configure our virtual pfSense firewall correctly. The vendor handles the physical hardware; Think Polaris handles the logical security.
+---
+
+## 4. Cost-Cutting & Optimization Strategies
+
+To ensure Think Polaris achieves these enterprise-grade results at the absolute minimum cost, we will implement the following technical optimizations during deployment:
+
+### 1. Leverage Proxmox LXC (Linux Containers)
+Instead of deploying heavy, full Virtual Machines (KVMs) for every server, all Linux-based tools (Ubuntu, Zabbix, GLPI, Wazuh) will be deployed as lightweight LXC containers. This reduces RAM and CPU overhead by nearly **40%**, allowing more students to fit on a single, cheaper Hetzner node.
+
+### 2. Proxmox "Linked Clones" for Windows
+For student Windows 10 clients and Active Directory servers, we will build a single "Golden Image." Every student's VM will be a "Linked Clone" of this image. This means 50 Windows VMs will share the exact same base hard drive space, drastically reducing NVMe storage requirements and preventing the need to buy expensive storage upgrades.
+
+### 3. IPv4 NAT via pfSense (Save on IP Costs)
+Hetzner charges a monthly fee for every public IPv4 address. By routing the entire lab through our virtualized pfSense firewall, the entire 50-student environment will operate behind a single, €2/month public IPv4 address using Network Address Translation (NAT) and VPN tunnels.
+
+### 4. Hetzner Server Auction for Early Stages
+For Stage 1 and early Stage 2, we can source hardware from the **Hetzner Server Auction**. These servers have **zero upfront setup fees** (saving €49 to €129 immediately) and offer discounted monthly rates on slightly older, but perfectly capable, enterprise hardware.
+
+### 5. Elastic Off-Season Scaling
+Because Hetzner operates on month-to-month contracts, we will only rent the massive Stage 3/Stage 4 cluster nodes during the exact months the 30-50 student cohorts are active. During the off-season, we will migrate the Golden Images back to a single, cheap Stage 1 server and instantly cancel the expensive cluster nodes.
+
+**Conclusion:** The environment is entirely secure *if* we configure our virtual pfSense firewall correctly. The vendor handles the physical hardware; Think Polaris handles the logical security, and our virtualization strategies will maximize hardware efficiency.
