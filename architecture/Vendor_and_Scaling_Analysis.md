@@ -10,35 +10,35 @@ We evaluated three potential setups for hosting our Proxmox hypervisor. The crit
 
 | Feature / Requirement | Hetzner Bare-Metal (Selected) | OVH Bare-Metal (Alternative) | Azure / AWS (Cloud VMs) |
 |-----------------------|--------------------------------|-------------------------------|--------------------------|
-| **Compute / RAM** | 128GB to 256GB RAM standard. | 128GB RAM available but pricier. | Extorbitant cost for 128GB+ RAM. |
-| **Nested Virtualization** | **Fully Supported** (Type 1 Hypervisor) | **Fully Supported** (Type 1) | Requires specific costly instance types. |
-| **Pricing Model** | **Flat-Rate Monthly (~₹7,500/mo)** | Flat-Rate (~₹12,000/mo) | Pay-As-You-Go (~₹60,000+/mo for equivalent). |
-| **Bandwidth** | Unmetered (1Gbps) | Unmetered (500Mbps) | High egress costs for heavy traffic. |
+| **Compute / RAM** | 64GB to 256GB RAM standard. | 32GB to 128GB RAM standard. | Exorbitant cost for 128GB+ RAM. |
+| **Nested Virtualization** | **Fully Supported** (Type 1) | **Fully Supported** (Type 1) | Requires specific costly instance types. |
+| **64GB RAM Pricing** | **€97.30 (~₹8,800 / month)** | ~₹5,500 to ₹8,900 / month | ~$560 (~₹46,000 / month) |
+| **128GB RAM Pricing** | **€257.30 (~₹23,000 / month)** | ~$107+ (~₹8,900+ / month) | ~$735 (~₹61,000 / month) |
 
-**Decision:** **Hetzner Bare-Metal** is the undisputed winner for a lab environment. It provides massive compute resources for a predictable, flat monthly fee, whereas Azure/AWS would be financially unsustainable for running 20+ persistent virtual machines.
+**Decision:** **Hetzner Bare-Metal** provides the most reliable AMD Ryzen performance specifically tuned for heavy nested virtualization. OVH is cheaper for entry-level (Eco range) but scales poorer for modern CPUs. Azure (e.g., E16s_v5) costs over ₹61,000/month just for compute, making it financially unsustainable for a 24/7 lab.
 
 ---
 
-## 2. Budget Scaling Roadmap (Testing to 50 Students)
+## 2. Exact Budget Scaling Roadmap (Testing to 50 Students)
 
 The infrastructure budget will scale linearly based on the number of concurrent students interacting with the lab. Since Proxmox allows us to snapshot and migrate VMs easily, we can upgrade the underlying physical server without rebuilding the lab.
 
 ### Phase A: Initial Setup & Testing (1-2 Users)
 *Used by the Instructor/Architects to build the golden images and test the curriculum.*
-- **Configuration**: Hetzner AX42 (AMD Ryzen 5 7600, 64GB DDR5 RAM, 2x 512GB NVMe).
-- **Estimated Cost**: ~€46 / month (**~₹4,200 / month**)
+- **Configuration**: Hetzner AX42-1 (AMD Ryzen, 64GB RAM, NVMe).
+- **Exact Cost**: **€97.30 / month (~₹8,800 / month)** + €49 Setup Fee.
 - **Timeline**: Current setup phase.
 
 ### Phase B: First Cohort (10 Students)
 *The lab is fully operational with 10 students logging in concurrently to their own client machines.*
-- **Configuration**: Hetzner AX52 (AMD Ryzen 7 7700, 128GB DDR5 ECC RAM, 2x 1TB NVMe).
-- **Estimated Cost**: ~€79 / month (**~₹7,200 / month**)
+- **Configuration**: Hetzner AX102-1 (AMD Ryzen 9, 128GB ECC RAM, NVMe).
+- **Exact Cost**: **€257.30 / month (~₹23,000 / month)** + €129 Setup Fee.
 - **Timeline**: October / November.
 
 ### Phase C: Full Scale (30 to 50 Students)
 *Massive parallel access. The environment runs 50+ Windows/Ubuntu clients simultaneously alongside the core servers.*
-- **Configuration**: Hetzner AX102 (AMD Ryzen 9 7950X3D, 128GB DDR5 ECC RAM - *upgraded to 256GB if needed*, 2x 1.92TB NVMe).
-- **Estimated Cost**: ~€130 to €170 / month (**~₹12,000 to ₹16,000 / month**)
+- **Configuration**: Hetzner AX102-2 (AMD Ryzen 9, 256GB ECC RAM, larger NVMe storage) or dual AX102-1 servers.
+- **Exact Cost**: **€547.30 / month (~₹49,000 / month)**.
 - **Timeline**: Future expansion.
 
 ---
@@ -47,7 +47,7 @@ The infrastructure budget will scale linearly based on the number of concurrent 
 
 A common misconception is that a Bare-Metal Cloud provider (like Hetzner or OVH) manages software security in the same way Azure or AWS manages a PaaS database. **This is false.**
 
-When we rent a Bare-Metal server, we are renting physical hardware. 
+When we rent a Bare-Metal server, we are renting raw physical hardware. 
 
 ### What Hetzner Manages (The Physical Layer)
 - Physical Data Center security (locks, cameras, guards).
