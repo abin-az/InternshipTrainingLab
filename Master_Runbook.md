@@ -1,4 +1,4 @@
-# IT Internship Training Program - Master Runbook
+# Think Polaris IT Internship Training Program - Master Runbook
 
 > **Note:** This is the complete offline manual, aligned with the Management Evaluation & Tooling PDFs.
 

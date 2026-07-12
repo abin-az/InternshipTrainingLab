@@ -1,4 +1,4 @@
-# IT Internship Training Program - Core Rules
+# Think Polaris IT Internship Training Program - Core Rules
 
 These rules must be strictly followed when generating documentation, suggesting changes, or modifying the lab architecture. They are derived from the official Management Phase Evaluation and Tooling PDFs.
 

@@ -1,4 +1,4 @@
-# 🏗️ IT Internship Training Program — Ecosystem Architecture Map
+# 🏗️ Think Polaris IT Internship Training Program — Ecosystem Architecture Map
 
 > **Purpose**: Maps how every tool in the Minimum Viable Lab interconnects as a unified ecosystem.
 > **Audience**: Someone building this lab on a laptop (VirtualBox, 12 GB RAM, D: drive for VMs).

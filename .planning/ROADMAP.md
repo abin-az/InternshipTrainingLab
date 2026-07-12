@@ -1,6 +1,6 @@
 # Roadmap
 
-This roadmap formalizes the sequence of the IT Internship Training Program phases.
+This roadmap formalizes the sequence of the Think Polaris IT Internship Training Program phases.
 
 ## Phase 1: Support Fundamentals (L1/L2)
 *Focus: Identity, Access, and Ticketing.*

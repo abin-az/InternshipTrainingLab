@@ -1,5 +1,5 @@
 # Infrastructure Cost & High Availability Analysis
-**IT Internship Training Program**
+**Think Polaris IT Internship Training Program**
 
 > **Goal:** Compare the Total Cost of Ownership (TCO) and High Availability for running the Internship Training Lab across physical and cloud architectures. (Estimated in INR).
 

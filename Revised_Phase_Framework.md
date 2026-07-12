@@ -1,4 +1,4 @@
-# IT Internship Training Program — Revised Phase Framework
+# Think Polaris IT Internship Training Program — Revised Phase Framework
 
 > **Version**: 4.0 | **Updated**: 2026-07-03
 > **Alignment**: Strictly aligned with Management Internship Evaluation & Tooling PDFs.

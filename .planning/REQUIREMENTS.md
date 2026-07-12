@@ -11,6 +11,7 @@ Formalize the existing IT Internship curriculum and architecture into a trackabl
 ## Non-Functional Requirements
 - **Performance**: The server must support 10 concurrent student sessions initially, scaling up to 50 in the future.
 - **Cost Efficiency**: Local physical infrastructure (UPS, heavy firewalls) must be eliminated in favor of a flat-rate Hetzner cloud server.
+- **Branding**: All curriculum documents, HTML dashboards, and communications must be officially branded as "Think Polaris".
 
 ## Definition of Done
 - Existing 4-phase curriculum is fully represented in the GSD planning structure.

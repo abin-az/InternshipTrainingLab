@@ -1,8 +1,8 @@
-# IT Internship Training Program
+# Think Polaris IT Internship Training Program
 
 ## What This Is
 
-A 3-Phase Enterprise IT Internship Training Program curriculum and architecture repository. It simulates a realistic enterprise IT environment (using Proxmox VE or Hetzner Bare-Metal) so students can learn Level 1, 2, and 3 IT Support and Security skills without installing heavy software locally.
+The **Think Polaris** 3-Phase Enterprise Think Polaris IT Internship Training Program curriculum and architecture repository. It simulates a realistic enterprise IT environment (using Proxmox VE or Hetzner Bare-Metal) so Think Polaris interns can learn Level 1, 2, and 3 IT Support and Security skills without installing heavy software locally.
 
 ## Core Value
 
