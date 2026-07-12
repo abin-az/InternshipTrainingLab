@@ -711,7 +711,12 @@ const DEFAULT_SPRINTS = [
     guide:`Please refer to the Day Zero Orientation in the Master Runbook.`
   },
   {
-    id:"p1", sprint:"Phase 1", title:"Support Fundamentals", column:"backlog",
+    id:"p1_vendor", sprint:"Phase 1", title:"Vendor Selection & Analysis", column:"complete",
+    description:"Finalize Hetzner Bare-Metal and outline Scaling costs for management.",
+    guide:`Phase 1 Complete. Vendor selected: Hetzner. Scaling cost from ?4.2k to ?16k mapped.`
+  },
+  {
+    id:"p2", sprint:"Phase 2", title:"Support Fundamentals", column:"backlog",
     color:"var(--sprint-1)",
     desc:"Active Directory access control, GLPI ticketing, and BookStack documentation.",
     tags:["AD DS","GLPI","BookStack"], est:"Week 1-2",
@@ -725,7 +730,7 @@ const DEFAULT_SPRINTS = [
     guide:`Please refer to Phase 1 in the Master Runbook for full guided scenarios.`
   },
   {
-    id:"p2", sprint:"Phase 2", title:"Network Monitoring & Security", column:"backlog",
+    id:"p2", sprint:"Phase 3", title:"Network Monitoring & Security", column:"backlog",
     color:"var(--sprint-2)",
     desc:"Packet analysis, live monitoring, log analysis, and safe vulnerability scanning.",
     tags:["Zabbix","Wazuh","Wireshark","OpenVAS"], est:"Week 3-4",
@@ -739,7 +744,7 @@ const DEFAULT_SPRINTS = [
     guide:`Please refer to Phase 2 in the Master Runbook for full guided scenarios.`
   },
   {
-    id:"p3", sprint:"Phase 3", title:"Advanced Admin & Automation", column:"backlog",
+    id:"p3", sprint:"Phase 4", title:"Advanced Admin & Automation", column:"backlog",
     color:"var(--sprint-3)",
     desc:"Disaster recovery, patch management, cloud, and script automation.",
     tags:["Veeam","WSUS","Azure","PowerShell"], est:"Week 5-6",
