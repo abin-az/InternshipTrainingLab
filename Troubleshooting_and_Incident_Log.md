@@ -90,3 +90,13 @@
   EOF
   ```
   Verified resolution via `ping -c 2 google.com` (0% packet loss).
+
+---
+
+### [INC-008] pfSense Download Mirror Hostname Deprecation
+- **Component**: Netgate ISO Mirror Repository.
+- **Symptom**: `wget https://nyifiles.netgate.com/...` failed with `Name or service not known`.
+- **Root Cause**: Netgate retired the New York mirror (`nyifiles.netgate.com`) in favor of the active Austin mirror (`atxfiles.netgate.com`).
+- **Resolution**:
+  Used the active official direct mirror URL:
+  `https://atxfiles.netgate.com/mirror/downloads/pfSense-CE-2.7.2-RELEASE-amd64.iso.gz`
