@@ -75,3 +75,18 @@
   1. Created isolated internal virtual bridge `vmbr1` (no physical ports, manual IP).
   2. All lab VMs are bound strictly to `vmbr1` on `10.10.10.0/24`.
   3. pfSense WAN is attached to `vmbr0` with DHCP client, making the entire physical server 100% portable with zero internal reconfiguration on migration.
+
+---
+
+### [INC-007] Proxmox Host DNS Resolution Failure
+- **Component**: Proxmox VE Host Network / `/etc/resolv.conf`.
+- **Symptom**: `wget` and `apt` failed with `Name or service not known` / `unable to resolve host address`.
+- **Root Cause**: The local gateway `192.168.29.1` was not proxying upstream DNS queries properly.
+- **Resolution**:
+  ```bash
+  cat << 'EOF' > /etc/resolv.conf
+  nameserver 1.1.1.1
+  nameserver 8.8.8.8
+  EOF
+  ```
+  Verified resolution via `ping -c 2 google.com` (0% packet loss).
