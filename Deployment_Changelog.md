@@ -42,3 +42,6 @@
   - Silent Launcher: `scripts/windows_host/launch-omniroute-silent.vbs`.
   - Windows Autostart: Installed to `C:\Users\abinu\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\Launch-OmniRoute.vbs`.
   - Verification: Listening on `0.0.0.0:20128` (PID: 11124).
+- **Base Linux & VirtIO ISOs Verified**:
+  - `ubuntu-22.04.5-live-server-amd64.iso` (2.0 GB) verified in `/var/lib/vz/template/iso/`.
+  - `virtio-win.iso` (837 MB) verified in `/var/lib/vz/template/iso/`.
