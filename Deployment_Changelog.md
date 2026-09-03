@@ -37,3 +37,8 @@
 - **pfSense WAN Interface Verified**: `vtnet0` received dynamic WAN DHCP lease `192.168.29.47/24` from physical router on `vmbr0`.
 - **pfSense LAN & DHCP Configured**: LAN set to `10.10.10.1/24` on `vmbr1`; DHCP scope configured for `10.10.10.100 - 10.10.10.200`; WebConfigurator active on `https://10.10.10.1/`.
 - **Module P2 Complete**: pfSense Core Lab Network and Firewall Router deployed and operational.
+- **OmniRoute Standalone Background Service & Autostart Configured**:
+  - Service Script: `scripts/windows_host/start-omniroute-service.ps1`.
+  - Silent Launcher: `scripts/windows_host/launch-omniroute-silent.vbs`.
+  - Windows Autostart: Installed to `C:\Users\abinu\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\Launch-OmniRoute.vbs`.
+  - Verification: Listening on `0.0.0.0:20128` (PID: 11124).
