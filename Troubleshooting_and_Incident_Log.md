@@ -132,3 +132,34 @@
 - **Resolution**:
   - **Option 1**: Use noVNC slide-out left sidebar (`>`) clipboard tool to inject text.
   - **Option 2**: Use native Windows Server Manager GUI wizard (**Add Roles and Features > Active Directory Domain Services > Promote to Domain Controller > Add New Forest: `thinkpolaris.local`**).
+
+---
+
+### [INC-012] Complete Guide to Host-to-VM Clipboard & Remote Administration
+- **Component**: Hypervisor Management & VM Administration.
+- **Problem**: How to paste commands, scripts, and configuration blocks from a physical administrator laptop into Proxmox VMs without manual typing.
+- **Solutions & Industry Standard Workflows**:
+
+#### 1. Built-in noVNC Clipboard Bridge (Web Console)
+1. In the Proxmox VM Console window, hover over the **far left edge of the screen** and click the small **`>`** pull-out tab.
+2. Click the **Clipboard icon (📋)**.
+3. Paste text into the noVNC clipboard text area.
+4. Click inside the guest OS terminal and press **`Ctrl + V`** (or right-click).
+
+#### 2. Native Windows Remote Desktop (RDP - `mstsc.exe`)
+- **Enterprise Standard for Windows VMs**: Enable Remote Desktop in Windows Settings.
+- Open `mstsc.exe` on physical laptop > connect to `10.10.10.10`.
+- Native bidirectional clipboard is enabled automatically.
+
+#### 3. Native SSH / Terminal Remoting (For Linux & Windows)
+- Open PowerShell / Terminal on physical laptop:
+  ```bash
+  ssh administrator@10.10.10.20
+  ```
+- Instant copy-paste and script streaming.
+
+#### 4. QEMU Guest Agent Remote Execution (`qm guest exec`)
+- Execute scripts inside any guest VM directly from the Proxmox Node Shell:
+  ```bash
+  qm guest exec 101 -- powershell.exe -Command "Get-Service"
+  ```
