@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env bash
+#!/usr/bin/env bash
 # 02_provision_dc_win2022_vm101.sh
 # Provisions VM 101: DC-WIN-01 (Active Directory, DNS, DHCP, WSUS)
 
@@ -21,12 +21,16 @@ qm create "$VMID" \
   --ostype win11 \
   --scsihw virtio-scsi-single \
   --scsi0 local-zfs:60,discard=on \
+  --cdrom local:iso/Windows_Server_2022.iso \
   --ide0 local:iso/virtio-win.iso,media=cdrom \
-  --boot "order=scsi0;ide2;net0" \
+  --boot "order=ide2;scsi0;net0" \
   --net0 virtio,bridge=vmbr1,firewall=0 \
   --onboot 1 \
   --startup order=2 \
   --agent 1 \
   --description "Think Polaris Primary Domain Controller (Windows Server 2022: AD, DNS, DHCP, WSUS - 10.10.10.10)"
 
-echo "==> VM $VMID ($VMNAME) created successfully."
+echo "==> Starting VM $VMID ($VMNAME)..."
+qm start "$VMID"
+
+echo "==> VM $VMID ($VMNAME) provisioned and started successfully."
