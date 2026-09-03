@@ -202,3 +202,17 @@
   1. Log into Windows Server on `DC-WIN-01` (`THINKPOLARIS\Administrator`).
   2. Open Explorer > `CD Drive (E:) virtio-win` > run `virtio-win-gt-x64.exe` (or `guest-agent\qemu-ga-x86_64.msi`).
   3. Ensure the `QEMU Guest Agent` service is running in `services.msc`.
+
+---
+
+### [INC-015] Proxmox Host Inter-Bridge Routing to `vmbr1` (`10.10.10.0/24`)
+- **Component**: Hypervisor Host Networking / `vmbr1`.
+- **Symptom**: Proxmox Node Shell cannot directly `ping` or `ssh` into internal VMs (`10.10.10.20`) if `vmbr1` has no IP bound to the host interface.
+- **Root Cause**: `vmbr1` was configured as `inet manual` for strict VM isolation, meaning the host kernel did not participate in the `10.10.10.0/24` routing table.
+- **Resolution / Prerequisite Step**:
+  Assign a host lab management IP (`10.10.10.254/24`) to `vmbr1`:
+  ```bash
+  ip addr add 10.10.10.254/24 dev vmbr1 2>/dev/null || true
+  ping -c 2 10.10.10.20
+  ```
+  This allows instant, seamless SSH and script management from the Proxmox shell directly into all Linux VMs without exposing them to the external physical network.
