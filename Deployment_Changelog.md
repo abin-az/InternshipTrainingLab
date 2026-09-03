@@ -32,3 +32,4 @@
 - `BKP-WIN-01` (Windows Server 2022 - Veeam Backup & Replication): `10.10.10.50/24` on `vmbr1`.
 - **Bridge Verification**: `vmbr1` verified active via `ip link show vmbr1` (state `UP`/`UNKNOWN`, MAC `3e:d6:e1:36:ef:5e`).
 - **pfSense 2.7.2 ISO Download**: Downloaded and verified `pfSense-CE-2.7.2-RELEASE-amd64.iso` (835MB) in `/var/lib/vz/template/iso/`.
+- **VM 100 (FW-PFSENSE-01) Provisioned**: 2 Cores, 2048MB Fixed RAM, 20GB ZFS SCSI disk (`local-zfs`), `net0` on `vmbr0` (WAN uplink), `net1` on `vmbr1` (Internal Lab LAN `10.10.10.0/24`), autostart order 1.
