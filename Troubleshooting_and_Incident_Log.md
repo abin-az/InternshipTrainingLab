@@ -122,3 +122,13 @@
   2. Open Explorer > `CD Drive (E:) virtio-win`.
   3. Run `virtio-win-gt-x64.exe` to install the `QEMU-GA` service and `BLN` ballooning driver.
   4. Once the service starts, Proxmox receives real-time telemetry from inside the OS, memory usage display drops to true value (~30-40%), and the VM's static IP is displayed in the GUI.
+
+---
+
+### [INC-011] Proxmox noVNC Clipboard Limitation & GUI Alternative
+- **Component**: Proxmox VE Web Console (noVNC).
+- **Symptom**: Pressing `Ctrl + V` inside the browser noVNC canvas does not paste clipboard text from the host into Windows PowerShell.
+- **Root Cause**: Web browser security prevents raw JavaScript clipboard injection into the virtual canvas without using the noVNC clipboard bridge or RDP/SSH.
+- **Resolution**:
+  - **Option 1**: Use noVNC slide-out left sidebar (`>`) clipboard tool to inject text.
+  - **Option 2**: Use native Windows Server Manager GUI wizard (**Add Roles and Features > Active Directory Domain Services > Promote to Domain Controller > Add New Forest: `thinkpolaris.local`**).
