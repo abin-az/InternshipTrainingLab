@@ -35,3 +35,5 @@
 - **VM 100 (FW-PFSENSE-01) Provisioned**: 2 Cores, 2048MB Fixed RAM, 20GB ZFS SCSI disk (`local-zfs`), `net0` on `vmbr0` (WAN uplink), `net1` on `vmbr1` (Internal Lab LAN `10.10.10.0/24`), autostart order 1.
 - **pfSense Base OS Installed**: Completed ZFS filesystem formatting and FreeBSD system extraction on `da0` (SCSI 0).
 - **pfSense WAN Interface Verified**: `vtnet0` received dynamic WAN DHCP lease `192.168.29.47/24` from physical router on `vmbr0`.
+- **pfSense LAN & DHCP Configured**: LAN set to `10.10.10.1/24` on `vmbr1`; DHCP scope configured for `10.10.10.100 - 10.10.10.200`; WebConfigurator active on `https://10.10.10.1/`.
+- **Module P2 Complete**: pfSense Core Lab Network and Firewall Router deployed and operational.
