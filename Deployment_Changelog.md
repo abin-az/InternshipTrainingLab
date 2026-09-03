@@ -71,3 +71,10 @@
 - **Phase 1: Project P4 Active Directory Scripts Configured**:
   - Organizational Units & Security Groups: `scripts/02_service_configs/active_directory/01_setup_ad_structure.ps1`.
   - User Provisioning & Intern Accounts: `scripts/02_service_configs/active_directory/02_create_sample_users.ps1`.
+- **Project P4 Active Directory Hierarchy & DNS Deployed**:
+  - Root OU: `OU=ThinkPolaris,DC=thinkpolaris,DC=local`.
+  - Department OUs: Executive, Finance, Human Resources, Information Technology, Operations.
+  - Security Groups: `SG-IT-Admins`, `SG-Finance-Staff`, `SG-HR-Staff`, `SG-Interns`.
+  - DNS Forwarders: Configured upstream to `1.1.1.1` and `8.8.8.8`.
+  - Reverse DNS Zone: `10.10.10.0/24` subnet reverse zone created.
+  - Verification: Automated guest execution returned exitcode 0.
