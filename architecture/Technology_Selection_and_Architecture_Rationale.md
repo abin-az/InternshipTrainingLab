@@ -33,7 +33,7 @@ graph TD
    - Active Directory manages centralized authentication across enterprise objects (users, computers, service accounts).
    - Interns must learn real-world Active Directory administration: Organization Units (OUs), Group Policy Objects (GPOs), Kerberos ticket granting, and password lifecycle policies.
 2. **Authoritative Name Resolution & Dynamic DHCP**:
-   - `DC-WIN-01` serves as the authoritative internal DNS server for `*.apex.local`, allowing dynamic DNS registration when student laptops and Linux servers join the network.
+   - `DC-WIN-01` serves as the authoritative internal DNS server for `*.thinkpolaris.local`, allowing dynamic DNS registration when student laptops and Linux servers join the network.
 3. **Enterprise Patch Management (WSUS)**:
    - Microsoft WSUS provides centralized approval and scheduling of Windows security updates via GPO.
 4. **Veeam Backup & Replication Compatibility**:
@@ -64,7 +64,7 @@ graph TD
 | VM ID | Hostname | OS Platform | vCPU | RAM | Disk | Primary Services & Tooling | Architectural Justification |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **100** | `FW-PFSENSE-01` | FreeBSD / pfSense 2.7.2 | 2 | 2 GB | 20 GB | pfSense Firewall, NAT, DHCP, SPI Gateway | Single boundary between external network (`vmbr0`) and isolated lab LAN (`vmbr1`). |
-| **101** | `DC-WIN-01` | Windows Server 2022 | 2 | 4 GB | 60 GB | Active Directory (AD DS), DNS (`10.10.10.10`), DHCP, WSUS | Central identity provider and name resolution authority for `apex.local`. |
+| **101** | `DC-WIN-01` | Windows Server 2022 | 2 | 4 GB | 60 GB | Active Directory (AD DS), DNS (`10.10.10.10`), DHCP, WSUS | Central identity provider and name resolution authority for `thinkpolaris.local`. |
 | **102** | `APP-UBU-01` | Ubuntu 22.04 LTS | 2 | 4 GB | 40 GB | MariaDB 10.6, GLPI 10.0, BookStack, PHP 8.1, Apache2 | Central IT service desk ticketing and standard operating procedure (SOP) documentation. |
 | **103** | `NMS-UBU-01` | Ubuntu 22.04 LTS | 4 | 8 GB | 60 GB | Zabbix Server 6.4, Prometheus, Grafana, Wazuh SIEM Manager | Unified Network Management Station, telemetry metrics collection, and security monitoring. |
 | **104** | `SEC-UBU-01` | Ubuntu 22.04 LTS | 2 | 4 GB | 40 GB | Greenbone / OpenVAS Vulnerability Scanner, Docker, DVWA | Isolated security practice target for safe vulnerability assessment and remediation labs. |
@@ -125,3 +125,4 @@ graph TD
 2. **The "Safety Net" Advantage in Education**:
    - In production, misconfiguring a firewall causes an immediate network outage.
    - In Proxmox, the instructor takes a **ZFS Snapshot** before every student networking lab. If an intern accidentally creates a rule that locks out the management interface, the instructor restores the firewall in 5 seconds without rebooting physical hardware or attaching serial console cables.
+

@@ -9,7 +9,7 @@
 | VM ID | Name | Operating System | vCPU | RAM | Disk (ZFS) | Bridge / Subnet | Role & Primary Services |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **100** | `FW-PFSENSE-01` | FreeBSD / pfSense 2.7.2 | 2 | 2 GB | 20 GB | `vmbr0` (WAN) + `vmbr1` (LAN: `10.10.10.1/24`) | Boundary Firewall, NAT, SPI, Dynamic DHCP Gateway |
-| **101** | `DC-WIN-01` | Windows Server 2022 | 2 | 4 GB | 60 GB | `vmbr1` (`10.10.10.10/24`) | Active Directory (AD DS `apex.local`), DNS Master, DHCP Scope, WSUS |
+| **101** | `DC-WIN-01` | Windows Server 2022 | 2 | 4 GB | 60 GB | `vmbr1` (`10.10.10.10/24`) | Active Directory (AD DS `thinkpolaris.local`), DNS Master, DHCP Scope, WSUS |
 | **102** | `APP-UBU-01` | Ubuntu 22.04 LTS | 2 | 4 GB | 40 GB | `vmbr1` (`10.10.10.20/24`) | GLPI ITIL Ticketing, BookStack SOP Portal, MariaDB 10.6 Backend |
 | **103** | `NMS-UBU-01` | Ubuntu 22.04 LTS | 4 | 8 GB | 60 GB | `vmbr1` (`10.10.10.30/24`) | Zabbix Server 6.4, Prometheus, Grafana, Wazuh SIEM Manager |
 | **104** | `SEC-UBU-01` | Ubuntu 22.04 LTS | 2 | 4 GB | 40 GB | `vmbr1` (`10.10.10.40/24`) | OpenVAS Vulnerability Scanner, Docker Engine, DVWA Security Target |
@@ -149,7 +149,7 @@ qm start 102
 8. **Confirm**: Check `[*] Start after created` -> Finish.
 
 ### Ubuntu OS Setup:
-- Networking: Set `ens18` IPv4 to **Manual**: Subnet `10.10.10.0/24` | IP `10.10.10.20` | Gateway `10.10.10.1` | DNS `10.10.10.10,1.1.1.1` | Search `apex.local`.
+- Networking: Set `ens18` IPv4 to **Manual**: Subnet `10.10.10.0/24` | IP `10.10.10.20` | Gateway `10.10.10.1` | DNS `10.10.10.10,1.1.1.1` | Search `thinkpolaris.local`.
 - Storage: Entire disk (40 GB) -> Done.
 - User Profile: `Lab Admin` | `app-ubu-01` | `administrator` | `Guardian@2026_$`.
 - SSH Setup: Enable `[*] Install OpenSSH server`.
@@ -261,3 +261,4 @@ qm start 105
 5. **Network**: Bridge `vmbr1` | VirtIO -> Finish.
 6. Attach `virtio-win.iso` under Hardware > Add CD/DVD Drive.
 7. Static IP: `10.10.10.50/24`, Gateway: `10.10.10.1`, DNS: `10.10.10.10`.
+

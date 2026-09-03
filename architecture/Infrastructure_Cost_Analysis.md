@@ -1,4 +1,4 @@
-# Infrastructure Cost & High Availability Analysis
+﻿# Infrastructure Cost & High Availability Analysis
 **Think Polaris IT Internship Training Program**
 
 > **Goal:** Compare the Total Cost of Ownership (TCO) and High Availability for running the Internship Training Lab across physical and cloud architectures. (Estimated in INR).
@@ -60,3 +60,4 @@ If the organization cannot risk the downtime associated with a local physical se
 
 **Recommendation: Rent a Dedicated Bare-Metal Server from Hetzner (or OVH).** 
 At **~₹7,500/month**, it is actually *cheaper* over a one-year period (₹90,000) than buying and powering a single local physical server. It can run 24/7 so students can practice anytime, and if the hardware dies, the datacenter staff resolves the issue at no extra cost, effectively solving the failover risk on a budget.
+

@@ -1,4 +1,4 @@
-# Day Zero Orientation
+﻿# Day Zero Orientation
 
 > **Note**: This must be delivered to students *before* they touch any technical tools.
 
@@ -9,7 +9,7 @@
 
 ## 2. Basic Networking Concepts
 - **IP Addressing**: Explain IPv4, Subnet Masks, and Default Gateways.
-- **DNS & DHCP**: Explain how DNS resolves hostnames (`dc01.apex.local`) and how DHCP assigns IPs.
+- **DNS & DHCP**: Explain how DNS resolves hostnames (`dc01.thinkpolaris.local`) and how DHCP assigns IPs.
 - **Domain Join**: Explain the process and requirements for a client machine to join an AD domain.
 
 ## 3. Simple ITIL/ITSM Basics
@@ -17,3 +17,4 @@
     - *Incident*: Something is broken (e.g., "I can't log in").
     - *Service Request*: Someone needs something new (e.g., "I need a new monitor").
 - **Problem & Change**: Briefly explain root cause analysis (Problem) and controlled updates (Change).
+

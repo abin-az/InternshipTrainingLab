@@ -1,4 +1,4 @@
-# 🏗️ Think Polaris IT Internship Training Program — Ecosystem Architecture Map
+﻿# 🏗️ Think Polaris IT Internship Training Program — Ecosystem Architecture Map
 
 > **Purpose**: Maps how every tool in the Minimum Viable Lab interconnects as a unified ecosystem.
 > **Audience**: Someone building this lab on a laptop (VirtualBox, 12 GB RAM, D: drive for VMs).
@@ -57,7 +57,7 @@ graph TB
         end
 
         subgraph WINSVR["🪟 Windows Server 2022 (10.10.10.10)"]
-            AD["AD DS (apex.local)"]
+            AD["AD DS (thinkpolaris.local)"]
             DNS["DNS Server"]
             DHCP["DHCP Server"]
             GPO["Group Policy"]
@@ -87,7 +87,7 @@ graph TB
         end
 
         subgraph WIN10["💻 Windows 10 Client (10.10.10.100)"]
-            DOMAIN_JOIN["Domain-Joined (apex.local)"]
+            DOMAIN_JOIN["Domain-Joined (thinkpolaris.local)"]
             NMAP["Nmap"]
             RUSTDESK["RustDesk"]
             MESH_A["MeshCentral Agent"]
@@ -157,7 +157,7 @@ VirtualBox (D:\LabVMs\)
 │   └── SNMP Agent ──→ Zabbix Server (polling)
 │
 ├── Windows Server 2022 (10.10.10.10) ─────────────── Identity & Policy Hub
-│   ├── AD DS (apex.local)
+│   ├── AD DS (thinkpolaris.local)
 │   │   ├── ──→ Win10 Client (domain join, GPO, login)
 │   │   ├── ──→ GLPI (LDAP authentication)
 │   │   └── ──→ BookStack (LDAP authentication, optional)
@@ -216,7 +216,7 @@ VirtualBox (D:\LabVMs\)
 │   └── OCS Agent (local) ──→ OCS Server (self)
 │
 └── Windows 10 Client (10.10.10.100) ──────────────── End-User Workstation
-    ├── Domain-joined to apex.local
+    ├── Domain-joined to thinkpolaris.local
     │   ├── ← GPO enforcement from Win Server
     │   ├── ← WSUS patches from Win Server
     │   └── ← DNS from Win Server (10.10.10.10)
@@ -297,7 +297,7 @@ flowchart LR
     end
 
     subgraph Identity["🔐 Identity"]
-        AD_S["Active Directory\n(apex.local)"]
+        AD_S["Active Directory\n(thinkpolaris.local)"]
         OKTA_S["Okta\n(Cloud SSO)"]
     end
 
@@ -315,7 +315,7 @@ flowchart LR
 flowchart TD
     subgraph AUTH["🔐 Authentication Methods"]
         LOCAL["Local Accounts\n(default fallback)"]
-        LDAP["LDAP/AD Auth\n(apex.local)"]
+        LDAP["LDAP/AD Auth\n(thinkpolaris.local)"]
         SSO["Okta OIDC SSO\n(Cloud Identity)"]
     end
 
@@ -440,3 +440,4 @@ MariaDB listens on `10.10.10.20:3306` (localhost only by default).
 | Veeam CE | VirtualBox API | Backup | Local API | VM backup/restore |
 | Cloudflared | Cloudflare | Tunnel | HTTPS | Expose local services to custom domain |
 | WSUS | Win Server + Win10 | Updates | HTTP | Patch management |
+

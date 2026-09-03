@@ -44,3 +44,15 @@ The curriculum MUST adhere to the following chronological structure. Do not inve
 - **Deep Clarity Requirement**:
   - For every tool, package, ISO image, driver, and operating system introduced or downloaded, always document **WHY** it is selected (pedagogical purpose, technical justification) and **HOW** it is used (VM binding, driver injection, configuration mechanics).
   - Explicitly maintain the hybrid Windows vs. Linux architectural rationale in [Technology_Selection_and_Architecture_Rationale.md](file:///c:/Users/abinu/Documents/antigravity/optimistic-meitner/architecture/Technology_Selection_and_Architecture_Rationale.md) and [ISO_Download_Manifest.md](file:///c:/Users/abinu/Documents/antigravity/optimistic-meitner/00_prerequisites/ISO_Download_Manifest.md).
+
+## 8. Company Identity & Domain Standard (Think Polaris)
+- **Organization Name**: **Think Polaris** (or `ThinkPolaris`).
+- **Active Directory Domain**: FQDN MUST be **`thinkpolaris.local`** (NetBIOS: **`THINKPOLARIS`**).
+- **Public / Upstream Domain**: **`thinkpolaris.com`** (or company-purchased domain).
+- **Subdomain Schema**:
+  - GLPI: `glpi.thinkpolaris.local`
+  - BookStack: `wiki.thinkpolaris.local` (or `kb.thinkpolaris.local`)
+  - Zabbix: `zabbix.thinkpolaris.local`
+  - Grafana: `grafana.thinkpolaris.local`
+  - Wazuh: `wazuh.thinkpolaris.local`
+  - pfSense WebGUI: `pfsense.thinkpolaris.local` (or `gw.thinkpolaris.local`)

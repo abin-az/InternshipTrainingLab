@@ -50,7 +50,7 @@
   2. **Enterprise Infrastructure Roles**: Acts as the authoritative internal DNS server (`10.10.10.10`), Windows Server Update Services (WSUS) patch server, and file/print server.
   3. **Disaster Recovery Ecosystem**: Hosts the Veeam Backup & Replication console, which requires Windows Server for native Volume Shadow Copy Service (VSS) coordination and synthetic full backup processing.
 - **How We Use It**:
-  - **VM 101 (`DC-WIN-01`)**: Primary Domain Controller for `apex.local`, DNS Master, DHCP Scope Provider, and WSUS Patch Manager (`10.10.10.10`).
+  - **VM 101 (`DC-WIN-01`)**: Primary Domain Controller for `thinkpolaris.local`, DNS Master, DHCP Scope Provider, and WSUS Patch Manager (`10.10.10.10`).
   - **VM 105 (`BKP-WIN-01`)**: Standalone enterprise backup server running Veeam Backup & Replication Community Edition (`10.10.10.50`).
 
 ---
@@ -72,3 +72,4 @@ wget -c "https://atxfiles.netgate.com/mirror/downloads/pfSense-CE-2.7.2-RELEASE-
 # List ISO Directory
 ls -lh /var/lib/vz/template/iso
 ```
+

@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+﻿#!/usr/bin/env bash
 # 02_provision_dc_win2022_vm101.sh
 # Provisions VM 101: DC-WIN-01 (Active Directory, DNS, DHCP, WSUS)
 
@@ -34,3 +34,4 @@ echo "==> Starting VM $VMID ($VMNAME)..."
 qm start "$VMID"
 
 echo "==> VM $VMID ($VMNAME) provisioned and started successfully."
+

@@ -1,4 +1,4 @@
-# Think Polaris IT Internship Training Program - Master Runbook
+﻿# Think Polaris IT Internship Training Program - Master Runbook
 
 > **Note:** This is the complete offline manual, aligned with the Management Evaluation & Tooling PDFs.
 
@@ -49,7 +49,7 @@ graph TD
 
 ### 2.3 Server Roles & Dependencies
 *   **MariaDB Database**: Hosted on `APP-UBU-01`. Acts as the shared backend dependency for GLPI and BookStack.
-*   **DNS Resolution**: All VMs and student laptops must point to `10.10.10.10` (DC-WIN-01) for DNS resolution to resolve domains like `glpi.apex.local`.
+*   **DNS Resolution**: All VMs and student laptops must point to `10.10.10.10` (DC-WIN-01) for DNS resolution to resolve domains like `glpi.thinkpolaris.local`.
 
 ---
 
@@ -94,7 +94,7 @@ graph TD
 
 ## 2. Basic Networking Concepts
 - **IP Addressing**: Explain IPv4, Subnet Masks, and Default Gateways.
-- **DNS & DHCP**: Explain how DNS resolves hostnames (`dc01.apex.local`) and how DHCP assigns IPs.
+- **DNS & DHCP**: Explain how DNS resolves hostnames (`dc01.thinkpolaris.local`) and how DHCP assigns IPs.
 - **Domain Join**: Explain the process and requirements for a client machine to join an AD domain.
 
 ## 3. Simple ITIL/ITSM Basics
@@ -269,3 +269,4 @@ Students must write a comprehensive Troubleshooting Runbook (in Markdown or Book
 
 ## 3. Final Presentation
 Students must present their Architecture Diagram and their Troubleshooting Runbook to the instructors. This tests their technical understanding and their professional soft skills.
+

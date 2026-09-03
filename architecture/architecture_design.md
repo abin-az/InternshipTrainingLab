@@ -1,4 +1,4 @@
-# Lab Architecture & Design (P0)
+﻿# Lab Architecture & Design (P0)
 
 > **Objective**: Document the initial design, IP allocation, and server roles before beginning the instructor build.
 
@@ -37,4 +37,5 @@ graph TD
 
 ## 3. Server Roles & Dependencies
 *   **MariaDB Database**: Hosted on `APP-UBU-01`. Acts as the shared backend dependency for GLPI and BookStack.
-*   **DNS Resolution**: All VMs and student laptops must point to `10.10.10.10` (DC-WIN-01) for DNS resolution to resolve domains like `glpi.apex.local`.
+*   **DNS Resolution**: All VMs and student laptops must point to `10.10.10.10` (DC-WIN-01) for DNS resolution to resolve domains like `glpi.thinkpolaris.local`.
+

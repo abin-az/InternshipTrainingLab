@@ -37,10 +37,10 @@ graph TD
 
 | Component | Portability Rule | Impact on Migration |
 | :--- | :--- | :--- |
-| **All Internal VMs** | Bound exclusively to `vmbr1` (Internal isolated vSwitch). | **Zero changes**. All internal IPs (`10.10.10.x`), AD domain (`apex.local`), DNS records, MariaDB databases, and services remain completely unchanged. |
+| **All Internal VMs** | Bound exclusively to `vmbr1` (Internal isolated vSwitch). | **Zero changes**. All internal IPs (`10.10.10.x`), AD domain (`thinkpolaris.local`), DNS records, MariaDB databases, and services remain completely unchanged. |
 | **pfSense WAN** | Configured as **DHCP Client** on `vmbr0`. | **Zero changes**. Automatically receives IP, subnet, and default gateway from whatever new router/ISP is plugged in at the new location. |
 | **Domain & DNS** | Internal DNS points to `10.10.10.10` (DC-WIN-01). Upstream forwarders set to public DNS (`1.1.1.1`, `8.8.8.8`). | **Zero changes**. Internal name resolution never breaks regardless of external WAN changes. |
-| **Inter-VM Traffic** | All VMs talk via internal hostname / FQDN (`*.apex.local`) and `10.10.10.x` static IPs. | **Zero changes**. Database connections (GLPI to MariaDB), monitoring probes (Zabbix/Prometheus), and SIEM logs (Wazuh) never disconnect. |
+| **Inter-VM Traffic** | All VMs talk via internal hostname / FQDN (`*.thinkpolaris.local`) and `10.10.10.x` static IPs. | **Zero changes**. Database connections (GLPI to MariaDB), monitoring probes (Zabbix/Prometheus), and SIEM logs (Wazuh) never disconnect. |
 
 ---
 
@@ -69,3 +69,4 @@ If the new site uses a different subnet (e.g. changing from `192.168.29.x` to `1
 ### Step 4: Verification
 - Power on VMs in order: **pfSense (100) > DC-WIN-01 (101) > APP-UBU-01 (102) > NMS-UBU-01 (103) > SEC-UBU-01 / BKP-WIN-01**.
 - Connect a student laptop to `vmbr1` (via physical bridge NIC or Wi-Fi AP bridged to `vmbr1`), verify it gets `10.10.10.x`, and verify internet and internal access.
+

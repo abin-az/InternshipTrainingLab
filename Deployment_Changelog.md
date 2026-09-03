@@ -55,3 +55,7 @@
   - `ubuntu-22.04.5-live-server-amd64.iso` (2.0 GB)
   - `pfSense-CE-2.7.2-RELEASE-amd64.iso` (835 MB)
 - **VM 101 (DC-WIN-01) Provisioned & Booted**: Windows Server 2022 installer running in Proxmox console.
+- **Domain Identity Standardized to Think Polaris**:
+  - AD DS Domain: `thinkpolaris.local` (NetBIOS: `THINKPOLARIS`).
+  - Public Domain: `thinkpolaris.com`.
+  - Service FQDNs: `glpi.thinkpolaris.local`, `wiki.thinkpolaris.local`, `zabbix.thinkpolaris.local`, `grafana.thinkpolaris.local`, `wazuh.thinkpolaris.local`.

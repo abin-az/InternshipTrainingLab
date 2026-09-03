@@ -1,4 +1,4 @@
-# IIILA OASE: IT Internship Lab Working Plan & Proposal
+﻿# IIILA OASE: IT Internship Lab Working Plan & Proposal
 
 ## 1. Executive Summary
 This document outlines the working plan for establishing a training lab for college students undertaking the Think Polaris IT Internship Training Program. 
@@ -62,3 +62,4 @@ If the institution strictly requires physical hardware for accreditation, shared
 2. Develop Infrastructure as Code (Terraform/Bicep) templates for one-click student lab deployments.
 3. Establish strict network isolation (VPCs/Subnets) for security-focused labs (OpenVAS/DVWA).
 4. Shift curriculum assessment to evaluate cloud-equivalent skills (e.g., analyzing VPC flow logs instead of raw span ports).
+
