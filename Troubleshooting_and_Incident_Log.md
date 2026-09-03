@@ -191,3 +191,14 @@
    ```
 3. In Proxmox GUI, click **Console > SPICE**.
 4. Opens in a native desktop window with automatic bidirectional clipboard integration.
+
+---
+
+### [INC-014] QEMU Guest Agent Service Inactive Post-Domain Promotion
+- **Component**: Windows Server 2022 Guest Services (`DC-WIN-01`).
+- **Symptom**: `qm guest exec 101` returns `QEMU guest agent is not running`.
+- **Root Cause**: The `QEMU Guest Agent` Windows service was either not yet installed via `virtio-win-gt-x64.exe` or was in stopped state following the root domain controller promotion reboot.
+- **Resolution**:
+  1. Log into Windows Server on `DC-WIN-01` (`THINKPOLARIS\Administrator`).
+  2. Open Explorer > `CD Drive (E:) virtio-win` > run `virtio-win-gt-x64.exe` (or `guest-agent\qemu-ga-x86_64.msi`).
+  3. Ensure the `QEMU Guest Agent` service is running in `services.msc`.
