@@ -64,3 +64,5 @@
   - Core Roles Installed: Active Directory Domain Services (AD DS), Authoritative DNS Server.
   - Disaster Recovery / DSRM Password: `Guardian@2026_$`.
   - Network Binding: `vmbr1` (Internal Lab LAN `10.10.10.0/24`).
+- **VM 103 (NMS-UBU-01) Provisioned & Running**: 4 Cores, 8192MB RAM, 60GB ZFS disk (`local-zfs`), `net0` on `vmbr1` (Internal Lab LAN `10.10.10.30/24`), autostart order 4.
+- **VM 104 (SEC-UBU-01) Provisioned & Running**: 2 Cores, 4096MB RAM, 40GB ZFS disk (`local-zfs`), `net0` on `vmbr1` (Internal Lab LAN `10.10.10.40/24`).
