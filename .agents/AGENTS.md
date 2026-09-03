@@ -39,3 +39,8 @@ The curriculum MUST adhere to the following chronological structure. Do not inve
   - The documentation must be turnkey and copy-paste ready for replicating the exact lab at another training institute.
 - **Automated Git Versioning**:
   - Upon completing each module, feature setup, or incident resolution, stage, commit, and sync the changes to the Git repository so that the remote repository remains the single authoritative source of truth.
+
+## 7. Technical Selection & Architectural Justification ("Why & How" Rationale)
+- **Deep Clarity Requirement**:
+  - For every tool, package, ISO image, driver, and operating system introduced or downloaded, always document **WHY** it is selected (pedagogical purpose, technical justification) and **HOW** it is used (VM binding, driver injection, configuration mechanics).
+  - Explicitly maintain the hybrid Windows vs. Linux architectural rationale in [Technology_Selection_and_Architecture_Rationale.md](file:///c:/Users/abinu/Documents/antigravity/optimistic-meitner/architecture/Technology_Selection_and_Architecture_Rationale.md) and [ISO_Download_Manifest.md](file:///c:/Users/abinu/Documents/antigravity/optimistic-meitner/00_prerequisites/ISO_Download_Manifest.md).
