@@ -100,3 +100,13 @@
 - **Resolution**:
   Used the active official direct mirror URL:
   `https://atxfiles.netgate.com/mirror/downloads/pfSense-CE-2.7.2-RELEASE-amd64.iso.gz`
+
+---
+
+### [INC-009] Bash Semicolon Parsing in Proxmox `qm --boot` Parameter
+- **Component**: Proxmox CLI (`qm create` / `qm set`).
+- **Symptom**: Proxmox created the VM disk but bash returned `-bash: ide2: command not found`.
+- **Root Cause**: The unquoted semicolon in `--boot order=scsi0;ide2;net0` was interpreted by bash as a shell command delimiter, truncating the rest of the flags.
+- **Resolution**:
+  Quotes are strictly required for the boot order flag: `--boot "order=ide2;scsi0"`.
+  Attached the remaining network interfaces and flags using `qm set 100 ...`.
