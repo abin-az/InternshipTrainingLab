@@ -163,3 +163,31 @@
   ```bash
   qm guest exec 101 -- powershell.exe -Command "Get-Service"
   ```
+
+---
+
+### [INC-013] Enabling Seamless Bidirectional Clipboard Between Host PC and Proxmox VMs
+- **Problem**: Default noVNC browser console does not provide seamless desktop clipboard synchronization (copy on host -> paste in VM).
+- **Turnkey Solutions**:
+
+#### Solution 1: Remote Desktop (RDP) via pfSense Port Forward (Recommended)
+1. Enable Remote Desktop on Windows VM (`DC-WIN-01`):
+   - Server Manager > Local Server > Remote Desktop: **Enabled**.
+2. Add a Port Forward rule in pfSense WebGUI (`https://192.168.29.47`):
+   - **Firewall > NAT > Port Forward**:
+     - Interface: `WAN`
+     - Protocol: `TCP`
+     - Destination Port: `3389`
+     - Redirect Target IP: `10.10.10.10`
+     - Redirect Target Port: `3389`
+3. On physical laptop, open `mstsc.exe` and connect to `192.168.29.47:3389`.
+4. Result: 100% native copy-paste of text, scripts, and files.
+
+#### Solution 2: SPICE Display Engine with Virt-Viewer
+1. In Proxmox GUI > VM 101 > **Hardware > Display**: Set to **`SPICE (qxl)`**.
+2. Install Virt-Viewer on Windows host:
+   ```powershell
+   winget install RedHat.VirtViewer
+   ```
+3. In Proxmox GUI, click **Console > SPICE**.
+4. Opens in a native desktop window with automatic bidirectional clipboard integration.
