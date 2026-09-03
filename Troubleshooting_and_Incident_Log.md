@@ -110,3 +110,15 @@
 - **Resolution**:
   Quotes are strictly required for the boot order flag: `--boot "order=ide2;scsi0"`.
   Attached the remaining network interfaces and flags using `qm set 100 ...`.
+
+---
+
+### [INC-010] Proxmox Reporting ~100% Memory Usage on Fresh Windows VMs
+- **Component**: Proxmox VE Web GUI / QEMU Memory Reporting.
+- **Symptom**: Proxmox Summary page displays `Memory usage 101.19% (4.05 GiB of 4.00 GiB)` and `IPs: Guest Agent not running`.
+- **Root Cause**: Without the **QEMU Guest Agent** and **VirtIO Balloon Driver** running inside the Windows guest OS, the hypervisor cannot read inside the guest memory table. It reports the entire allocated memory block (4.00 GB) plus QEMU process runtime overhead (~50 MB) as "active".
+- **Resolution**:
+  1. Log into Windows Server on VM 101.
+  2. Open Explorer > `CD Drive (E:) virtio-win`.
+  3. Run `virtio-win-gt-x64.exe` to install the `QEMU-GA` service and `BLN` ballooning driver.
+  4. Once the service starts, Proxmox receives real-time telemetry from inside the OS, memory usage display drops to true value (~30-40%), and the VM's static IP is displayed in the GUI.
