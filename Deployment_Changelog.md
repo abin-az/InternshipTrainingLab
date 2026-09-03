@@ -68,3 +68,6 @@
 - **VM 104 (SEC-UBU-01) Provisioned & Running**: 2 Cores, 4096MB RAM, 40GB ZFS disk (`local-zfs`), `net0` on `vmbr1` (Internal Lab LAN `10.10.10.40/24`).
 - **VM 105 (BKP-WIN-01) Provisioned & Running**: 2 Cores, 4096MB RAM, 80GB ZFS disk (`local-zfs`), `net0` on `vmbr1` (Internal Lab LAN `10.10.10.50/24`), autostart order 5.
 - **Phase 0 (P0 - P3) Master Infrastructure Deployment Complete**: All 6 virtual machines (VMs 100 - 105) provisioned, bound to `vmbr1` (10.10.10.0/24), and active in the Proxmox cluster inventory.
+- **Phase 1: Project P4 Active Directory Scripts Configured**:
+  - Organizational Units & Security Groups: `scripts/02_service_configs/active_directory/01_setup_ad_structure.ps1`.
+  - User Provisioning & Intern Accounts: `scripts/02_service_configs/active_directory/02_create_sample_users.ps1`.
