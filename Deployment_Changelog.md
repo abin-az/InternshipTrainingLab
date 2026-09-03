@@ -47,3 +47,4 @@
   - `virtio-win.iso` (837 MB) verified in `/var/lib/vz/template/iso/`.
 - **Windows Server 2022 ISO Download Initiated**: `Windows_Server_2022.iso` (~4.7 GB) queued in `/var/lib/vz/template/iso/`.
 - **VM 102 (APP-UBU-01) Provisioned & Started**: 2 Cores, 4096MB RAM, 40GB ZFS disk (`local-zfs`), `net0` on `vmbr1` (Internal Lab LAN `10.10.10.20`), autostart order 3.
+- **VM 101 (DC-WIN-01) Provisioning Prepared**: Windows Server 2022 with dual CD-ROM drives (`Windows_Server_2022.iso` + `virtio-win.iso`), 60GB ZFS disk, 4096MB RAM, 2 cores on `vmbr1`.
