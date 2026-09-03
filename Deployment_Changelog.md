@@ -34,3 +34,4 @@
 - **pfSense 2.7.2 ISO Download**: Downloaded and verified `pfSense-CE-2.7.2-RELEASE-amd64.iso` (835MB) in `/var/lib/vz/template/iso/`.
 - **VM 100 (FW-PFSENSE-01) Provisioned**: 2 Cores, 2048MB Fixed RAM, 20GB ZFS SCSI disk (`local-zfs`), `net0` on `vmbr0` (WAN uplink), `net1` on `vmbr1` (Internal Lab LAN `10.10.10.0/24`), autostart order 1.
 - **pfSense Base OS Installed**: Completed ZFS filesystem formatting and FreeBSD system extraction on `da0` (SCSI 0).
+- **pfSense WAN Interface Verified**: `vtnet0` received dynamic WAN DHCP lease `192.168.29.47/24` from physical router on `vmbr0`.
