@@ -2,7 +2,7 @@ import os
 import json
 import re
 
-base_dir = r"D:\Internship_Lab_Project\IT-Internship-Training-Program"
+base_dir = os.path.dirname(os.path.abspath(__file__))
 
 # 1. Build Master_Runbook.md
 runbook_path = os.path.join(base_dir, "Master_Runbook.md")
