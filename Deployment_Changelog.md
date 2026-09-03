@@ -66,3 +66,5 @@
   - Network Binding: `vmbr1` (Internal Lab LAN `10.10.10.0/24`).
 - **VM 103 (NMS-UBU-01) Provisioned & Running**: 4 Cores, 8192MB RAM, 60GB ZFS disk (`local-zfs`), `net0` on `vmbr1` (Internal Lab LAN `10.10.10.30/24`), autostart order 4.
 - **VM 104 (SEC-UBU-01) Provisioned & Running**: 2 Cores, 4096MB RAM, 40GB ZFS disk (`local-zfs`), `net0` on `vmbr1` (Internal Lab LAN `10.10.10.40/24`).
+- **VM 105 (BKP-WIN-01) Provisioned & Running**: 2 Cores, 4096MB RAM, 80GB ZFS disk (`local-zfs`), `net0` on `vmbr1` (Internal Lab LAN `10.10.10.50/24`), autostart order 5.
+- **Phase 0 (P0 - P3) Master Infrastructure Deployment Complete**: All 6 virtual machines (VMs 100 - 105) provisioned, bound to `vmbr1` (10.10.10.0/24), and active in the Proxmox cluster inventory.
