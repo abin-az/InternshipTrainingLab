@@ -49,3 +49,8 @@
 - **VM 102 (APP-UBU-01) Provisioned & Started**: 2 Cores, 4096MB RAM, 40GB ZFS disk (`local-zfs`), `net0` on `vmbr1` (Internal Lab LAN `10.10.10.20`), autostart order 3.
 - **VM 101 (DC-WIN-01) Provisioning Prepared**: Windows Server 2022 with dual CD-ROM drives (`Windows_Server_2022.iso` + `virtio-win.iso`), 60GB ZFS disk, 4096MB RAM, 2 cores on `vmbr1`.
 - **VM 102 (APP-UBU-01) OS Installation Complete**: Ubuntu 22.04.5 LTS running at `10.10.10.20/24` on `vmbr1`, OpenSSH server active, credentials `administrator` / `Guardian@2026_$`.
+- **All Master ISOs Verified in Storage**:
+  - `Windows_Server_2022.iso` (4.7 GB)
+  - `virtio-win.iso` (837 MB)
+  - `ubuntu-22.04.5-live-server-amd64.iso` (2.0 GB)
+  - `pfSense-CE-2.7.2-RELEASE-amd64.iso` (835 MB)
