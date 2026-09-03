@@ -78,3 +78,7 @@
   - DNS Forwarders: Configured upstream to `1.1.1.1` and `8.8.8.8`.
   - Reverse DNS Zone: `10.10.10.0/24` subnet reverse zone created.
   - Verification: Automated guest execution returned exitcode 0.
+- **Turnkey Tool Deployment Scripts Created**:
+  - `APP-UBU-01` (GLPI 10, BookStack, MariaDB, Apache, PHP 8.1): `scripts/02_service_configs/ubuntu_stack/01_deploy_app_stack.sh`.
+  - `NMS-UBU-01` (Zabbix 6.4, Prometheus, Grafana, Wazuh SIEM): `scripts/02_service_configs/ubuntu_stack/02_deploy_nms_stack.sh`.
+  - `SEC-UBU-01` (Docker, DVWA Target, OpenVAS Scanner): `scripts/02_service_configs/ubuntu_stack/03_deploy_sec_stack.sh`.
