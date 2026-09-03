@@ -59,3 +59,8 @@
   - AD DS Domain: `thinkpolaris.local` (NetBIOS: `THINKPOLARIS`).
   - Public Domain: `thinkpolaris.com`.
   - Service FQDNs: `glpi.thinkpolaris.local`, `wiki.thinkpolaris.local`, `zabbix.thinkpolaris.local`, `grafana.thinkpolaris.local`, `wazuh.thinkpolaris.local`.
+- **VM 101 (DC-WIN-01) Active Directory Domain Promoted**:
+  - Forest Root Domain: `thinkpolaris.local` (NetBIOS: `THINKPOLARIS`).
+  - Core Roles Installed: Active Directory Domain Services (AD DS), Authoritative DNS Server.
+  - Disaster Recovery / DSRM Password: `Guardian@2026_$`.
+  - Network Binding: `vmbr1` (Internal Lab LAN `10.10.10.0/24`).
