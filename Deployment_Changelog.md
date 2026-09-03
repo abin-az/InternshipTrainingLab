@@ -54,3 +54,4 @@
   - `virtio-win.iso` (837 MB)
   - `ubuntu-22.04.5-live-server-amd64.iso` (2.0 GB)
   - `pfSense-CE-2.7.2-RELEASE-amd64.iso` (835 MB)
+- **VM 101 (DC-WIN-01) Provisioned & Booted**: Windows Server 2022 installer running in Proxmox console.
