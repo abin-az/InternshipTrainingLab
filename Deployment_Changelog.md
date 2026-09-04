@@ -106,3 +106,4 @@
 - **GLPI 10 Web Setup Wizard Validated on APP-UBU-01**:
   - PHP 8.2 runtime & session cookie hardening verified (all core requirements passed).
   - Database connection: Target `glpidb` via user `glpiuser` (`localhost`).
+- **GLPI 10 Database Initialized**: `glpidb` schema successfully generated on MariaDB 10.6; default security profiles and ITIL workflows configured.
