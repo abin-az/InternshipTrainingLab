@@ -93,3 +93,8 @@
   - Apache 2.4.52 installed and enabled with PHP 8.1 module.
   - MariaDB 10.6.23 installed and service active.
   - 13 required PHP 8.1 modules installed and verified (`mysql`, `ldap`, `intl`, `mbstring`, `gd`, `curl`, `xml`, `zip`, `bz2`, `soap`, `bcmath`, `cli`, `opcache`).
+- **GLPI 10.0.16 Deployed & Operational on APP-UBU-01**:
+  - Application Root: `/var/www/html/glpi` (permissions `www-data:www-data 755`).
+  - Database: `glpidb` on MariaDB 10.6 (`glpiuser`).
+  - Web Server: Apache 2.4 with `mod_rewrite` active.
+  - Access URL: `http://10.10.10.20/glpi`.
