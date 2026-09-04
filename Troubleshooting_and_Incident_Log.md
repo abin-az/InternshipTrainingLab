@@ -306,3 +306,16 @@
   1. In GLPI RootDN, set: `CN=Administrator,CN=Users,DC=thinkpolaris,DC=local`.
   2. On `DC-WIN-01`, allowed Active Directory Domain Services rules across all firewall profiles: `Enable-NetFirewallRule -DisplayGroup "Active Directory Domain Controller"`.
   3. Re-tested LDAP connection from `APP-UBU-01` via `ldapsearch` (bind successful).
+
+---
+
+### [INC-024] Active Directory IP Assignment (`10.10.10.10`) & GLPI Password Retention
+- **Component**: Active Directory Network Binding & GLPI Form Input.
+- **Symptom**: GLPI LDAP test failed connecting to `10.10.10.10:389`.
+- **Root Causes**:
+  1. `DC-WIN-01` had dynamically leased `10.10.10.101` via pfSense DHCP rather than having static IP `10.10.10.10` locked in the Windows network adapter.
+  2. The `Password (for non-anonymous binds)` field in GLPI was submitted blank.
+- **Resolution**:
+  1. Assigned static IP `10.10.10.10/24` to `DC-WIN-01` adapter with gateway `10.10.10.1` and DNS `127.0.0.1`.
+  2. Entered `Guardian@2026_$` in GLPI password box and saved.
+  3. Verified LDAP TCP 389 handshake between `10.10.10.20` and `10.10.10.10`.
