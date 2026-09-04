@@ -82,3 +82,4 @@
   - `APP-UBU-01` (GLPI 10, BookStack, MariaDB, Apache, PHP 8.1): `scripts/02_service_configs/ubuntu_stack/01_deploy_app_stack.sh`.
   - `NMS-UBU-01` (Zabbix 6.4, Prometheus, Grafana, Wazuh SIEM): `scripts/02_service_configs/ubuntu_stack/02_deploy_nms_stack.sh`.
   - `SEC-UBU-01` (Docker, DVWA Target, OpenVAS Scanner): `scripts/02_service_configs/ubuntu_stack/03_deploy_sec_stack.sh`.
+- **Host-to-Lab Management Interconnect Verified**: Assigned `10.10.10.254/24` on `vmbr1`; connectivity to `APP-UBU-01` (`10.10.10.20`) verified with 0.26ms latency and 0% loss.
