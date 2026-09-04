@@ -89,3 +89,7 @@
   - Runtime Environment: PHP 8.1 with 13 required extensions (`curl`, `gd`, `intl`, `mbstring`, `mysql`, `xml`, `zip`, `bz2`, `ldap`, `cli`, `soap`, `bcmath`).
   - ITSM Platform: GLPI 10.0.16 deployed to `/var/www/html/glpi` (permissions `www-data:www-data 755`).
   - Knowledge Base: BookStack deployed to `/var/www/bookstack` on port `8080`.
+- **APP-UBU-01 LAMP & PHP Runtime Installed**:
+  - Apache 2.4.52 installed and enabled with PHP 8.1 module.
+  - MariaDB 10.6.23 installed and service active.
+  - 13 required PHP 8.1 modules installed and verified (`mysql`, `ldap`, `intl`, `mbstring`, `gd`, `curl`, `xml`, `zip`, `bz2`, `soap`, `bcmath`, `cli`, `opcache`).
