@@ -282,3 +282,14 @@
   1. Configured DocumentRoot to `/var/www/html/glpi` with full `Directory` permissions.
   2. Restarted Apache2 (`systemctl restart apache2`).
   3. Opening `http://10.10.10.20` cleanly loads the GLPI setup wizard.
+
+---
+
+### [INC-022] GLPI LDAP Directory Bind Configuration & Port 389 Verification
+- **Component**: GLPI 10 Authentication / Active Directory LDAP Integration.
+- **Symptom**: User import screen returned `Unable to connect to the LDAP directory`.
+- **Root Cause**: The LDAP directory profile had not yet been fully saved with valid RootDN bind credentials (`Administrator@thinkpolaris.local`) or BaseDN (`DC=thinkpolaris,DC=local`) under `Setup > Authentication > LDAP directories`.
+- **Resolution**:
+  1. Verified TCP port 389 connectivity from `APP-UBU-01` to `DC-WIN-01` (`nc -zvw3 10.10.10.10 389`).
+  2. Configured LDAP profile with RootDN `Administrator@thinkpolaris.local`, password `Guardian@2026_$`, BaseDN `DC=thinkpolaris,DC=local`, and login field `samaccountname`.
+  3. Executed directory test (passed: `Test successful`) and re-ran user synchronization.
