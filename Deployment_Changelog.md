@@ -116,3 +116,6 @@
 - **Active Directory LDAP Handshake Verified**:
   - `nc -zvw3 10.10.10.10 389` returned `Connection to 10.10.10.10 389 port [tcp/ldap] succeeded!`.
   - Bidirectional authentication link between `APP-UBU-01` (GLPI) and `DC-WIN-01` (`thinkpolaris.local`) verified.
+- **Phase 1: GLPI Active Directory LDAP Integration Active & Verified**:
+  - Live Bind to `DC-WIN-01` (`10.10.10.10:389`) succeeded (`CN=Administrator,CN=Users,DC=thinkpolaris,DC=local`).
+  - Active Directory user sync & domain credential authentication enabled.
