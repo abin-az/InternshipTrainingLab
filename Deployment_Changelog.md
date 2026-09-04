@@ -113,3 +113,6 @@
 - **DC-WIN-01 Static IP (10.10.10.10) & LDAP 389 Firewall Active**:
   - Bound static IP `10.10.10.10/24` with default gateway `10.10.10.1`.
   - Inbound firewall rule `Allow LDAP 389` enabled across all profiles.
+- **Active Directory LDAP Handshake Verified**:
+  - `nc -zvw3 10.10.10.10 389` returned `Connection to 10.10.10.10 389 port [tcp/ldap] succeeded!`.
+  - Bidirectional authentication link between `APP-UBU-01` (GLPI) and `DC-WIN-01` (`thinkpolaris.local`) verified.
