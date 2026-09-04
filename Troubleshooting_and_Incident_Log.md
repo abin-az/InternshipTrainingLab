@@ -271,3 +271,14 @@
   1. Configured Apache with `Alias /glpi /var/www/html/glpi/public` and granted directory permissions to `/var/www/html/glpi/public`.
   2. Restarted Apache2 (`systemctl restart apache2`).
   3. Ensured seamless URL routing for both root `http://10.10.10.20` and legacy `http://10.10.10.20/glpi`.
+
+---
+
+### [INC-021] GLPI 10 Initial Web Installer Execution vs. Post-Install Root
+- **Component**: Apache2 Web Server / GLPI Web Installer.
+- **Symptom**: Navigating to `http://10.10.10.20/install/install.php` returned `404 Not Found` when DocumentRoot was strictly set to `/var/www/html/glpi/public`.
+- **Root Cause**: In GLPI 10 tarball distributions, the initial installer wizard files reside in `/var/www/html/glpi/install/` and are invoked from `/var/www/html/glpi/index.php`. Setting DocumentRoot to `/public` prematurely blocks the initial web installation wizard before `config_db.php` is generated.
+- **Resolution**:
+  1. Configured DocumentRoot to `/var/www/html/glpi` with full `Directory` permissions.
+  2. Restarted Apache2 (`systemctl restart apache2`).
+  3. Opening `http://10.10.10.20` cleanly loads the GLPI setup wizard.
