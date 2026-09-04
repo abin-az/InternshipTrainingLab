@@ -248,3 +248,15 @@
   1. Updated `php.ini` to enforce `session.cookie_httponly = on`.
   2. Configured Apache VirtualHost to set DocumentRoot to `/var/www/html/glpi/public` with `AllowOverride All`.
   3. Reloaded Apache2 service and re-ran installer checks (all items verified green).
+
+---
+
+### [INC-019] Configuring Apache DocumentRoot to `/var/www/html/glpi/public` for 100% Green Checkmarks
+- **Component**: Apache2 VirtualHost Configuration (`/etc/apache2/sites-available/000-default.conf`).
+- **Symptom**: GLPI installer displayed remaining security warnings for web root directory isolation and data directory exposure.
+- **Root Cause**: Apache's default site was pointed to `/var/www/html` instead of the hardened GLPI front-controller directory `/var/www/html/glpi/public`.
+- **Resolution**:
+  1. Updated `/etc/apache2/sites-available/000-default.conf` to set `DocumentRoot /var/www/html/glpi/public`.
+  2. Configured `<Directory /var/www/html/glpi/public>` with `AllowOverride All` and `Require all granted`.
+  3. Reloaded Apache2 service (`systemctl restart apache2`).
+  4. Accessing `http://10.10.10.20` now routes directly to the hardened GLPI public entry point with 100% green checks.
