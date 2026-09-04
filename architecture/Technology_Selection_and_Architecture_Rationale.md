@@ -175,3 +175,20 @@ chmod -R 755 /var/www/html/glpi
 ```
 - **Why `/var/www/html/glpi`**: Standard Apache document root directory on Debian/Ubuntu.
 - **Why `www-data:www-data` & `755` Permissions**: Apache's runtime user (`www-data`) must have read/write access to GLPI cache, logs, marketplace, and upload directories (`/var/www/html/glpi/files/`), while disallowing unauthorized external modification (`755` directory permissions).
+
+---
+
+## 6. GLPI 10 Security Hardening Rationale (Web Root & PHP Session Cookies)
+
+### Why We Had To Enforce These Settings:
+
+#### 1. PHP Directive: `session.cookie_httponly = on`
+- **Why It Is Mandatory**:
+  - In web application security, session hijacking is a major threat vector. If a cross-site scripting (XSS) vulnerability occurs, malicious client-side JavaScript could access the `PHPSESSID` cookie via `document.cookie` and steal administrator credentials.
+  - Setting `session.cookie_httponly = on` instructs the browser that the cookie must NEVER be exposed to client-side scripts. It can only be transmitted via HTTP(S) headers, mitigating session theft.
+
+#### 2. Web Root Isolation: `/var/www/html/glpi/public`
+- **Why It Is Mandatory**:
+  - Legacy web applications placed all files (including database configuration `config_db.php`, upload directories, and system logs) directly inside the public Apache document root.
+  - Modern GLPI 10 separates the application logic from the public entry point. Only the `/public` directory containing `index.php` and static assets (CSS/JS) is exposed to the web server.
+  - Sensitive internal directories (`/files/`, `/config/`, `/marketplace/`) remain outside public HTTP reach, blocking directory traversal and information disclosure attacks.
