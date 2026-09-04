@@ -103,3 +103,6 @@
   - Database: `bookstackdb` on MariaDB 10.6 (`bookstackuser`).
   - Web Server: Apache 2.4 VirtualHost bound to port `8080` with PHP 8.2 runtime (`mod_php8.2`).
   - Access URL: `http://10.10.10.20:8080`.
+- **GLPI 10 Web Setup Wizard Validated on APP-UBU-01**:
+  - PHP 8.2 runtime & session cookie hardening verified (all core requirements passed).
+  - Database connection: Target `glpidb` via user `glpiuser` (`localhost`).
