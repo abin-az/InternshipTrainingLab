@@ -107,3 +107,6 @@
   - PHP 8.2 runtime & session cookie hardening verified (all core requirements passed).
   - Database connection: Target `glpidb` via user `glpiuser` (`localhost`).
 - **GLPI 10 Database Initialized**: `glpidb` schema successfully generated on MariaDB 10.6; default security profiles and ITIL workflows configured.
+- **Phase 1 Project P6: GLPI 10.0.16 Deployed & Logged In**:
+  - Live Dashboard verified at `http://10.10.10.20/front/central.php`.
+  - Modules active: Assistance (Ticketing/Incidents), Assets (Hardware/Software inventory), Administration (Active Directory LDAP sync ready).
