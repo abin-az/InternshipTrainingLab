@@ -237,3 +237,14 @@
   1. Add Ondřej Surý PHP PPA: `add-apt-repository -y ppa:ondrej/php`
   2. Install PHP 8.2 and required extensions (`php8.2`, `php8.2-mysql`, `php8.2-mbstring`, `php8.2-xml`, `php8.2-curl`, `php8.2-gd`, `php8.2-intl`, `php8.2-zip`, `php8.2-ldap`, `libapache2-mod-php8.2`).
   3. Enable PHP 8.2 module in Apache and complete `composer install`.
+
+---
+
+### [INC-018] GLPI 10 Security Hardening Checks (Web Root & PHP Session Cookie)
+- **Component**: GLPI 10.0.16 Installation Security Audit.
+- **Symptoms**: Installer flags warnings for `session.cookie_httponly` being Off and `DocumentRoot` pointing to `/var/www/html/glpi` instead of `/var/www/html/glpi/public`.
+- **Root Cause**: GLPI 10 enforces enterprise security best practices to prevent directory traversal and cross-site scripting (XSS) cookie hijacking.
+- **Resolution**:
+  1. Updated `php.ini` to enforce `session.cookie_httponly = on`.
+  2. Configured Apache VirtualHost to set DocumentRoot to `/var/www/html/glpi/public` with `AllowOverride All`.
+  3. Reloaded Apache2 service and re-ran installer checks (all items verified green).
