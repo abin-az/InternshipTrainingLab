@@ -293,3 +293,16 @@
   1. Verified TCP port 389 connectivity from `APP-UBU-01` to `DC-WIN-01` (`nc -zvw3 10.10.10.10 389`).
   2. Configured LDAP profile with RootDN `Administrator@thinkpolaris.local`, password `Guardian@2026_$`, BaseDN `DC=thinkpolaris,DC=local`, and login field `samaccountname`.
   3. Executed directory test (passed: `Test successful`) and re-ran user synchronization.
+
+---
+
+### [INC-023] Active Directory LDAP Bind Format & Windows Firewall Port 389
+- **Component**: Active Directory LDAP (`DC-WIN-01`) & GLPI Authentication (`APP-UBU-01`).
+- **Symptom**: GLPI LDAP test returned `Test of Main Server Think Polaris Active Directory failed`.
+- **Root Causes**:
+  1. Active Directory LDAP simple bind requires the fully qualified Distinguished Name (DN): `CN=Administrator,CN=Users,DC=thinkpolaris,DC=local` rather than standard email format.
+  2. Windows Server 2022 network profile might classify the VirtIO NIC as Public or block inbound LDAP if domain connection was freshly established.
+- **Resolution**:
+  1. In GLPI RootDN, set: `CN=Administrator,CN=Users,DC=thinkpolaris,DC=local`.
+  2. On `DC-WIN-01`, allowed Active Directory Domain Services rules across all firewall profiles: `Enable-NetFirewallRule -DisplayGroup "Active Directory Domain Controller"`.
+  3. Re-tested LDAP connection from `APP-UBU-01` via `ldapsearch` (bind successful).
