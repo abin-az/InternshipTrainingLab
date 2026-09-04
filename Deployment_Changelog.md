@@ -110,3 +110,6 @@
 - **Phase 1 Project P6: GLPI 10.0.16 Deployed & Logged In**:
   - Live Dashboard verified at `http://10.10.10.20/front/central.php`.
   - Modules active: Assistance (Ticketing/Incidents), Assets (Hardware/Software inventory), Administration (Active Directory LDAP sync ready).
+- **DC-WIN-01 Static IP (10.10.10.10) & LDAP 389 Firewall Active**:
+  - Bound static IP `10.10.10.10/24` with default gateway `10.10.10.1`.
+  - Inbound firewall rule `Allow LDAP 389` enabled across all profiles.
