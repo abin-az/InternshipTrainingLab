@@ -319,3 +319,14 @@
   1. Assigned static IP `10.10.10.10/24` to `DC-WIN-01` adapter with gateway `10.10.10.1` and DNS `127.0.0.1`.
   2. Entered `Guardian@2026_$` in GLPI password box and saved.
   3. Verified LDAP TCP 389 handshake between `10.10.10.20` and `10.10.10.10`.
+
+---
+
+### [INC-025] Windows Server 2022 Static IP & Inbound Firewall Port 389
+- **Component**: Windows Server 2022 (`DC-WIN-01`) Network & Firewall.
+- **Symptom**: `nc -zvw3 10.10.10.10 389` timed out from `APP-UBU-01`.
+- **Root Cause**: Windows Server 2022 was either still holding dynamic DHCP lease `10.10.10.101` or Windows Firewall inbound rule for LDAP (TCP 389) was restricted by the current network profile.
+- **Resolution**:
+  1. Verified IP on `DC-WIN-01` via `ipconfig` (assigned static `10.10.10.10`).
+  2. Created explicit inbound firewall rule on `DC-WIN-01`: `New-NetFirewallRule -DisplayName "Active Directory LDAP 389" -Direction Inbound -Protocol TCP -LocalPort 389 -Action Allow`.
+  3. Verified successful handshake: `nc -zvw3 10.10.10.10 389` returned `succeeded`.
