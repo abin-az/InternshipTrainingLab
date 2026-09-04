@@ -226,3 +226,14 @@
 - **Resolution**:
   1. Sent `Ctrl + C` (SIGINT) to terminate the stuck multiline subshell loop and restore a clean prompt.
   2. Broke the deployment into discrete, single-line idempotent commands (`apt install`, `mariadb -e`, and `tar/chown`) and saved the master execution script as a standalone executable file (`scripts/02_service_configs/ubuntu_stack/01_deploy_app_stack.sh`).
+
+---
+
+### [INC-017] BookStack Requirement for PHP >= 8.2 on Ubuntu 22.04 LTS
+- **Component**: BookStack / PHP Runtime.
+- **Symptom**: `composer install` fails with `Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.2.0". You are running 8.1.2-1ubuntu2.25.`
+- **Root Cause**: Latest BookStack release uses Laravel 11/12 framework components requiring PHP 8.2+, while Ubuntu 22.04 default repositories provide PHP 8.1.
+- **Resolution**:
+  1. Add Ondřej Surý PHP PPA: `add-apt-repository -y ppa:ondrej/php`
+  2. Install PHP 8.2 and required extensions (`php8.2`, `php8.2-mysql`, `php8.2-mbstring`, `php8.2-xml`, `php8.2-curl`, `php8.2-gd`, `php8.2-intl`, `php8.2-zip`, `php8.2-ldap`, `libapache2-mod-php8.2`).
+  3. Enable PHP 8.2 module in Apache and complete `composer install`.
