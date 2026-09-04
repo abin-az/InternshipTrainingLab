@@ -260,3 +260,14 @@
   2. Configured `<Directory /var/www/html/glpi/public>` with `AllowOverride All` and `Require all granted`.
   3. Reloaded Apache2 service (`systemctl restart apache2`).
   4. Accessing `http://10.10.10.20` now routes directly to the hardened GLPI public entry point with 100% green checks.
+
+---
+
+### [INC-020] HTTP 403 Forbidden After GLPI Public DocumentRoot Re-pointing
+- **Component**: Apache2 Web Server / GLPI URL Pathing.
+- **Symptom**: Browser returned `HTTP ERROR 403 - Access to 10.10.10.20 was denied` when requesting `http://10.10.10.20/glpi/install/install.php`.
+- **Root Cause**: Apache's `DocumentRoot` was shifted directly to `/var/www/html/glpi/public`, rendering `/glpi/` a non-existent subpath unless an explicit Apache `Alias` is configured.
+- **Resolution**:
+  1. Configured Apache with `Alias /glpi /var/www/html/glpi/public` and granted directory permissions to `/var/www/html/glpi/public`.
+  2. Restarted Apache2 (`systemctl restart apache2`).
+  3. Ensured seamless URL routing for both root `http://10.10.10.20` and legacy `http://10.10.10.20/glpi`.
