@@ -216,3 +216,13 @@
   ping -c 2 10.10.10.20
   ```
   This allows instant, seamless SSH and script management from the Proxmox shell directly into all Linux VMs without exposing them to the external physical network.
+
+---
+
+### [INC-016] Multiline Heredoc Shell Quote Mangling over Web Terminal Paste
+- **Component**: Proxmox Web Terminal (xterm.js / noVNC) & Bash Script Execution.
+- **Symptom**: Pasting a multiline `sudo bash -c "$(cat << 'EOF' ... )"` block resulted in trailing character corruption (`)"~`) and caused bash to enter an unclosed string loop (displaying infinite `>` secondary prompts).
+- **Root Cause**: Web browser clipboard events over WebSocket terminal emulators occasionally introduce trailing quote or tilde artifacts when receiving complex nested heredocs and subshells.
+- **Resolution**:
+  1. Sent `Ctrl + C` (SIGINT) to terminate the stuck multiline subshell loop and restore a clean prompt.
+  2. Broke the deployment into discrete, single-line idempotent commands (`apt install`, `mariadb -e`, and `tar/chown`) and saved the master execution script as a standalone executable file (`scripts/02_service_configs/ubuntu_stack/01_deploy_app_stack.sh`).

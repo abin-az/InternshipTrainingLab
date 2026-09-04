@@ -126,3 +126,52 @@ graph TD
    - In production, misconfiguring a firewall causes an immediate network outage.
    - In Proxmox, the instructor takes a **ZFS Snapshot** before every student networking lab. If an intern accidentally creates a rule that locks out the management interface, the instructor restores the firewall in 5 seconds without rebooting physical hardware or attaching serial console cables.
 
+
+---
+
+## 5. Technical Breakdown & Command Rationale: `APP-UBU-01` Core Stack
+
+### A. Command 1 Rationale: Web, Database & PHP Runtime Dependencies
+```bash
+sudo apt update && sudo apt install -y apache2 mariadb-server curl wget unzip git \
+  php8.1 php8.1-curl php8.1-gd php8.1-intl php8.1-mbstring \
+  php8.1-mysql php8.1-xml php8.1-zip php8.1-bz2 php8.1-ldap \
+  php8.1-cli php8.1-soap php8.1-bcmath libapache2-mod-php8.1
+```
+- **Why Apache2 (`apache2`, `libapache2-mod-php8.1`)**: Industry-standard HTTP web server capable of running multiple virtual hosts (GLPI on port 80, BookStack on port 8080) with `.htaccess` rewriting rules (`a2enmod rewrite`).
+- **Why MariaDB Server (`mariadb-server`)**: Relational database engine supporting ACID transactions, foreign keys, and full `utf8mb4` Unicode character sets required by GLPI and BookStack.
+- **Why Each PHP 8.1 Extension is Mandatory**:
+  - `php8.1-mysql`: Driver enabling PHP to connect to MariaDB.
+  - `php8.1-ldap`: Enables GLPI and BookStack to authenticate users directly against Active Directory (`thinkpolaris.local` / `DC-WIN-01`).
+  - `php8.1-intl` & `php8.1-mbstring`: Internationalization and multibyte string handling for multilingual tickets and SOP articles.
+  - `php8.1-gd`: Graphics library for rendering PDF attachments, tickets, and user avatars.
+  - `php8.1-curl` & `php8.1-xml`: REST API communication and XML parsing for GLPI agent inventory ingestion.
+  - `php8.1-zip` & `php8.1-bz2`: Compressed archive extraction for plugins, marketplace add-ons, and backup exports.
+  - `php8.1-bcmath` & `php8.1-soap`: Precision calculations and legacy SOAP integration for enterprise plugins.
+
+---
+
+### B. Command 2 Rationale: Database Provisioning & Security Isolation
+```bash
+CREATE DATABASE glpidb CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'glpiuser'@'localhost' IDENTIFIED BY 'Guardian@2026_$';
+GRANT ALL PRIVILEGES ON glpidb.* TO 'glpiuser'@'localhost';
+
+CREATE DATABASE bookstackdb CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'bookstackuser'@'localhost' IDENTIFIED BY 'Guardian@2026_$';
+GRANT ALL PRIVILEGES ON bookstackdb.* TO 'bookstackuser'@'localhost';
+```
+- **Why UTF8MB4 Collation**: Standard `utf8` in MySQL only supports 3-byte characters. `utf8mb4_unicode_ci` supports full 4-byte characters (emojis, mathematical symbols, modern Unicode).
+- **Why Dedicated Least-Privilege Users**: `glpiuser` and `bookstackuser` are isolated to `localhost` and restricted strictly to their own databases, preventing cross-application database exposure.
+
+---
+
+### C. Command 3 Rationale: Application Deployment & File Permissions
+```bash
+wget https://github.com/glpi-project/glpi/releases/download/10.0.16/glpi-10.0.16.tgz
+tar -xzf glpi-10.0.16.tgz -C /var/www/html/
+chown -R www-data:www-data /var/www/html/glpi
+chmod -R 755 /var/www/html/glpi
+```
+- **Why `/var/www/html/glpi`**: Standard Apache document root directory on Debian/Ubuntu.
+- **Why `www-data:www-data` & `755` Permissions**: Apache's runtime user (`www-data`) must have read/write access to GLPI cache, logs, marketplace, and upload directories (`/var/www/html/glpi/files/`), while disallowing unauthorized external modification (`755` directory permissions).
