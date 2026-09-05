@@ -378,3 +378,14 @@
 - **Symptom**: Web interface search cache required session re-validation for updated LDAP records.
 - **Resolution**:
   Executed GLPI's native administrative console utility directly on `APP-UBU-01` (`sudo -u www-data php /var/www/html/glpi/bin/console ldap:import --auth-ldap-id=1`), which queries Active Directory over TCP 389 and populates the `glpi_users` table with verbose execution logs.
+
+---
+
+### [INC-031] GLPI Agent Installation on Ubuntu 22.04 LTS
+- **Component**: Endpoint Inventory / GLPI Agent (`APP-UBU-01`).
+- **Symptom**: `apt install glpi-agent` returned `E: Unable to locate package glpi-agent`.
+- **Root Cause**: Ubuntu 22.04 default repositories do not maintain the standalone `glpi-agent` meta-package (only legacy `fusioninventory-agent`).
+- **Resolution**:
+  1. Downloaded the official release Debian package directly from GLPI GitHub Releases (`glpi-agent_1.11-1_all.deb`).
+  2. Installed via `apt install -y /tmp/glpi-agent.deb` resolving all Perl dependencies.
+  3. Configured server endpoint to `http://10.10.10.20/front/inventory.php` and executed first inventory pass.
