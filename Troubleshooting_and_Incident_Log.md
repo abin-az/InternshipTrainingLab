@@ -360,3 +360,13 @@
 - **Symptom**: `UPDATE glpi_authldaps SET condition = ...` returned `ERROR 1064 (42000): You have an error in your SQL syntax; near 'condition = ...'`.
 - **Root Cause**: `CONDITION` is a reserved SQL keyword in MariaDB 10.6+ and must be escaped with backticks (`` `condition` ``).
 - **Resolution**: Escaped column name with backticks: `UPDATE glpi_authldaps SET \`condition\` = '(&(objectClass=user)(objectCategory=person))' WHERE id = 1;`.
+
+---
+
+### [INC-029] GLPI BaseDN Syntax Error (`DC+thinkpolaris` vs `DC=thinkpolaris`)
+- **Component**: GLPI LDAP Configuration / Database Record (`glpi_authldaps`).
+- **Symptom**: LDAP search returned `No user to be imported`.
+- **Root Cause**: Database query inspection revealed `basedn` was saved as `DC+thinkpolaris,DC=local` (containing a plus character `+` instead of an equals `=` character), which corrupted the LDAP search base.
+- **Resolution**:
+  1. Updated database record: `UPDATE glpi_authldaps SET basedn = 'DC=thinkpolaris,DC=local' WHERE id = 1;`.
+  2. Re-tested LDAP user search (all domain user objects populated immediately).
