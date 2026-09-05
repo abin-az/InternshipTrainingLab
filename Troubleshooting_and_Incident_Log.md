@@ -389,3 +389,14 @@
   1. Downloaded the official release Debian package directly from GLPI GitHub Releases (`glpi-agent_1.11-1_all.deb`).
   2. Installed via `apt install -y /tmp/glpi-agent.deb` resolving all Perl dependencies.
   3. Configured server endpoint to `http://10.10.10.20/front/inventory.php` and executed first inventory pass.
+
+---
+
+### [INC-032] GLPI 10 Native Inventory Disabled Server-Side by Default
+- **Component**: GLPI 10 Core Native Inventory Engine (`/front/inventory.php`).
+- **Symptom**: `glpi-agent` returned `[warning] [http client] Inventory support is disabled server-side`.
+- **Root Cause**: Fresh GLPI 10 installations require the native inventory receiver to be explicitly toggled ON in system configuration.
+- **Resolution**:
+  1. Enabled inventory via GLPI CLI console: `sudo -u www-data php /var/www/html/glpi/bin/console glpi:config:set --context=inventory enable_inventory 1`.
+  2. Alternatively enabled via GLPI GUI: `Administration > Inventory > Enable Inventory: Yes`.
+  3. Re-ran `glpi-agent` (inventory successfully ingested into `Assets > Computers`).
