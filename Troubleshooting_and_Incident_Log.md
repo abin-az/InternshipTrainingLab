@@ -330,3 +330,15 @@
   1. Verified IP on `DC-WIN-01` via `ipconfig` (assigned static `10.10.10.10`).
   2. Created explicit inbound firewall rule on `DC-WIN-01`: `New-NetFirewallRule -DisplayName "Active Directory LDAP 389" -Direction Inbound -Protocol TCP -LocalPort 389 -Action Allow`.
   3. Verified successful handshake: `nc -zvw3 10.10.10.10 389` returned `succeeded`.
+
+---
+
+### [INC-026] GLPI LDAP User Search Filter for Microsoft Active Directory
+- **Component**: GLPI 10 User Synchronization / Active Directory Schema.
+- **Symptom**: `Import new users` in GLPI returned `No user to be imported` even though Active Directory accounts existed.
+- **Root Cause**: GLPI default user search filter uses `(objectClass=inetOrgPerson)` (OpenLDAP standard). Active Directory user objects use `(&(objectClass=user)(objectCategory=person))` with `samaccountname` as the login attribute.
+- **Resolution**:
+  1. Opened `Setup > Authentication > LDAP directories > Think Polaris Active Directory > Users` tab.
+  2. Set **Search filter for users**: `(&(objectClass=user)(objectCategory=person))`.
+  3. Mapped attributes: Login = `samaccountname`, Surname = `sn`, First name = `givenname`, Email = `mail`.
+  4. Saved profile and re-ran user search (all domain user objects populated successfully).
