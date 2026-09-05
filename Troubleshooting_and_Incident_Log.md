@@ -342,3 +342,13 @@
   2. Set **Search filter for users**: `(&(objectClass=user)(objectCategory=person))`.
   3. Mapped attributes: Login = `samaccountname`, Surname = `sn`, First name = `givenname`, Email = `mail`.
   4. Saved profile and re-ran user search (all domain user objects populated successfully).
+
+---
+
+### [INC-027] Diagnosing GLPI Active Directory LDAP Query & Search Condition
+- **Component**: Active Directory LDAP Query & GLPI Backend Configuration (`glpi_authldaps`).
+- **Symptom**: `Import new users` search returned `No user to be imported`.
+- **Diagnostic Workflow**:
+  1. Ran command-line LDAP query via `ldapsearch` from `APP-UBU-01` to test the bind credentials, BaseDN subtree scope, and object filter.
+  2. Queried MariaDB `glpi_authldaps` table to inspect the exact `condition`, `login_field`, `basedn`, and `rootdn` parameters stored by GLPI.
+  3. Aligned the GLPI database search condition with Active Directory subtree search requirements.
