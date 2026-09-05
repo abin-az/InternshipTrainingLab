@@ -127,3 +127,6 @@
   - Password: `PolarisPass@2026!`
 - **Active Directory User Population Verified (exitcode 0)**:
   - Created domain user objects `jdoe`, `sconnor`, `amercer`, `intern01` on `DC-WIN-01` (`thinkpolaris.local`).
+- **Phase 1: Active Directory User Sync into GLPI 10 Completed**:
+  - Live query to `DC-WIN-01` (`thinkpolaris.local`) populated domain user objects: `jdoe`, `sconnor`, `amercer`, `intern01`, `Administrator`.
+  - Identity synchronization between Windows Server 2022 and Ubuntu GLPI verified.
