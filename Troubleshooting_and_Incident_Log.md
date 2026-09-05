@@ -352,3 +352,11 @@
   1. Ran command-line LDAP query via `ldapsearch` from `APP-UBU-01` to test the bind credentials, BaseDN subtree scope, and object filter.
   2. Queried MariaDB `glpi_authldaps` table to inspect the exact `condition`, `login_field`, `basedn`, and `rootdn` parameters stored by GLPI.
   3. Aligned the GLPI database search condition with Active Directory subtree search requirements.
+
+---
+
+### [INC-028] MariaDB Reserved Keyword `condition` in `glpi_authldaps` Table
+- **Component**: MariaDB 10.6 Database / GLPI 10 Schema.
+- **Symptom**: `UPDATE glpi_authldaps SET condition = ...` returned `ERROR 1064 (42000): You have an error in your SQL syntax; near 'condition = ...'`.
+- **Root Cause**: `CONDITION` is a reserved SQL keyword in MariaDB 10.6+ and must be escaped with backticks (`` `condition` ``).
+- **Resolution**: Escaped column name with backticks: `UPDATE glpi_authldaps SET \`condition\` = '(&(objectClass=user)(objectCategory=person))' WHERE id = 1;`.
