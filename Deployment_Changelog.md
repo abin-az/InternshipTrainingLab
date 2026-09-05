@@ -125,3 +125,5 @@
   - `amercer` (Alex Mercer - Human Resources / SG-HR-Staff)
   - `intern01` (Intern One - Interns / SG-Interns)
   - Password: `PolarisPass@2026!`
+- **Active Directory User Population Verified (exitcode 0)**:
+  - Created domain user objects `jdoe`, `sconnor`, `amercer`, `intern01` on `DC-WIN-01` (`thinkpolaris.local`).
