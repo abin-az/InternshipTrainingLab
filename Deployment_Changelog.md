@@ -119,3 +119,9 @@
 - **Phase 1: GLPI Active Directory LDAP Integration Active & Verified**:
   - Live Bind to `DC-WIN-01` (`10.10.10.10:389`) succeeded (`CN=Administrator,CN=Users,DC=thinkpolaris,DC=local`).
   - Active Directory user sync & domain credential authentication enabled.
+- **Active Directory User Accounts Populated on DC-WIN-01**:
+  - `jdoe` (John Doe - Information Technology / SG-IT-Admins)
+  - `sconnor` (Sarah Connor - Finance / SG-Finance-Staff)
+  - `amercer` (Alex Mercer - Human Resources / SG-HR-Staff)
+  - `intern01` (Intern One - Interns / SG-Interns)
+  - Password: `PolarisPass@2026!`
