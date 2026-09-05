@@ -370,3 +370,11 @@
 - **Resolution**:
   1. Updated database record: `UPDATE glpi_authldaps SET basedn = 'DC=thinkpolaris,DC=local' WHERE id = 1;`.
   2. Re-tested LDAP user search (all domain user objects populated immediately).
+
+---
+
+### [INC-030] GLPI 10 CLI Automated LDAP User Import & Diagnostic
+- **Component**: GLPI 10 Console CLI (`bin/console ldap:import`).
+- **Symptom**: Web interface search cache required session re-validation for updated LDAP records.
+- **Resolution**:
+  Executed GLPI's native administrative console utility directly on `APP-UBU-01` (`sudo -u www-data php /var/www/html/glpi/bin/console ldap:import --auth-ldap-id=1`), which queries Active Directory over TCP 389 and populates the `glpi_users` table with verbose execution logs.
