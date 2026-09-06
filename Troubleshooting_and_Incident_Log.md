@@ -1,4 +1,4 @@
-﻿# Turnkey Troubleshooting & Incident Log
+# Turnkey Troubleshooting & Incident Log
 
 > **Purpose**: A granular, permanent historical ledger of every technical error, hardware quirk, software misconfiguration, minute setting tweak, and resolution encountered during the deployment of the Think Polaris IT Internship Training Lab on Dell PowerEdge R640.
 > **Turnkey Guarantee**: Enables any engineer or training institute to copy-paste solutions and replicate this exact deployment without repeating past mistakes.
@@ -400,3 +400,14 @@
   1. Enabled inventory via GLPI CLI console: `sudo -u www-data php /var/www/html/glpi/bin/console glpi:config:set --context=inventory enable_inventory 1`.
   2. Alternatively enabled via GLPI GUI: `Administration > Inventory > Enable Inventory: Yes`.
   3. Re-ran `glpi-agent` (inventory successfully ingested into `Assets > Computers`).
+
+---
+
+### [INC-033] Ubuntu Server Subiquity Installer NoVNC Keyboard Mapping Quirk
+- **Component**: Ubuntu 22.04 LTS Installer / Proxmox NoVNC Web Console (`NMS-UBU-01`).
+- **Symptom**: Installer failed with `Could not resolve 'archive.ubuntu.com\ubuntu'` during archive mirror configuration.
+- **Root Cause**: When editing the mirror field over the Proxmox NoVNC console, the physical forward slash key `/` was mapped as a backslash `\`. The Linux DNS resolver attempted to look up the entire string `archive.ubuntu.com\ubuntu` as a single domain label.
+- **Resolution**:
+  1. Re-entered the mirror URL strictly with forward slashes: `http://archive.ubuntu.com/ubuntu`.
+  2. Selected `[ Try again now ]` and installer immediately validated repository metadata.
+

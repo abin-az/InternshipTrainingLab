@@ -1,4 +1,4 @@
-﻿# Complete Turnkey Deployment Changelog & Setting Ledger
+# Complete Turnkey Deployment Changelog & Setting Ledger
 
 > **Turnkey Blueprint**: Comprehensive record of every module, package, configuration file, and minute setting applied to the Think Polaris IT Internship Training Lab.
 
@@ -136,3 +136,10 @@
 - **Phase 1 (Support Fundamentals) P7 Asset Discovery Verified**:
   - `app-ubu-01` hardware/software inventory ingested into GLPI: 18 hardware components (Intel Xeon 2 Cores, 4GB RAM, 43GB Disk, Network Ports) and 839 software packages.
   - **Phase 1 (P4 - P7) Fully Completed & Operational**.
+- **Phase 2 (Network Monitoring & Security) NMS Stack Deployed on NMS-UBU-01 (VM 103 - 10.10.10.30)**:
+  - **QEMU Guest Agent**: Installed and running, exposing host telemetry to Proxmox VE.
+  - **Prometheus & Node Exporter**: Deployed and operational on port `9090` (time-series scraping) and port `9100` (host metrics).
+  - **Grafana Enterprise**: Operational on port `3000` with standard credentials (`admin` / `Guardian@2026_$`).
+  - **Zabbix 6.4 LTS & MariaDB**: Database schema imported into `zabbix` DB, turnkey GUI config pre-configured, `zabbix-server` active on port `10051`, Web UI accessible at `http://10.10.10.30/zabbix` (`Admin` / `zabbix`).
+  - **Wazuh SIEM All-in-One (4.8.2)**: Indexer cluster, Wazuh Manager (`1514`/`1515`), Filebeat, and Wazuh SOC Dashboard active on HTTPS port `443` (`admin` / `RU78SD9qcDdm.KV6bZOx6NnBZJ4M7m.S`).
+
