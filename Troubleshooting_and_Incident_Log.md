@@ -411,3 +411,19 @@
   1. Re-entered the mirror URL strictly with forward slashes: `http://archive.ubuntu.com/ubuntu`.
   2. Selected `[ Try again now ]` and installer immediately validated repository metadata.
 
+---
+
+### [INC-034] Windows Server 2022 Remote Desktop (RDP) Disabled & Port 3389 Blocked by Default
+- **Component**: Windows Server 2022 Standard / Remote Desktop Service (`DC-WIN-01` — VM 101).
+- **Symptom**: Physical laptops (`192.168.29.x`) can ping `10.10.10.10`, but Remote Desktop Connection (`mstsc.exe`) fails with *"Remote Desktop can't connect to the remote computer... Remote access to the server is not enabled"*.
+- **Root Cause**:
+  1. Windows Server 2022 disables incoming Terminal Server connections by default in registry (`HKLM:\System\CurrentControlSet\Control\Terminal Server\fDenyTSConnections = 1`).
+  2. Windows Defender Firewall blocks Inbound TCP Port 3389 across all network profiles by default.
+- **Resolution**:
+  Executed remote guest command via Proxmox QEMU Guest Agent without needing interactive GUI login:
+  ```bash
+  qm guest exec 101 -- powershell.exe -ExecutionPolicy Bypass -Command "Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -Name 'fDenyTSConnections' -Value 0; Enable-NetFirewallRule -DisplayGroup 'Remote Desktop'"
+  ```
+  Verified immediate RDP session handshake over TCP port 3389 with native clipboard sharing enabled.
+
+

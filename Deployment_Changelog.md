@@ -145,5 +145,10 @@
 - **Phase 2: APP-UBU-01 (10.10.10.20) Telemetry & SIEM Agents Deployed & Active**:
   - **Zabbix Agent**: Installed, configured with `Server=10.10.10.30` and `Hostname=APP-UBU-01`, service active.
   - **Wazuh Agent**: Installed and enrolled to Wazuh Manager `10.10.10.30`, service active.
+- **Physical Laptop Interconnect & Windows Remote Desktop (RDP) Enabled**:
+  - Added persistent route on laptop: `10.10.10.0/24 -> 192.168.29.25` (Proxmox host bridge router).
+  - Enabled RDP in Windows Server 2022 registry (`fDenyTSConnections = 0`) and enabled firewall group `Remote Desktop` via QEMU Guest Agent.
+  - Verified live Remote Desktop Connection (`mstsc.exe`) to `DC-WIN-01` (`10.10.10.10`) with shared clipboard support.
+
 
 
