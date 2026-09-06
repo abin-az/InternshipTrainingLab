@@ -142,4 +142,8 @@
   - **Grafana Enterprise**: Operational on port `3000` with standard credentials (`admin` / `Guardian@2026_$`).
   - **Zabbix 6.4 LTS & MariaDB**: Database schema imported into `zabbix` DB, turnkey GUI config pre-configured, `zabbix-server` active on port `10051`, Web UI accessible at `http://10.10.10.30/zabbix` (`Admin` / `zabbix`).
   - **Wazuh SIEM All-in-One (4.8.2)**: Indexer cluster, Wazuh Manager (`1514`/`1515`), Filebeat, and Wazuh SOC Dashboard active on HTTPS port `443` (`admin` / `RU78SD9qcDdm.KV6bZOx6NnBZJ4M7m.S`).
+- **Phase 2: APP-UBU-01 (10.10.10.20) Telemetry & SIEM Agents Deployed & Active**:
+  - **Zabbix Agent**: Installed, configured with `Server=10.10.10.30` and `Hostname=APP-UBU-01`, service active.
+  - **Wazuh Agent**: Installed and enrolled to Wazuh Manager `10.10.10.30`, service active.
+
 
