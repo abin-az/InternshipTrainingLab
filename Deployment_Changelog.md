@@ -149,6 +149,10 @@
   - Added persistent route on laptop: `10.10.10.0/24 -> 192.168.29.25` (Proxmox host bridge router).
   - Enabled RDP in Windows Server 2022 registry (`fDenyTSConnections = 0`) and enabled firewall group `Remote Desktop` via QEMU Guest Agent.
   - Verified live Remote Desktop Connection (`mstsc.exe`) to `DC-WIN-01` (`10.10.10.10`) with shared clipboard support.
+- **Phase 2: DC-WIN-01 (10.10.10.10) Zabbix Agent Deployed & ICMP Ping Active**:
+  - Enabled firewall rule `File and Printer Sharing (Echo Request - ICMPv4-In)`. Direct ping response verified (3ms).
+  - Installed Zabbix 6.4 LTS Windows Agent MSI (`Hostname=DC-WIN-01`, `Server=10.10.10.30`), opened TCP port 10050 in firewall, and verified service active.
+
 
 
 

@@ -464,6 +464,20 @@
   3. Set file ownership to `root:wazuh` (`chmod 640`).
   4. Restarted agent service; all 5 daemons (`wazuh-modulesd`, `wazuh-logcollector`, `wazuh-syscheckd`, `wazuh-agentd`, `wazuh-execd`) started with status `running`.
 
+---
+
+### [INC-038] Windows Server 2022 Default ICMP Echo Request (Ping) Firewall Block
+- **Component**: Windows Defender Firewall / Network Diagnostic (`DC-WIN-01` — VM 101).
+- **Symptom**: `ping 10.10.10.10` from physical laptops or other VMs returned `Request timed out`, even though the static IP was active and TCP ports (RDP 3389, LDAP 389) were reachable.
+- **Root Cause**: Windows Defender Firewall disables the rule `File and Printer Sharing (Echo Request - ICMPv4-In)` by default across all profiles.
+- **Resolution**:
+  Enabled ICMP Echo Request rule via PowerShell:
+  ```powershell
+  Enable-NetFirewallRule -DisplayName "File and Printer Sharing (Echo Request - ICMPv4-In)"
+  ```
+  Verified instantaneous ICMP replies (`time<1ms TTL=128`).
+
+
 
 
 
