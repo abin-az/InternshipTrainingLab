@@ -426,4 +426,31 @@
   ```
   Verified immediate RDP session handshake over TCP port 3389 with native clipboard sharing enabled.
 
+---
+
+### [INC-035] Wazuh Agent Registration Version Mismatch Protocol Rejection
+- **Component**: Wazuh SIEM 4.8.2 / Agent Enrollment (`APP-UBU-01` to `NMS-UBU-01`).
+- **Symptom**: `agent-auth` failed with `ERROR: Agent version must be lower or equal to manager version (from manager)`.
+- **Root Cause**: `wazuh-agent` was installed from the rolling `4.x` repository yielding version `4.14.7`, which exceeded the Manager's version (`4.8.2`). Wazuh protocol enforces Agent Version <= Manager Version.
+- **Resolution**:
+  1. Downgraded agent package on `APP-UBU-01` to match manager: `apt install -y --allow-downgrades wazuh-agent=4.8.2-1`.
+  2. Purged stale enrollment entry on manager: `/var/ossec/bin/manage_agents -r 001 -y`.
+  3. Re-ran `/var/ossec/bin/agent-auth -m 10.10.10.30 -A APP-UBU-01` and restarted agent service.
+
+---
+
+### [INC-036] Ubuntu Server 22.04 Default LVM Partition Size Limitation & LVM Archive Failure
+- **Component**: Linux LVM / Subiquity Installer (`NMS-UBU-01` — VM 103).
+- **Symptom**: System threw `OSError: [Errno 28] No space left on device` and LVM threw `/etc/lvm/archive: mkdir failed: No space left on device`.
+- **Root Cause**:
+  1. Ubuntu Server Subiquity installer by default allocates only 50% (~29GB) of virtual disk to root Logical Volume (`ubuntu-lv`), leaving remaining space unallocated in Volume Group.
+  2. Deploying Java, OpenSearch Indexer, Zabbix, Grafana, and MariaDB reached 100% capacity on the 29GB slice.
+  3. Running `lvextend` failed because LVM attempted to write an archive backup into `/etc/lvm/archive/` on a 0-byte free filesystem.
+- **Resolution**:
+  1. Purged temporary archives: `rm -rf /tmp/* /var/cache/apt/archives/*`.
+  2. Extended logical volume with `--autobackup n` (`-A n`): `lvextend -A n -l +100%FREE /dev/ubuntu-vg/ubuntu-lv`.
+  3. Resized filesystem online without reboot: `resize2fs /dev/ubuntu-vg/ubuntu-lv`.
+  4. Expanded root partition from 29GB to 58GB with 28GB (51%) free space.
+
+
 
