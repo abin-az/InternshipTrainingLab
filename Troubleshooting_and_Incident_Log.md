@@ -452,5 +452,18 @@
   3. Resized filesystem online without reboot: `resize2fs /dev/ubuntu-vg/ubuntu-lv`.
   4. Expanded root partition from 29GB to 58GB with 28GB (51%) free space.
 
+---
+
+### [INC-037] Wazuh Agent 4.8.2 Config Incompatibility with Rolling 4.14 Tags (`journald`)
+- **Component**: Wazuh Logcollector / Agent Configuration (`APP-UBU-01` to `NMS-UBU-01`).
+- **Symptom**: `wazuh-agent.service` failed on startup with `ERROR: (1235): Invalid value for element 'log_format': journald` and `ERROR: (1202): Configuration error at 'etc/ossec.conf'`.
+- **Root Cause**: The newer rolling 4.14 package left behind modern `<log_format>journald</log_format>` tags inside `/var/ossec/etc/ossec.conf`. When downgraded to match the Manager's stable version (`4.8.2`), the 4.8.2 logcollector binary failed validation because `journald` was not a recognized log format in 4.8.2.
+- **Resolution**:
+  1. Replaced `/var/ossec/etc/ossec.conf` with clean 4.8.2 XML definition targeting `/var/log/auth.log`, `/var/log/syslog`, `/var/log/dpkg.log`, and Apache logs.
+  2. Ensured manager IP was set to `10.10.10.30:1514` (TCP).
+  3. Set file ownership to `root:wazuh` (`chmod 640`).
+  4. Restarted agent service; all 5 daemons (`wazuh-modulesd`, `wazuh-logcollector`, `wazuh-syscheckd`, `wazuh-agentd`, `wazuh-execd`) started with status `running`.
+
+
 
 
