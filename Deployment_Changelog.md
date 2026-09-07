@@ -155,9 +155,19 @@
 - **Phase 2: Project P8 (Zabbix 6.4 LTS Monitoring) Verified 100%**:
   - All 3 host endpoints (`Zabbix server`, `APP-UBU-01`, `DC-WIN-01`) reporting green `ZBX` status.
   - Configured timezone to `Asia/Kolkata` across server, PHP web frontend, and dashboard clock widgets.
-- **Phase 2: Project P9 (Prometheus & Grafana Observability Stack)**:
+- **Phase 2: Project P9 (Prometheus & Grafana Observability Stack) Verified 100%**:
   - Prometheus active on `http://10.10.10.30:9090` scraping `APP-UBU-01` (`10.10.10.20:9100`), `NMS-UBU-01` (`localhost:9100`), and `prometheus` metrics endpoint (all verified `UP`).
-  - Grafana 10 Enterprise active on `http://10.10.10.30:3000` with direct Admin access configured.
+  - Grafana 10 Enterprise active on `http://10.10.10.30:3000` secured with native PBKDF2 hash for `admin` (`Guardian@2026_$`).
+  - Imported Node Exporter Full Dashboard (`1860`) streaming real-time CPU, RAM, Disk, and Network telemetry for all Linux nodes.
+- **Phase 2: Project P10 (Network Protocol Analysis & Service Discovery) Verified 100%**:
+  - Validated network route from physical laptop to isolated subnet `10.10.10.0/24`.
+  - Executed port and service scanner against `APP-UBU-01` (`10.10.10.20`), verifying all 5 core production ports active (`22/OpenSSH`, `80/GLPI`, `8080/BookStack`, `9100/NodeExporter`, `10050/ZabbixAgent`).
+- **Phase 2: Project P11 (Wazuh SIEM Security Event Monitoring & Triage) Verified 100%**:
+  - Wazuh Manager 4.8.2 and Wazuh Dashboard active on `NMS-UBU-01` (`https://10.10.10.30`).
+  - Wazuh Agent 4.8.2 enrolled and active on `APP-UBU-01` (`Agent 001`).
+  - Simulated live cyberattack from physical laptop (unauthorized SSH brute force against `intruder@10.10.10.20`).
+  - Verified SIEM detection in Wazuh Dashboard: 25 alerts captured, triggering Rule ID `5710` (*sshd: Attempt to log in using a non-existent user*) and Rule ID `5712` (Level 10 *sshd: brute force trying to get access*), mapped to MITRE ATT&CK Technique `T1110` (*Brute Force / Credential Access & Lateral Movement*).
+
 
 
 
