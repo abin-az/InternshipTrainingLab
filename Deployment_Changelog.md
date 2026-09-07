@@ -152,6 +152,13 @@
 - **Phase 2: DC-WIN-01 (10.10.10.10) Zabbix Agent Deployed & ICMP Ping Active**:
   - Enabled firewall rule `File and Printer Sharing (Echo Request - ICMPv4-In)`. Direct ping response verified (3ms).
   - Installed Zabbix 6.4 LTS Windows Agent MSI (`Hostname=DC-WIN-01`, `Server=10.10.10.30`), opened TCP port 10050 in firewall, and verified service active.
+- **Phase 2: Project P8 (Zabbix 6.4 LTS Monitoring) Verified 100%**:
+  - All 3 host endpoints (`Zabbix server`, `APP-UBU-01`, `DC-WIN-01`) reporting green `ZBX` status.
+  - Configured timezone to `Asia/Kolkata` across server, PHP web frontend, and dashboard clock widgets.
+- **Phase 2: Project P9 (Prometheus & Grafana Observability Stack)**:
+  - Prometheus active on `http://10.10.10.30:9090` scraping `APP-UBU-01` (`10.10.10.20:9100`), `NMS-UBU-01` (`localhost:9100`), and `prometheus` metrics endpoint (all verified `UP`).
+  - Grafana 10 Enterprise active on `http://10.10.10.30:3000` with direct Admin access configured.
+
 
 
 

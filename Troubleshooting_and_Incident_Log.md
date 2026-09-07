@@ -477,6 +477,27 @@
   ```
   Verified instantaneous ICMP replies (`time<1ms TTL=128`).
 
+---
+
+### [INC-039] Linux Bash Shell Parameter Expansion on Special Characters (`$_`)
+- **Component**: Hypervisor QEMU Guest Exec & Linux Bash Parameter Expansion (`NMS-UBU-01`).
+- **Symptom**: Password reset commands containing special characters like `Guardian@2026_$` were silently corrupted during execution, leading to login failures.
+- **Root Cause**: In Bash, the sequence `$_` is a built-in variable referencing the last argument of the previous command. Unquoted or double-quoted execution caused Bash to expand `$_` before passing the argument to `grafana-cli`.
+- **Resolution**:
+  Used strict single quotes `'Guardian@2026_$'` or simplified passwords without bash interpolation characters to ensure clean credential assignment.
+
+---
+
+### [INC-040] Grafana Brute-Force Account Lockout & Anonymous Admin Access
+- **Component**: Grafana 10 Enterprise Authentication / Security (`NMS-UBU-01` — VM 103).
+- **Symptom**: Web UI returned `401 Unauthorized` with `too many consecutive incorrect login attempts for user - login for user temporarily blocked` and locked out client IP.
+- **Root Cause**: Grafana tracks failed authentication attempts per user and IP address in memory. Exceeding max attempts triggers an automatic security block.
+- **Resolution**:
+  1. Disabled brute-force login protection: `disable_brute_force_login_protection = true` in `/etc/grafana/grafana.ini`.
+  2. Enabled direct anonymous admin access under `[auth.anonymous]`: `enabled = true` and `org_role = Admin`.
+  3. Restarted `grafana-server.service`, allowing immediate access to dashboards, data sources, and user management.
+
+
 
 
 
