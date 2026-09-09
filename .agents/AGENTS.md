@@ -104,3 +104,12 @@ The curriculum MUST adhere to the following chronological structure. Do not inve
 - **Centralized Remote Management**: Deploy open-source **MeshCentral** and **Apache Guacamole** as clientless browser-based alternatives to proprietary Devolutions Server / ScreenConnect.
 - **ServiceNow Developer Integration**: Supplement on-premise GLPI 10 with free cloud ServiceNow Personal Developer Instances (PDI) for enterprise resume alignment.
 
+## 11. Windows Server Zero-Friction Bootstrap & RDP-First Protocol
+- **noVNC Clipboard Limitation**: noVNC browser consoles do not support bidirectional clipboard copy-pasting for complex multiline PowerShell scripts.
+- **The 3-Step Windows Server Bootstrap Protocol**:
+  1. **Step 1 (In noVNC)**: Double-click `E:\virtio-win-gt-x64.exe` (or `virtio-win-guest-tools.exe`) to install paravirtualized network drivers and start the `QEMU Guest Agent` service.
+  2. **Step 2 (From Proxmox Shell)**: Execute all IP, DNS, Firewall, RDP, and Hostname configuration remotely via `qm guest exec <VMID> -- powershell -Command "..."` (eliminating manual typing in noVNC).
+  3. **Step 3 (From Physical Laptop)**: Connect directly via native Remote Desktop (`mstsc.exe <IP>`), establishing 100% bidirectional clipboard synchronization for all subsequent interactive tasks and software installations.
+
+
+
