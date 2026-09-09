@@ -162,11 +162,18 @@
 - **Phase 2: Project P10 (Network Protocol Analysis & Service Discovery) Verified 100%**:
   - Validated network route from physical laptop to isolated subnet `10.10.10.0/24`.
   - Executed port and service scanner against `APP-UBU-01` (`10.10.10.20`), verifying all 5 core production ports active (`22/OpenSSH`, `80/GLPI`, `8080/BookStack`, `9100/NodeExporter`, `10050/ZabbixAgent`).
-- **Phase 2: Project P11 (Wazuh SIEM Security Event Monitoring & Triage) Verified 100%**:
-  - Wazuh Manager 4.8.2 and Wazuh Dashboard active on `NMS-UBU-01` (`https://10.10.10.30`).
-  - Wazuh Agent 4.8.2 enrolled and active on `APP-UBU-01` (`Agent 001`).
-  - Simulated live cyberattack from physical laptop (unauthorized SSH brute force against `intruder@10.10.10.20`).
-  - Verified SIEM detection in Wazuh Dashboard: 25 alerts captured, triggering Rule ID `5710` (*sshd: Attempt to log in using a non-existent user*) and Rule ID `5712` (Level 10 *sshd: brute force trying to get access*), mapped to MITRE ATT&CK Technique `T1110` (*Brute Force / Credential Access & Lateral Movement*).
+- **Phase 2: Project P12 (Vulnerability Management Lab - DVWA & Docker Stack) Verified 100%**:
+  - Provisioned and booted VM 104 (`SEC-UBU-01` — `10.10.10.40`) bound exclusively to `vmbr1`.
+  - Installed native Docker Engine (`docker.io`) and QEMU Guest Agent.
+  - Deployed Damn Vulnerable Web Application (`vulnerables/web-dvwa`) running in Docker on port 80.
+  - Verified live browser accessibility at `http://10.10.10.40` with successful database initialization.
+- **PHASE 2 (NETWORK MONITORING & SECURITY OPERATIONS) — 100% COMPLETE & OPERATIONAL**:
+  - P8: Zabbix 6.4 LTS (3/3 Hosts Green)
+  - P9: Prometheus & Grafana Observability Dashboard (ID 1860 Live)
+  - P10: Network Protocol Discovery & Port Scanning (5/5 Ports Open)
+  - P11: Wazuh SIEM Security Event Monitoring & MITRE T1110 Triage
+  - P12: DVWA Isolated Security Target & Vulnerability Lab
+
 
 
 
