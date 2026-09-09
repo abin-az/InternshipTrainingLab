@@ -495,7 +495,17 @@
 - **Resolution**:
   1. Disabled brute-force login protection: `disable_brute_force_login_protection = true` in `/etc/grafana/grafana.ini`.
   2. Enabled direct anonymous admin access under `[auth.anonymous]`: `enabled = true` and `org_role = Admin`.
-  3. Restarted `grafana-server.service`, allowing immediate access to dashboards, data sources, and user management.
+---
+
+### [INC-041] Double-Nested Shell Command Expansion in APT Source Lists
+- **Component**: Hypervisor QEMU Guest Exec / APT Source Repository (`SEC-UBU-01` — VM 104).
+- **Symptom**: `apt update` threw `E: Malformed entry 1 in list file /etc/apt/sources.list.d/docker.list ([option] not assignment)` and `docker: command not found`.
+- **Root Cause**: Passing `$(dpkg --print-architecture)` inside double quotes through `qm guest exec` caused the outer Proxmox shell to evaluate or mangle the substitution before passing it to the guest VM.
+- **Resolution**:
+  1. Removed the malformed file: `rm -f /etc/apt/sources.list.d/docker.list`.
+  2. Installed the official Ubuntu native Docker engine package: `apt-get install -y docker.io`.
+  3. Enabled the service (`systemctl enable --now docker`) and deployed DVWA.
+
 
 
 
