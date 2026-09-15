@@ -1,4 +1,4 @@
-﻿# Technology Selection & Architecture Rationale
+# Technology Selection & Architecture Rationale
 
 > **Core Purpose**: Deep architectural justification for every operating system, software tool, driver, and VM tier deployed in the Think Polaris IT Internship Training Program.
 
@@ -68,7 +68,8 @@ graph TD
 | **102** | `APP-UBU-01` | Ubuntu 22.04 LTS | 2 | 4 GB | 40 GB | MariaDB 10.6, GLPI 10.0, BookStack, PHP 8.1, Apache2 | Central IT service desk ticketing and standard operating procedure (SOP) documentation. |
 | **103** | `NMS-UBU-01` | Ubuntu 22.04 LTS | 4 | 8 GB | 60 GB | Zabbix Server 6.4, Prometheus, Grafana, Wazuh SIEM Manager | Unified Network Management Station, telemetry metrics collection, and security monitoring. |
 | **104** | `SEC-UBU-01` | Ubuntu 22.04 LTS | 2 | 4 GB | 40 GB | Greenbone / OpenVAS Vulnerability Scanner, Docker, DVWA | Isolated security practice target for safe vulnerability assessment and remediation labs. |
-| **105** | `BKP-WIN-01` | Windows Server 2022 | 2 | 4 GB | 80 GB | Veeam Backup & Replication 12 CE, Hardened Backup Repository | Disaster recovery orchestration, automated VM snapshotting, and bare-metal restoration testing. |
+| **105** | `BKP-WIN-01` | Windows Server 2022 | 2 | 4 GB | 80 GB | Centralized SMB Backup Repository, Veeam Agent orchestrator | Dedicated disaster recovery target. (Note: Scaled down from 21GB Veeam B&R to lightweight Veeam Agents targeting SMB to optimize hypervisor I/O). |
+
 
 ---
 
