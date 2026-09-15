@@ -196,6 +196,15 @@
     - Installed `cifs-utils` for SMB/CIFS mount support. Enabled `File and Printer Sharing` firewall rules and NTFS `Everyone:F` permissions on `BKP-WIN-01`.
     - Created backup job `APP-UBU-01-Daily`: Entire machine, daily at 02:30, target `//10.10.10.50/VeeamBackups`.
     - First full backup completed successfully (100%).
+  - **Disaster Recovery Test — File-Level Restore Verified**:
+    - Simulated disaster: deleted `/etc/hostname` on `APP-UBU-01`.
+    - Used Veeam TUI (`R` → Recover Files) to mount backup and restore `/etc/hostname` from `/mnt/backup/etc/hostname`.
+    - Verification: `cat /etc/hostname` returned `app-ubu-01` — file fully recovered.
+- **PROJECT P13 (ENTERPRISE BACKUP & DISASTER RECOVERY) — 100% COMPLETE**:
+  - BKP-WIN-01 centralized backup repository (`\\10.10.10.50\VeeamBackups`)
+  - Veeam Agent for Windows on DC-WIN-01 (daily full backup, ~4.7 GB)
+  - Veeam Agent for Linux on APP-UBU-01 (daily full backup, SMB target)
+  - File-level disaster recovery restore verified on Linux
 
 
 
