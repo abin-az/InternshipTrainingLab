@@ -506,9 +506,49 @@
   2. Installed the official Ubuntu native Docker engine package: `apt-get install -y docker.io`.
   3. Enabled the service (`systemctl enable --now docker`) and deployed DVWA.
 
+---
 
+### [INC-042] Veeam Agent for Linux Repository GPG Key Trust Failure & Package Downgrade
+- **Component**: Veeam Agent for Linux / APT Repository (`APP-UBU-01` — VM 102).
+- **Symptom**: `apt-get update` returned `W: GPG error: http://repository.veeam.com/backup/linux/agent/dpkg/debian/public stable InRelease: The following signatures couldn't be verified because the public key is not available: NO_PUBKEY C5A1CF329BB5AC67` and `E: The repository ... is not signed`.
+- **Root Cause**: Two compounding issues:
+  1. The generic download URL (`veeam-release-deb_1.0_amd64.deb`) **downgraded** the already-installed `1.0.8` package to `1.0`, which installed an older `veeam.list` with an incorrect repository URL (`noname` distribution instead of `stable`).
+  2. After restoring to version `1.0.8`, the Veeam GPG signing key (`C5A1CF329BB5AC67`) was not present in the APT trusted keyring, causing signature verification failure.
+- **Resolution**:
+  1. Re-downloaded the correct versioned package: `wget -O /tmp/veeam-release.deb https://download.veeam.com/veeam-release-deb_1.0.8_amd64.deb`.
+  2. Reinstalled: `dpkg -i /tmp/veeam-release.deb` (restored correct `veeam.list` with `stable` distribution).
+  3. Imported missing GPG key: `apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C5A1CF329BB5AC67`.
+  4. Successfully installed Veeam Agent for Linux 6.3.2.1405: `apt-get update && apt-get install -y veeam`.
+- **Lesson**: Always use the **exact versioned URL** for Veeam release packages. The generic `1.0` URL can downgrade and corrupt repository configuration.
 
+---
 
+### [INC-043] Veeam Agent for Linux SMB Backup Requires cifs-utils Package
+- **Component**: Veeam Agent for Linux / CIFS/SMB Client (`APP-UBU-01` — VM 102).
+- **Symptom**: Veeam TUI displayed `Error: Current system does not support SMB. Please install "cifs-utils" client package` when selecting SMB/CIFS as the backup destination.
+- **Root Cause**: The `cifs-utils` package (which provides `mount.cifs` for mounting Windows SMB shares) is not installed by default on Ubuntu Server 22.04 and is not pulled in as a dependency by the `veeam` package.
+- **Resolution**:
+  ```bash
+  sudo apt-get install -y cifs-utils
+  ```
+  Restarted the Veeam TUI (`sudo veeam`) and SMB destination was accepted.
 
+---
 
+### [INC-044] SMB Mount Permission Denied (Error 13) When Connecting to BKP-WIN-01 Backup Share
+- **Component**: SMB/CIFS Authentication / Windows Firewall (`APP-UBU-01` → `BKP-WIN-01` — VM 102 → VM 105).
+- **Symptom**: Veeam TUI returned `mount error(13): Permission denied` when attempting to mount `//10.10.10.50/VeeamBackups` with domain credentials.
+- **Root Cause**: Two compounding issues:
+  1. Windows Defender Firewall on `BKP-WIN-01` had the `File and Printer Sharing` rule group disabled, blocking inbound SMB (TCP 445) traffic from `10.10.10.0/24` subnet.
+  2. NTFS permissions on `C:\VeeamBackups` did not grant explicit access to the `Everyone` principal despite the SMB share-level ACL being set.
+- **Resolution**:
+  1. Enabled Windows Firewall rule group:
+     ```powershell
+     Enable-NetFirewallRule -DisplayGroup "File and Printer Sharing"
+     ```
+  2. Granted full NTFS permissions:
+     ```powershell
+     icacls "C:\VeeamBackups" /grant Everyone:F /T
+     ```
+  3. Veeam backup job `APP-UBU-01-Daily` connected successfully and completed first full backup.
 

@@ -174,6 +174,28 @@
   - P11: Wazuh SIEM Security Event Monitoring & MITRE T1110 Triage
   - P12: DVWA Isolated Security Target & Vulnerability Lab
 
+---
+
+## Phase 3: Advanced Administration & Automation
+
+- **Phase 3: Project P13 — Enterprise Backup & Disaster Recovery (In Progress)**:
+  - **BKP-WIN-01 (VM 105 — 10.10.10.50) Provisioned & Domain-Joined**:
+    - Deployed Windows Server 2022 Desktop Experience (4 vCPUs, 8GB RAM, 80GB ZFS disk).
+    - Installed VirtIO drivers and QEMU Guest Agent via noVNC bootstrap.
+    - Configured static IP `10.10.10.50/24`, gateway `10.10.10.1`, DNS `10.10.10.10`.
+    - Domain-joined to `thinkpolaris.local` via `qm guest exec 105`.
+    - Created centralized backup repository: SMB share `\\10.10.10.50\VeeamBackups` (`C:\VeeamBackups`) with full access for `THINKPOLARIS\Administrator` and `Everyone`.
+  - **Veeam Agent for Windows on DC-WIN-01 (10.10.10.10)**:
+    - Installed Veeam Agent for Microsoft Windows (FREE) via RDP.
+    - Created backup job `DC-WIN-01-Daily`: Entire computer, daily at 02:00, target `\\10.10.10.50\VeeamBackups`.
+    - First full backup completed successfully (~4.7 GB).
+    - Recovery media wizard initiated on BKP-WIN-01.
+  - **Veeam Agent for Linux on APP-UBU-01 (10.10.10.20)**:
+    - Installed Veeam Agent for Linux 6.3.2.1405 via `veeam-release-deb` 1.0.8 and APT.
+    - Resolved GPG key trust failure (INC-042), missing `cifs-utils` package (INC-043), and SMB mount permission denied (INC-044).
+    - Installed `cifs-utils` for SMB/CIFS mount support. Enabled `File and Printer Sharing` firewall rules and NTFS `Everyone:F` permissions on `BKP-WIN-01`.
+    - Created backup job `APP-UBU-01-Daily`: Entire machine, daily at 02:30, target `//10.10.10.50/VeeamBackups`.
+    - First full backup completed successfully (100%).
 
 
 
