@@ -552,3 +552,21 @@
      ```
   3. Veeam backup job `APP-UBU-01-Daily` connected successfully and completed first full backup.
 
+### [INC-045] Fatal Hardware Halt Due to Uncorrectable Multi-Bit Memory Error
+- **Component**: Physical Hardware (Dell PowerEdge R640).
+- **Symptom**: Complete server outage. Destination host unreachable (192.168.29.25). Proxmox and all VMs completely offline.
+- **Root Cause**: iDRAC logs revealed a critical hardware fault: "Multi-bit memory errors are detected on the memory device at location(s) DIMM_B2." Multi-bit errors cannot be corrected by ECC, causing the motherboard to instantly halt the system to prevent data corruption.
+- **Resolution**: 
+  1. Sent urgent RMA request to ServerBasket for the faulty 32GB DDR4 module.
+  2. Temporary fix applied: Powered off the server, physically removed the faulty RAM stick from slot DIMM_B2, and rebooted to restore lab operations with reduced memory.
+
+### [INC-046] iDRAC Lockout During Network Subnet Migration
+- **Component**: Out-of-Band Management (iDRAC) / Physical Network.
+- **Symptom**: After changing the iDRAC IP to 192.168.1.50, the management console became inaccessible from the administrator's laptop.
+- **Root Cause**: The iDRAC interface was moved to the new 192.168.1.x subnet, while the administrator's laptop was still operating on the original 192.168.29.x subnet, breaking network visibility.
+- **Resolution**:
+  1. Connected an ethernet cable directly between the laptop and the iDRAC port.
+  2. Assigned a temporary static IP (192.168.1.100) to the laptop's ethernet adapter.
+  3. Successfully re-accessed the iDRAC console at https://192.168.1.50 to complete the network migration for the Proxmox host. 
+  *Note: Validated Rule 5 (Zero-Friction Migration) as internal VMs (10.10.10.x) required zero IP changes during this move.*
+
