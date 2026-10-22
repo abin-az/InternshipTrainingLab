@@ -217,6 +217,11 @@
     - `OU=Test_Targets,OU=ThinkPolaris_Training,DC=thinkpolaris,DC=local`
   - Security Group: `L1_Intern_Technicians` (Global Security Group).
   - Test Target Accounts: 10 pre-provisioned user objects (`TestUser01` through `TestUser10`) with `PolarisTest@2026!`, department `Training Sandbox`, password never expires.
+  - Delegated Access Control (L1 Permissions):
+    - Applied granular `dsacls` permissions on `OU=Test_Targets,OU=ThinkPolaris_Training,DC=thinkpolaris,DC=local` for security group `THINKPOLARIS\L1_Intern_Technicians`.
+    - Permissions granted: Reset Password, Read/Write `lockoutTime` (Account Unlock), Read/Write `userAccountControl` (Enable/Disable), and Read/Write L1 attributes (`title`, `department`, `telephoneNumber`, `description`).
+    - Privilege boundary enforced: Interns have zero administrative authority outside `Test_Targets`.
+    - Member enrolled: `intern01`.
   - Zero-Friction Portability: Bound exclusively to `10.10.10.0/24` on internal bridge `vmbr1`.
 
 
