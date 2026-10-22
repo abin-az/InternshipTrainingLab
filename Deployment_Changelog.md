@@ -206,6 +206,20 @@
   - Veeam Agent for Linux on APP-UBU-01 (daily full backup, SMB target)
   - File-level disaster recovery restore verified on Linux
 
+---
+
+## Phase 1: Service Desk (SD) Client VM & Training Baseline Deployment
+
+- **Phase 1: Active Directory Training Scaffolding & 10 Reusable Test Accounts (Completed)**:
+  - Target Host: `DC-WIN-01` (`10.10.10.10/24`) on `vmbr1`.
+  - OU Hierarchy: `OU=ThinkPolaris_Training,DC=thinkpolaris,DC=local` with sub-OUs:
+    - `OU=Intern_Accounts,OU=ThinkPolaris_Training,DC=thinkpolaris,DC=local`
+    - `OU=Test_Targets,OU=ThinkPolaris_Training,DC=thinkpolaris,DC=local`
+  - Security Group: `L1_Intern_Technicians` (Global Security Group).
+  - Test Target Accounts: 10 pre-provisioned user objects (`TestUser01` through `TestUser10`) with `PolarisTest@2026!`, department `Training Sandbox`, password never expires.
+  - Zero-Friction Portability: Bound exclusively to `10.10.10.0/24` on internal bridge `vmbr1`.
+
+
 
 
 
