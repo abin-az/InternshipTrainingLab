@@ -570,3 +570,16 @@
   3. Successfully re-accessed the iDRAC console at https://192.168.1.50 to complete the network migration for the Proxmox host. 
   *Note: Validated Rule 5 (Zero-Friction Migration) as internal VMs (10.10.10.x) required zero IP changes during this move.*
 
+---
+
+### [INC-047] Root-Domain GPO Link Lockout on Client Workstations & Domain Admins
+- **Component**: Active Directory Group Policy Objects / Domain Architecture (`thinkpolaris.local`).
+- **Symptom**: "This operation has been cancelled due to restrictions in effect on this computer. Please contact your system administrator" error triggered on Windows 11 client endpoints when accessing Control Panel, Settings, or system applets—affecting both standard users and `THINKPOLARIS\Administrator`.
+- **Root Cause**: A training scenario GPO titled `Control Panel Restriction` was mistakenly linked to the domain root (`DC=thinkpolaris,DC=local`) instead of being isolated to a scoped training Organizational Unit (`OU=Test_Targets`). Group Policy inheritance applied the restrictive user policy across all domain entities.
+- **Resolution**:
+  1. Queried active GPO links on domain root via PowerShell: `Get-GPInheritance -Target "DC=thinkpolaris,DC=local"`.
+  2. Unlinked the policy from root: `Remove-GPLink -Name "Control Panel Restriction" -Target "DC=thinkpolaris,DC=local"`.
+  3. Forced client policy re-convergence on Windows 11 endpoint: `gpupdate /force`.
+  4. Verified full administrative functionality restored for Domain Admins.
+
+

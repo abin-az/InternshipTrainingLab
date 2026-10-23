@@ -226,6 +226,10 @@
     - Synchronized all 10 test accounts (`TestUser01` through `TestUser10`) from Active Directory into GLPI.
     - Verified test target accounts are automatically assigned the `Self-Service` profile (restricted to end-user ticket creation and viewing).
     - Verified `intern01` is assigned the `Technician` profile (authorized to claim, investigate, and resolve training pool tickets).
+  - Group Policy Scoping & Restriction Remediated (INC-047):
+    - Identified accidental root-level GPO link (`Control Panel Restriction`) on `DC=thinkpolaris,DC=local`.
+    - Executed `Remove-GPLink` on Domain Controller and applied `gpupdate /force` on client endpoints.
+    - Restored clean administrative state to `CLIENT-WIN11-01`.
   - Zero-Friction Portability: Bound exclusively to `10.10.10.0/24` on internal bridge `vmbr1`.
 
 
