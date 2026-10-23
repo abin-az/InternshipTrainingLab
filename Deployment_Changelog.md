@@ -230,6 +230,12 @@
     - Identified accidental root-level GPO link (`Control Panel Restriction`) on `DC=thinkpolaris,DC=local`.
     - Executed `Remove-GPLink` on Domain Controller and applied `gpupdate /force` on client endpoints.
     - Restored clean administrative state to `CLIENT-WIN11-01`.
+  - Master Template Provisioning — VM 110 (CLIENT-WIN11-MASTER):
+    - Replaced tainted test instance (`VM 106`) with clean enterprise golden image baseline.
+    - Hardware Configuration: 4 Cores (type `host`), 6144MB RAM, 60GB ZFS SCSI disk with TRIM (`discard=on`), `q35` machine type, OVMF UEFI BIOS, TPM 2.0 (`tpmstate0` on `local-zfs`), QEMU Guest Agent enabled.
+    - Network Architecture: Bound exclusively to internal virtual bridge `vmbr1` (`10.10.10.0/24`) with paravirtualized VirtIO NIC (`net0`).
+    - Storage & Driver Integration: Multi-CD drive loading `Win11_25H2_English_x64_v2.iso` and `virtio-win.iso`.
+    - Windows 11 Pro 25H2 installation initiated with native Red Hat VirtIO SCSI controller driver (`vioscsi\w11\amd64`).
   - Zero-Friction Portability: Bound exclusively to `10.10.10.0/24` on internal bridge `vmbr1`.
 
 
