@@ -582,4 +582,16 @@
   3. Forced client policy re-convergence on Windows 11 endpoint: `gpupdate /force`.
   4. Verified full administrative functionality restored for Domain Admins.
 
+---
+
+### [INC-048] Workstation Domain Join Failure via Gateway DNS Misdirection
+- **Component**: Windows 11 Client Networking / Active Directory Domain Join (`VM 110`).
+- **Symptom**: `Add-Computer : Computer 'DESKTOP-...' failed to join domain 'thinkpolaris.local' from its current workgroup 'WORKGROUP' with following error message: The specified domain either does not exist or could not be contacted.`
+- **Root Cause**: Windows 11 received its primary DNS server assignment dynamically from pfSense (`10.10.10.1`), which delegates queries upstream to public resolvers (`1.1.1.1`). Public DNS servers have no knowledge of internal `.local` Active Directory SRV locator records (`_ldap._tcp.dc._msdcs.thinkpolaris.local`), preventing the workstation from locating domain controllers.
+- **Resolution**:
+  1. Reconfigured client network adapter DNS directly to authoritative Domain Controller `10.10.10.10` with secondary `1.1.1.1`.
+  2. Re-executed domain join via `sysdm.cpl` using `THINKPOLARIS\Administrator` credentials.
+  3. Verified computer object registration in Active Directory and successful reboot into `thinkpolaris.local`.
+
+
 
