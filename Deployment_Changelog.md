@@ -222,6 +222,10 @@
     - Permissions granted: Reset Password, Read/Write `lockoutTime` (Account Unlock), Read/Write `userAccountControl` (Enable/Disable), and Read/Write L1 attributes (`title`, `department`, `telephoneNumber`, `description`).
     - Privilege boundary enforced: Interns have zero administrative authority outside `Test_Targets`.
     - Member enrolled: `intern01`.
+  - GLPI Directory Sync & Role-Based Access Control (RBAC) Verified:
+    - Synchronized all 10 test accounts (`TestUser01` through `TestUser10`) from Active Directory into GLPI.
+    - Verified test target accounts are automatically assigned the `Self-Service` profile (restricted to end-user ticket creation and viewing).
+    - Verified `intern01` is assigned the `Technician` profile (authorized to claim, investigate, and resolve training pool tickets).
   - Zero-Friction Portability: Bound exclusively to `10.10.10.0/24` on internal bridge `vmbr1`.
 
 
