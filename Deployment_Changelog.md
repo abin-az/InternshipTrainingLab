@@ -238,6 +238,7 @@
     - Windows 11 Pro 25H2 installation initiated with native Red Hat VirtIO SCSI controller driver (`vioscsi\w11\amd64`).
     - Configured static DNS pointer to authoritative Domain Controller `10.10.10.10`.
     - Successfully domain-joined to Active Directory realm `thinkpolaris.local` (INC-048).
+    - Installed Remote Server Administration Tools (RSAT): Active Directory Domain Services & Lightweight Directory Services Tools (`Rsat.ActiveDirectory.DS-LDS.Tools`) and Group Policy Management Tools (`Rsat.GroupPolicy.Management.Tools`).
   - Zero-Friction Portability: Bound exclusively to `10.10.10.0/24` on internal bridge `vmbr1`.
 
 
