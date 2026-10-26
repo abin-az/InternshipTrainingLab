@@ -193,3 +193,25 @@ chmod -R 755 /var/www/html/glpi
   - Legacy web applications placed all files (including database configuration `config_db.php`, upload directories, and system logs) directly inside the public Apache document root.
   - Modern GLPI 10 separates the application logic from the public entry point. Only the `/public` directory containing `index.php` and static assets (CSS/JS) is exposed to the web server.
   - Sensitive internal directories (`/files/`, `/config/`, `/marketplace/`) remain outside public HTTP reach, blocking directory traversal and information disclosure attacks.
+
+---
+
+## 7. Standalone 30-Day Cloud & DevOps Track Architecture Rationale
+
+### A. Pedagogical Justification
+- **The Modern Cloud Transition**: Enterprise IT has bifurcated into on-premise governance/identity (Active Directory, Windows Server, pfSense, Veeam) and cloud-native infrastructure automation (AWS, Terraform, Docker, Kubernetes, CI/CD).
+- **Standalone Track Philosophy**: Rather than diluting the foundational Phase 1–3 IT support skills, this 30-day track runs in parallel or as an advanced specialization, allowing interns to build a real-world DevOps portfolio with zero vendor cost.
+- **The 3-2-1 Rule**: 3 hours/day (1 hr theory + 2 hrs lab), 2 weekly projects on GitHub, and 1 daily 10-minute error log review trains students in real-world troubleshooting discipline.
+
+### B. Why the Hybrid Zero-Cost Model?
+1. **WSL2 for Laptop Mobility**:
+   - Modern Windows Subsystem for Linux (WSL2) runs a real Linux kernel with hypervisor virtualization at near-native speeds, eliminating the heavy disk and CPU overhead of legacy Type-2 hypervisors like Oracle VirtualBox.
+   - Provides seamless integration with VS Code (`Remote-WSL`) and Windows Terminal.
+2. **Dell PowerEdge R640 Proxmox VM Fallback**:
+   - For in-person classroom sessions at the Think Polaris Technical Center in Alwaye, students can SSH into dedicated Ubuntu 22.04 Cloud-Init VMs running on the lab's bare-metal server on internal bridge `vmbr1` (`10.10.10.x`), preserving strict network portability (Rule 5).
+3. **The Zero-Dollar Shield (Cost Protection Rationale)**:
+   - AWS Free Tier offers 750 monthly hours of `t2.micro`/`t3.micro` EC2 instances, 5GB of S3 storage, 2 million CloudFront requests, and 1 million free Lambda invocations.
+   - **Avoiding the EKS Cost Trap**: A single managed AWS EKS cluster costs \$0.10/hour (\$72.00/month) just for the idle control plane. By standardizing on `kind` (Kubernetes in Docker) and `k3s` for hands-on labs while maintaining production-reference EKS Terraform code, students master identical `kubectl` commands and manifests with \$0.00 spend.
+   - **Avoiding the NAT Gateway Cost Trap**: AWS NAT Gateways cost \$32.40/month plus data transfer. The curriculum uses dual public subnets or lightweight `t2.micro` NAT instances.
+   - **Enforced Billing Alarms**: Mandatory CloudWatch alarms (\$1.00 and \$5.00 thresholds) and AWS Budgets ensure immediate alert triggers before any unexpected charges can accumulate.
+

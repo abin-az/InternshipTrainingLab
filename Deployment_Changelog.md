@@ -250,6 +250,27 @@
     - Reusable Training Baseline: 10 pre-provisioned test accounts + Master Win11 Pro Template
   - Zero-Friction Portability: Bound exclusively to `10.10.10.0/24` on internal bridge `vmbr1`.
 
+---
+
+## Standalone Track: Cloud & DevOps Engineer 30-Day Mastery Track
+
+- **Curriculum Architecture & Launch Pack Initialized (Completed)**:
+  - Scope: 30-day intensive, practitioner-grade curriculum (Linux, Networking, AWS, Terraform, Docker, Kubernetes, CI/CD, Observability).
+  - Pedagogical Framework: The 3-2-1 Rule (3 hrs/day, 2 GitHub projects/week, 1 daily error audit).
+  - Hosting Standard: Dual-Path Hybrid (WSL2 Ubuntu 22.04 LTS on student laptops + bare-metal PowerEdge Proxmox VMs on `vmbr1` `10.10.10.x` for classroom sessions).
+  - Cost Protection: Zero-Dollar Shield with mandatory AWS CloudWatch $1/$5 alarms, AWS Budgets, NAT Gateway elimination, and zero-cost `kind`/`k3s` orchestration.
+  - Deliverables Created:
+    - Master Track Overview & Roadmap: `cloud-devops-track/README.md`.
+    - Setup & Prerequisites Guide: `cloud-devops-track/00_SETUP_AND_PREREQUISITES.md`.
+    - Daily Schedule & Syllabus Matrix: `cloud-devops-track/DAILY_SCHEDULE_MATRIX.md`.
+    - Day 1 Verification Script: `cloud-devops-track/labs/day-01-linux-foundations/verify_environment.sh`.
+    - Day 1 Production Defensive Backup Script: `cloud-devops-track/labs/day-01-linux-foundations/backup_home.sh`.
+    - Day 1 Practical Exercises Drill: `cloud-devops-track/labs/day-01-linux-foundations/lab_exercises.md`.
+    - Day 1 Lab Index: `cloud-devops-track/labs/day-01-linux-foundations/README.md`.
+  - Verification: `verify_environment.sh` and `backup_home.sh` syntax validated with defensive shell standards (`set -euo pipefail`).
+  - Progression State: Day 1 Launch Pack 100% complete and ready for student execution.
+
+
 
 
 
